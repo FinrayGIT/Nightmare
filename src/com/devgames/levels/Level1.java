@@ -1,4 +1,4 @@
-package com.devgames.levels;
+/*package com.devgames.levels;
 
 import com.devgames.game.Game;
 import com.devgames.game.screens.StartGamePanel;
@@ -31,6 +31,8 @@ public class Level1 extends JPanel implements ActionListener
     private Player thePlayer;
     private Treasure theTreasure;
     private Monster theMonster;
+    private BufferedImage[] A = new BufferedImage[6];
+
     
     
     
@@ -39,51 +41,49 @@ public class Level1 extends JPanel implements ActionListener
         game = theGame;
         thePlayer = new Player(theGame);
         theTreasure = new Treasure();
-        theMonster = new Monster();
-        init();
-    }
-    
-    private void init()
-    {
-        addKeyListener(new TAdapter());
+        theMonster = new Monster(thePlayer);
+        
+        //addKeyListener(new TAdapter());
         setFocusable(true);
-        setDoubleBuffered(true);
+        setDoubleBuffered(true);        
         
+        //Loads background image
         try
-        {
-                background = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp.png"));
-        }catch (Exception ex)
-        {
-            System.err.println("Error loading background image of level 1");
-        }
+            {
+                        background = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp.png"));
+            }   catch (Exception ex)
+            {
+                System.err.println("Error loading background image of level 1");
+            }
+        //Game timer
         timer = new Timer(10, this);
+        
+        //Loads cutout level pieces
+        for (int i = 1; i < Game.MAX_ASSETS; i++)
+        {
+            String asset = "/backgroundPlaceholder/Room1A"+(i)+".png";
+            try
+                {   
+                    System.out.println(i);
+                    A[i] = ImageIO.read(getClass().getResource(asset));
+                }
+                    catch (Exception ex){System.err.println("Error loading A"+i);}        
+        }
     }
     
-    @Override
-    protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
-        //Cast the graphics object to a graphics2D object
-        Graphics2D g2d = (Graphics2D) g;
-        // Draw background
-        g2d.drawImage(background, 0, 0, null);
-        // Draw obstacles
-        
-        // Draw characters
-        theMonster.draw(g2d);
-        theTreasure.draw(g2d);
-        thePlayer.draw(g2d);
-        g.dispose(); 
-    }
+    
+    
+    
+    
     
     /**
      * This method will be called to check for collisions
-     */
+     
     public void checkCollisions()
     {
         /** Check to see if the player boundary (rectangle) intersects
          * with the treasure boundary (i.e. there is a collision)
-         */
+         
         thePlayer.checkCollision(theMonster);
         thePlayer.checkCollision(theTreasure);        
     }
@@ -91,6 +91,7 @@ public class Level1 extends JPanel implements ActionListener
     public void movement()
     {
         thePlayer.doMove();
+        theMonster.doMove(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
     }
     
     public void start()
@@ -111,7 +112,7 @@ public class Level1 extends JPanel implements ActionListener
      * in response to changes such as key presses and to generate computer 
      * movement
      * @param ae
-     */
+     
     
     @Override
     public void actionPerformed(ActionEvent ae)
@@ -124,40 +125,7 @@ public class Level1 extends JPanel implements ActionListener
         repaint();
     }
     
-    /** 
-     * This is a private KeyAdapter Class that we use to process key presses
-     */
-    private class TAdapter extends KeyAdapter
-    {
-        @Override
-        public void keyPressed(KeyEvent e)
-        {
-            int move = 0;
-            
-            switch (e.getKeyCode())
-            {
-                case KeyEvent.VK_UP:
-                    move = 1;
-                    break;
-                case KeyEvent.VK_DOWN:
-                    move = 2;
-                    break;
-                case KeyEvent.VK_LEFT:
-                    move = 3;
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    move = 4;
-                    break;
-            }
-            thePlayer.move(move);
-        }
-        
-        @Override
-        public void keyReleased(KeyEvent e)
-        {
-            thePlayer.stop();
-        }
-        
-    }
+    
 }   
 
+*/

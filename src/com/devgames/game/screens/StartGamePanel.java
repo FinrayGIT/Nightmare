@@ -28,7 +28,7 @@ public class StartGamePanel extends JPanel
         //Loads the first background image
         try
         {
-            backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp.png"));
+            backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp2.png"));
         }catch(Exception ex)
         {
             System.err.println("Error Loading Background Image 1");

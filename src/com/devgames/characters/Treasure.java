@@ -1,6 +1,7 @@
 package com.devgames.characters;
 
 import com.devgames.levels.Vector;
+import com.devgames.levels.baseLevelObject;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -8,66 +9,48 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 
-public class Treasure 
+public class Treasure extends baseLevelObject
 {
-    private Vector position;
-    private int spriteWidth;
-    private int spriteHeight;
+      
     private boolean isVisible;
     
-    private BufferedImage sprite;
-    
-    private int score;
-    
-    public Treasure()
+    public Treasure(Vector _position, String _path)
     {
-        position = new Vector (50, 100);
-        score = 50;
-        isVisible = true;
-        
-        try
-        {
-            sprite = ImageIO.read(getClass().getResourceAsStream
-        ("/Sprites/skills/Skills_01.gif"));
-        }catch(Exception ex)
-        {
-            System.err.println("Error loading treasure sprite");
-        }
-        
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
+        super(_position, _path);
+        isVisible = true;      
+                        
     }
     
     public BufferedImage getSprite()
     {
-        return sprite;
+        return Sprite;
     }
     
     public Rectangle getBounds()
     {
-        Rectangle objectRect = new Rectangle(position.getX(), position.getY(),
-        spriteWidth, spriteHeight);
+        Rectangle objectRect = new Rectangle(Position.getX(), Position.getY(),
+        Sprite.getWidth(), Sprite.getHeight());
         return objectRect;
     }
     
     public void setPosition(Vector v)
     {
-        position.setToVector(v);
+        Position.setToVector(v);
     }
     
     public Vector getPosition()
     {
-        return position;
+        return Position;
     }
     
     public void setScore(int newScore)
     {
-        score = newScore;
+        
     }
     
-    public int getScore()
+    public void getScore()
     {
-        return score;
+        
     }
     
     public void setVisible(boolean visible)
@@ -84,6 +67,6 @@ public class Treasure
     {
         //Draw the sprite at the correct coordinates in the graphics context
         if(isVisible == true)
-            g.drawImage(sprite, position.getX(), position.getY(), null);
+            g.drawImage(Sprite, Position.getX(), Position.getY(), null);
     }
 }

@@ -28,6 +28,7 @@ public class Vector
     {
         x += v.getX();
         y += v.getY();
+        
     }
     
     public void setToVector(Vector v)

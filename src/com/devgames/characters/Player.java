@@ -14,18 +14,14 @@ public class Player
     //Vectors to represent the character's current position
     //and movement from the current position
     
-    Vector position;
+    public Vector position;
     Vector displacement;
     
     
     // This image represents the character
     
     private BufferedImage sprite;
-    
-    // This variable stores the width of the image
-    private int spriteWidth;
-    // This variable stoers the height of the image
-    private int spriteHeight;
+        
     // A score value - this could be a health or other approriate value
     private int score;
     
@@ -34,7 +30,7 @@ public class Player
     
     public Player(Game theGame)
     {
-         // STarting X and Y co-ordinates
+         // Starting X and Y co-ordinates
         position = new Vector(400, 400);
         
         // This vector will hold the movement from the current position
@@ -58,8 +54,7 @@ public class Player
             System.err.println("Error loading player sprite");
         }
         
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
+        
     }
     
     /** This method returns a Rectangle object that we can use to determine
@@ -69,7 +64,7 @@ public class Player
     public Rectangle getBounds()
     {
         Rectangle characterRect = new Rectangle(position.getX(), position.getY(),
-        spriteWidth, spriteHeight);
+        sprite.getHeight(), sprite.getWidth());
         return characterRect;
     }
     
@@ -77,7 +72,9 @@ public class Player
     {
         if (m.getBounds().intersects(getBounds()))
         {   
-            game.endGame();            
+            //This code is part of the tutorials
+            //score -= m.getDamage();
+            //game.endGame();            
             return true;
             
         }
@@ -90,7 +87,7 @@ public class Player
         {
             if (t.getVisible() == true)
             {
-                score += t.getScore();
+                //score += t.getScore();
                 t.setVisible(false);
             }
             return true;
@@ -106,17 +103,7 @@ public class Player
     public Vector getPosition()
     {
         return position;
-    }
-    
-    public int getSpriteWidth()
-    {
-        return spriteWidth;
-    }
-    
-    public int getSpriteHeight()
-    {
-        return spriteHeight;
-    }
+    }     
     
     public void setScore(int newScore)
     {
@@ -140,7 +127,7 @@ public class Player
      * @param direction
      */
     public void move(int direction)
-    {
+    {           
         switch (direction)
         {
             case 1:
@@ -158,11 +145,12 @@ public class Player
             default:
                 break;                
         }
+        
     }
     
     public void doMove()
     {
-        position.add(displacement);
+        position.add(displacement);  
     }
     
     /**
@@ -179,5 +167,5 @@ public class Player
     {
         // Draw the sprite at the correct coordinates in the graphics context
         g.drawImage(sprite, position.getX(),position.getY(), null);
-    }
+    }    
 }
