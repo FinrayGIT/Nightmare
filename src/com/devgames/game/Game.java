@@ -33,7 +33,7 @@ public class Game {
     
     public level[] levels =  
     {   
-        //This function creates levels, which have platforms, monsters and
+        //This function creates levels, which have platforms, Monsters and
         //treasure inside them. Objects inside level are created as baseLevelObjects.
         new level("/backgroundTemp/backgroundTemp.png",
                 new platform[]

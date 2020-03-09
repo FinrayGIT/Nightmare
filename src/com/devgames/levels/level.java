@@ -26,14 +26,14 @@ public class level extends JPanel implements ActionListener
     BufferedImage Background;
     public platform[] Platforms;      
     private Treasure[] treasures;
-    private Monster[] monsters;
+    private Monster[] Monsters;
     private Timer timer;
     
-    public level (String _backgroundPath, platform[] _platforms, Monster[] _monsters, Treasure[] _treasures)
+    public level (String _backgroundPath, platform[] _platforms, Monster[] _Monsters, Treasure[] _treasures)
     {   
         //Constructor for level objects
         Platforms = _platforms;
-        monsters = _monsters;
+        Monsters = _Monsters;
         treasures = _treasures;     
         timer = new Timer(10, this);
         
@@ -53,7 +53,7 @@ public class level extends JPanel implements ActionListener
         g.drawImage(Background, 0, 0, null);
         Toolkit.getDefaultToolkit().sync();
         
-        for(Monster m: monsters)
+        for(Monster m: Monsters)
         {            
             g.drawImage(m.Sprite, m.Position.getX(), m.Position.getY(), null);                    
         }
@@ -65,8 +65,7 @@ public class level extends JPanel implements ActionListener
         {
             g.drawImage(p.Sprite, p.Position.getX(), p.Position.getY(), null);
         }
-    }    
-    
+    }        
     
     @Override
     public void actionPerformed(ActionEvent ae)

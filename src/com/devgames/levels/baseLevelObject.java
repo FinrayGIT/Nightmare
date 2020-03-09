@@ -12,7 +12,7 @@ public class baseLevelObject
     public Vector Position;
     public BufferedImage Sprite;
     
-    //Constructor for baseLevelObject, which extends from monsters, platforms and treasure
+    //Constructor for baseLevelObject, which extends from Monsters, platforms and treasure
     public baseLevelObject(Vector _position, String _path)
     {
         Position = _position;

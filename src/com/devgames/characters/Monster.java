@@ -34,7 +34,7 @@ public class Monster extends baseLevelObject
                 ("/Sprites/Graded/Frost-Brute-Graded-Single.png"));
         }catch(Exception ex)
         {
-            System.err.println("Error loading monster sprite");
+            System.err.println("Error loading Monster sprite");
         }*/        
         
     }
@@ -96,8 +96,8 @@ public class Monster extends baseLevelObject
     {
         //Random rand = new Random();
         //int randomDirection;        
-        // Create a vector to store the current position of the monster
-        // we will only update the movement vector if the monster does not
+        // Create a vector to store the current position of the Monster
+        // we will only update the movement vector if the Monster does not
         // collide with anything 
         
         //randomDirection = rand.nextInt(4) + 1;
