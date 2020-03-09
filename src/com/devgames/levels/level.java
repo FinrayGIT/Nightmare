@@ -23,24 +23,27 @@ import javax.swing.Timer;
 
 public class level extends JPanel implements ActionListener
 {
+    public platform[] Platforms;  
     BufferedImage Background;
-    public platform[] Platforms;      
     private Treasure[] treasures;
     private Monster[] monsters;
-    private Timer timer;
+    
     
     public level (String _backgroundPath, platform[] _platforms, Monster[] _monsters, Treasure[] _treasures)
-    {   
-        //Constructor for level objects
+    {        
         Platforms = _platforms;
         monsters = _monsters;
-        treasures = _treasures;     
-        timer = new Timer(10, this);
+        treasures = _treasures;
+        
+        
         
         try
         {
             Background = ImageIO.read(getClass().getResource(_backgroundPath));
-        }   catch (Exception ex) {System.err.println("Error loading level @" + _backgroundPath);}       
+        }   catch (Exception ex)
+        {
+            System.err.println("Error loading level @" + _backgroundPath);
+        }
         
     }
     
@@ -49,7 +52,8 @@ public class level extends JPanel implements ActionListener
     public void paintComponent(Graphics g)
     {
         // Calls the paintComponent method on the superclass to initalise drawing
-        super.paintComponent(g);        
+        super.paintComponent(g);
+        
         g.drawImage(Background, 0, 0, null);
         Toolkit.getDefaultToolkit().sync();
         
@@ -65,12 +69,12 @@ public class level extends JPanel implements ActionListener
         {
             g.drawImage(p.Sprite, p.Position.getX(), p.Position.getY(), null);
         }
-    }    
+    }
     
     
     @Override
     public void actionPerformed(ActionEvent ae)
-    {   
-        //Stub to stop errors due to not having keypress detection set up yet.
+    {               
+        repaint();
     }
 }

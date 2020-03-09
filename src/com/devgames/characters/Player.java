@@ -8,24 +8,18 @@ import java.awt.image.BufferedImage;
 import java.awt.Rectangle;
 import javax.imageio.ImageIO;
 
-            
-
-
-                /* This entire class will need refactoring */
-
-
-
-
 
 public class Player 
 {
     //Vectors to represent the character's current position
     //and movement from the current position
+    
     public Vector position;
     Vector displacement;
     
     
-    // This image represents the character    
+    // This image represents the character
+    
     private BufferedImage sprite;
         
     // A score value - this could be a health or other approriate value
@@ -36,10 +30,10 @@ public class Player
     
     public Player(Game theGame)
     {
-        //Starting X and Y co-ordinates
+         // Starting X and Y co-ordinates
         position = new Vector(400, 400);
         
-        //This vector will hold the movement from the current position
+        // This vector will hold the movement from the current position
         displacement = new Vector(0,0);
         score = 0;
         
@@ -48,7 +42,8 @@ public class Player
         init();
     }
     
-    // This method is called to initalise the player    
+    // This method is called to initalise the player
+    
     private void init()
     {
         try

@@ -12,7 +12,6 @@ public class baseLevelObject
     public Vector Position;
     public BufferedImage Sprite;
     
-    //Constructor for baseLevelObject, which extends from monsters, platforms and treasure
     public baseLevelObject(Vector _position, String _path)
     {
         Position = _position;
@@ -25,7 +24,6 @@ public class baseLevelObject
             }
     }
     
-    //Code to enable baseLevelObject to draw later
     /*@Override
     protected void paintComponent(Graphics g)
     {
@@ -42,5 +40,7 @@ public class baseLevelObject
         theTreasure.draw(g2d);
         thePlayer.draw(g2d);
         g.dispose(); 
-    }*/    
+    }*/
+
+    
 }

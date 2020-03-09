@@ -20,16 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-
-
-
-
-
-        This code has been refactored into level, platform, and baseLevelObject
-
-
-
-
+// This is a small change
 
 
 public class Level1 extends JPanel implements ActionListener

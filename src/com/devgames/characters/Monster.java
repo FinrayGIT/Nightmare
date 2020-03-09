@@ -21,6 +21,12 @@ public class Monster extends baseLevelObject
     private int damage;
     private int score;
     
+    
+    
+    
+    
+    
+    
     public Monster(Vector _position, Player thePlayer)
     {   
         super(_position, "/Sprites/Graded/Frost-Brute-Graded-Single.png");
