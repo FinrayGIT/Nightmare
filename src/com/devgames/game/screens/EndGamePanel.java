@@ -1,6 +1,9 @@
 package com.devgames.game.screens;
 
 import com.devgames.game.Game;
+import static com.devgames.game.Game.WINDOW_HEIGHT;
+import static com.devgames.game.Game.WINDOW_WIDTH;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
@@ -17,14 +20,9 @@ public class EndGamePanel extends JPanel
     
     
     public EndGamePanel(Game theGame)
-    {
+    {   
+        //Constructor for EndGamePanel object
         game = theGame;
-        init();
-    }
-    
-    private void init()
-    {
-        // Loads the background image
         try
         {
             backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/gameOver.png"));
@@ -33,25 +31,16 @@ public class EndGamePanel extends JPanel
             System.err.println("Error loading background image gameOver");
         }
         setFocusable(true);
-    }
+        
+        
+    }        
     
     @Override
     public void paintComponent(Graphics g)
     {
-        // Calls the paintComponent method on the superclass to initalise drawing
-        super.paintComponent(g);
-        
+        //Calls the paintComponent method on the superclass to initalise drawing
+        super.paintComponent(g);        
         g.drawImage(backgroundImage, 0, 0, null);
         Toolkit.getDefaultToolkit().sync();
-    }
-    
-    public void start()
-    {
-        
-    }
-    
-    public void stop()
-    {
-        
-    }
+    }        
 }

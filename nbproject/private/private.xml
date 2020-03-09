@@ -3,14 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/characters/Monster.java</file>
             <file>file:/E:/Github/Nightmare/src/com/devgames/levels/baseLevelObject.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/screens/StartGamePanel.java</file>
             <file>file:/E:/Github/Nightmare/src/com/devgames/game/Game.java</file>
             <file>file:/E:/Github/Nightmare/src/com/devgames/levels/platform.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/characters/Player.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/characters/Treasure.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/screens/EndGamePanel.java</file>
             <file>file:/E:/Github/Nightmare/src/com/devgames/levels/level.java</file>
         </group>
     </open-files>

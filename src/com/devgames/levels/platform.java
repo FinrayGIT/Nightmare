@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class platform extends baseLevelObject
 {
-                
+    //Basic stub constructor to create platform objects            
     public platform(Vector _position, String _path)
         {
             super(_position, _path);            

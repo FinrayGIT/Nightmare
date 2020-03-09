@@ -12,20 +12,15 @@ import java.awt.Toolkit;
 
 public class StartGamePanel extends JPanel
 {
-    private Game game; // This links back to the Game controller class
-    private BufferedImage backgroundImage = null;     
+    private Game game;
+    private BufferedImage backgroundImage;
     
     public StartGamePanel(Game theGame)
-    {
+    {   
+        //Constructor for StartGamePanel object
         game = theGame;
-        init();
-    }
-    
-    private void init()
-    {
         addKeyListener(new TAdapter());
         
-        //Loads the first background image
         try
         {
             backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp2.png"));
@@ -34,28 +29,25 @@ public class StartGamePanel extends JPanel
             System.err.println("Error Loading Background Image 1");
         }
         setFocusable(true);
-    }
+    }   
+    
     
     @Override
     public void paintComponent(Graphics g)
     {
-        // Call the paintComponent method on the superclass to initalise drawing
+        //Call the paintComponent method on the superclass to initalise drawing
         super.paintComponent(g);
-        
-        // Start drawing - the background goes first
-        g.drawImage(backgroundImage, 0, 0, null);
-        //g.drawImage(zombieSprite, 0, 600, null);
-        //g.drawImage(theDoc, 1400, 600, null);        
+        g.drawImage(backgroundImage, 0, 0, null);                
         Toolkit.getDefaultToolkit().sync();
     }
     
     private class TAdapter extends KeyAdapter
-    {
-        @Override
+    {   
+        //Listens for keypress on P and starts the game     
+        @Override        
         public void keyReleased(KeyEvent e)
         {
-            if(e.getKeyCode() == KeyEvent.VK_P)
-                game.startGame();
+            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();
         }
         
         @Override

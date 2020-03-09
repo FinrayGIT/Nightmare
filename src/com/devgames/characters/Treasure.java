@@ -10,12 +10,12 @@ import javax.imageio.ImageIO;
 
 
 public class Treasure extends baseLevelObject
-{
-      
+{    
     private boolean isVisible;
     
     public Treasure(Vector _position, String _path)
-    {
+    {   
+        //Constructor for Treasure objects
         super(_position, _path);
         isVisible = true;      
                         
@@ -27,9 +27,10 @@ public class Treasure extends baseLevelObject
     }
     
     public Rectangle getBounds()
-    {
-        Rectangle objectRect = new Rectangle(Position.getX(), Position.getY(),
-        Sprite.getWidth(), Sprite.getHeight());
+    {   
+        //Grabs width/height and makes a rectangle for collision
+        Rectangle objectRect =  new Rectangle(Position.getX(), Position.getY(),
+                                Sprite.getWidth(), Sprite.getHeight());
         return objectRect;
     }
     
@@ -66,7 +67,7 @@ public class Treasure extends baseLevelObject
     public void draw(Graphics2D g)
     {
         //Draw the sprite at the correct coordinates in the graphics context
-        if(isVisible == true)
-            g.drawImage(Sprite, Position.getX(), Position.getY(), null);
+        if(isVisible == true)   g.drawImage(Sprite, Position.getX(),
+                                Position.getY(), null);
     }
 }
