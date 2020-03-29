@@ -1,78 +1,39 @@
 package com.devgames.characters;
 
+import com.devgames.levels.baseLevelObject;
 import com.devgames.levels.Vector;
-import com.devgames.game.Game;
-
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import javax.imageio.ImageIO;
 
-            
-
-
-                /* This entire class will need refactoring */
-
-
-
-
-
-public class Player 
+public class Player extends baseLevelObject
 {
     //Vectors to represent the character's current position
     //and movement from the current position
-    public Vector position;
-    Vector displacement;
+    public Vector velocity;
     
-    
-    // This image represents the character    
-    private BufferedImage sprite;
-        
-    // A score value - this could be a health or other approriate value
-    private int score;
-    
-    private Game game;
-    
-    
-    public Player(Game theGame)
+    boolean moving = false;
+    public final float MOVE_SPEED = 1.0f;
+    public final float JUMP_FORCE = 10.0f;
+    boolean IsGrounded = false;
+    boolean IsClimbing = false;
+
+    public Player(Vector _position)
     {
-        //Starting X and Y co-ordinates
-        position = new Vector(400, 400);
-        
+        super(_position, "/Sprites/Plague Doctor.png");
+
         //This vector will hold the movement from the current position
-        displacement = new Vector(0,0);
-        score = 0;
-        
-        game = theGame;
-        
-        init();
-    }
-    
-    // This method is called to initalise the player    
-    private void init()
-    {
+        velocity = new Vector(0,0);
+     
         try
         {
-            sprite = ImageIO.read(getClass().getResource("/Sprites/Plague Doctor bigger.png"));
+            Sprite = ImageIO.read(getClass().getResource("/Sprites/Plague Doctor bigger.png"));
         }catch(Exception ex)
         {
             System.err.println("Error loading player sprite");
         }
-        
-        
     }
-    
-    /** This method returns a Rectangle object that we can use to determine
-     * if a collision has taken place
-     * @return
-     */
-    public Rectangle getBounds()
-    {
-        Rectangle characterRect = new Rectangle(position.getX(), position.getY(),
-        sprite.getHeight(), sprite.getWidth());
-        return characterRect;
-    }
-    
+
     public boolean checkCollision(Monster m)
     {
         if (m.getBounds().intersects(getBounds()))
@@ -100,77 +61,53 @@ public class Player
         return false;     
     }
     
-    public void setPosition(Vector v)
+    public void MoveLeft()
     {
-        position = v;
+        if (!IsClimbing)
+        {        
+            velocity.x -= MOVE_SPEED;
+        }
     }
     
-    public Vector getPosition()
+    public void MoveRight()
     {
-        return position;
-    }     
-    
-    public void setScore(int newScore)
+        if (!IsClimbing)
+        {        
+            velocity.x += MOVE_SPEED;
+        }
+    }
+     
+    public void Jump()
     {
-        score = newScore;
+        if (IsGrounded)
+        {   
+            IsGrounded = false;
+            velocity.y -= JUMP_FORCE;
+        }
     }
     
-    public int getScore()
+    public void UpdatePlayer()
     {
-        return score;
-    }
-    
-    
-    public BufferedImage getSprite()
-    {
-        return sprite;
-    }
-    
-    /**
-     * This method updates the displacement of the character based upon the
-     * users key presses
-     * @param direction
-     */
-    public void move(int direction)
-    {           
-        switch (direction)
-        {
-            case 1:
-                displacement.setY(-10);
-                break;
-            case 2:
-                displacement.setY(10);
-                break;
-            case 3:
-                displacement.setX(-10);
-                break;
-            case 4:
-                displacement.setX(10);
-                break;
-            default:
-                break;                
+        if (!IsGrounded){
+            velocity.y += 0.4f;
+        }
+        if (Position.y > 300){//fake ground collision
+            IsGrounded = true;
+            Position.y = 300;
+            velocity.y = 0;
         }
         
+       // if (IsGrounded){
+            velocity.x -= velocity.x * 0.1f;// deceleration
+       // } //air decelerate? bunny hop mode
+        
+        Position.x += velocity.x;
+        Position.y += velocity.y;
     }
     
-    public void doMove()
-    {
-        position.add(displacement);  
-    }
-    
-    /**
-     * When the user releases the key, reset the move displacement to 0
-     */
-    
-    public void stop()
-    {
-        displacement.setX(0);
-        displacement.setY(0);
-    }
-    
-    public void draw(Graphics2D g)
+    public void draw(Graphics g)
     {
         // Draw the sprite at the correct coordinates in the graphics context
-        g.drawImage(sprite, position.getX(),position.getY(), null);
+        g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);
     }    
 }

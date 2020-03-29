@@ -1,15 +1,10 @@
+
 package com.devgames.characters;
 
 import com.devgames.levels.Vector;
 import com.devgames.levels.baseLevelObject;
-
-
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import static java.lang.Math.sqrt;
-import java.util.Random;
-import javax.imageio.ImageIO;
 
 
 public class Monster extends baseLevelObject
@@ -43,22 +38,17 @@ public class Monster extends baseLevelObject
     {
         return Sprite;        
     }
-    
-    public Rectangle getBounds()
-    {
-        return new Rectangle(Position.getX(), Position.getY(), Sprite.getHeight(), Sprite.getWidth());
-                
-    }
-    
+        
     public void setPosition(Vector v)
     {
-        Position.setToVector(v);
+        Position.x += v.x;
+        Position.y += v.y;
     }
     
-    public int getPlayerX()
-    {           
-        return player.position.getX();
-    }
+//    public int getPlayerX()
+//    {           
+//        return player.position.getX();
+//    }
     
     public int getDamage()
     {
@@ -89,7 +79,7 @@ public class Monster extends baseLevelObject
     {
         //Draw the sprite at the correct coordinates in the graphics context
         if(isVisible == true)
-            g.drawImage(Sprite, Position.getX(), Position.getY(), null);
+            g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);
     }
     
     public void doMove(int levelWidth, int levelHeight)
@@ -105,20 +95,20 @@ public class Monster extends baseLevelObject
         /*switch(randomDirection)
         {
             case 1:
-                displacement.setY(-speed);
+                velocity.setY(-speed);
                 break;
             case 2:
-                displacement.setY(speed);
+                velocity.setY(speed);
                 break;  
             case 3:
-                displacement.setX(-speed);
+                velocity.setX(-speed);
                 break;
             case 4:
-                displacement.setX(speed);                
+                velocity.setX(speed);                
         }
         
         Vector tempPosition = new Vector(position);
-        Vector displacement = new Vector();
+        Vector velocity = new Vector();
         
         /* Adding in some boundary checks, X coordinate first
         First check that the new X coordinate won't go off the left hand side
@@ -127,11 +117,11 @@ public class Monster extends baseLevelObject
         
         if(tempPosition.getX() < (spriteWidth / 2))
         {
-            //displacement.setX(1);
-            displacement.setX(player.position.getX()*speed);
+            //velocity.setX(1);
+            velocity.setX(player.position.getX()*speed);
         }else if(tempPosition.getX() > levelWidth - (spriteWidth / 2))
         {
-            displacement.setX(-1);
+            velocity.setX(-1);
             
         }    
         /*Now check the Y coordinate - first the top of the screen, then the
@@ -139,29 +129,29 @@ public class Monster extends baseLevelObject
         
         if(tempPosition.getY() < spriteHeight / 2)
         {
-            //displacement.setY(1);
-            displacement.setY(player.position.getY()*speed);
+            //velocity.setY(1);
+            velocity.setY(player.position.getY()*speed);
             
         }else if (spriteHeight > levelHeight - (spriteHeight /2))
         {
-            displacement.setY(1);
+            velocity.setY(1);
         } 
             
-        tempPosition.add(displacement);
+        tempPosition.add(velocity);
         
         //Change the current position vector to the temporary vector
         position.setToVector(tempPosition);*/
 
-        Vector direction = new Vector(Position);      
-        
-        
-        direction.setX(player.position.getX() - Position.getX());
-        direction.setY(player.position.getY() - Position.getY());
-        
-        double hyp = sqrt(direction.getX()*direction.getX() + direction.getY()*direction.getY());
-        
-        direction.setX((int) (direction.getX() / hyp)*speed);
-        direction.setY((int) (direction.getY() / hyp)*speed);
+//        Vector direction = new Vector(Position);      
+//        
+//        
+//        direction.setX(player.Position.getX() - Position.getX());
+//        direction.setY(player.Position.getY() - Position.getY());
+//        
+//        double hyp = sqrt(direction.getX()*direction.getX() + direction.getY()*direction.getY());
+//        
+//        direction.setX((int) (direction.getX() / hyp)*speed);
+//        direction.setY((int) (direction.getY() / hyp)*speed);
         
         
         

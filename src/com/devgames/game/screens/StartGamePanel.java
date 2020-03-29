@@ -23,7 +23,7 @@ public class StartGamePanel extends JPanel
         
         try
         {
-            backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp2.png"));
+            backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp.png"));
         }catch(Exception ex)
         {
             System.err.println("Error Loading Background Image 1");
@@ -47,7 +47,7 @@ public class StartGamePanel extends JPanel
         @Override        
         public void keyReleased(KeyEvent e)
         {
-            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();
+            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();          
         }
         
         @Override

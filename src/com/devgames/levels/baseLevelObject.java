@@ -4,6 +4,7 @@ import com.devgames.game.Game;
 import com.devgames.levels.Vector;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -25,22 +26,10 @@ public class baseLevelObject
             }
     }
     
-    //Code to enable baseLevelObject to draw later
-    /*@Override
-    protected void paintComponent(Graphics g)
+    public Rectangle getBounds()
     {
-        super.paintComponent(g);
-        //Cast the graphics object to a graphics2D object
-        Graphics2D g2d = (Graphics2D) g;
-        // Draw background
-        g2d.drawImage(background, 0, 0, null);
-        // Draw obstacles        
-        for(int i = 1; i < Game.MAX_ASSETS; i++){g2d.drawImage(A[i], 0, 800, null);}
-        
-        // Draw characters
-        theMonster.draw(g2d);
-        theTreasure.draw(g2d);
-        thePlayer.draw(g2d);
-        g.dispose(); 
-    }*/    
+        Rectangle rect = new Rectangle((int)Position.x, (int)Position.y,
+        Sprite.getHeight(), Sprite.getWidth());
+        return rect;
+    }  
 }

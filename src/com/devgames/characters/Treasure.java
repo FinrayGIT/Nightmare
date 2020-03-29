@@ -26,18 +26,12 @@ public class Treasure extends baseLevelObject
         return Sprite;
     }
     
-    public Rectangle getBounds()
-    {   
-        //Grabs width/height and makes a rectangle for collision
-        Rectangle objectRect =  new Rectangle(Position.getX(), Position.getY(),
-                                Sprite.getWidth(), Sprite.getHeight());
-        return objectRect;
-    }
+  
     
-    public void setPosition(Vector v)
-    {
-        Position.setToVector(v);
-    }
+//    public void setPosition(Vector v)
+//    {
+//        Position += v;
+//    }
     
     public Vector getPosition()
     {
@@ -67,7 +61,6 @@ public class Treasure extends baseLevelObject
     public void draw(Graphics2D g)
     {
         //Draw the sprite at the correct coordinates in the graphics context
-        if(isVisible == true)   g.drawImage(Sprite, Position.getX(),
-                                Position.getY(), null);
+        if(isVisible == true)   g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);
     }
 }

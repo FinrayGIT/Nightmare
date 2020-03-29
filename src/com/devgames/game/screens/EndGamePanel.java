@@ -16,8 +16,7 @@ public class EndGamePanel extends JPanel
 
 {
     private Game game;
-    private BufferedImage backgroundImage = null;
-    
+    private BufferedImage backgroundImage = null;    
     
     public EndGamePanel(Game theGame)
     {   
@@ -42,5 +41,5 @@ public class EndGamePanel extends JPanel
         super.paintComponent(g);        
         g.drawImage(backgroundImage, 0, 0, null);
         Toolkit.getDefaultToolkit().sync();
-    }        
+    }       
 }

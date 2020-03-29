@@ -1,13 +1,11 @@
 package com.devgames.levels;
 
-import com.devgames.game.Game;
-import com.devgames.game.screens.StartGamePanel;
 import com.devgames.characters.Player;
+
 import com.devgames.characters.Treasure;
 import com.devgames.characters.Monster;
-
-import java.awt.Font;
-import java.awt.Color;
+import com.devgames.game.InputController;
+//import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,53 +21,80 @@ import javax.swing.Timer;
 
 public class level extends JPanel implements ActionListener
 {
-    BufferedImage Background;
-    public platform[] Platforms;      
-    private Treasure[] treasures;
-    private Monster[] Monsters;
-    private Timer timer;
-    
-    public level (String _backgroundPath, platform[] _platforms, Monster[] _Monsters, Treasure[] _treasures)
-    {   
-        //Constructor for level objects
-        Platforms = _platforms;
-        Monsters = _Monsters;
-        treasures = _treasures;     
-        timer = new Timer(10, this);
-        
-        try
-        {
-            Background = ImageIO.read(getClass().getResource(_backgroundPath));
-        }   catch (Exception ex) {System.err.println("Error loading level @" + _backgroundPath);}       
-        
+    public Player player;
+    public room[] rooms; 
+    public room currentRoom;  
+    public  Timer timer;
+    private InputController inputController;
+
+    public level (room[] _rooms)
+    {
+        player = new Player(new Vector(0,0));
+        setFocusable(true);
+        setDoubleBuffered(true);
+        addKeyListener(new TAdapter());
+        inputController = new InputController(this);
+        rooms = _rooms;          
+        timer = new Timer(10, this);        
     }
     
+    public void StartLevel()
+    {
+        timer.start();
+    }
+    
+    public void EndLevel()
+    {
+        timer.stop();
+    }
     
     @Override
     public void paintComponent(Graphics g)
     {
-        // Calls the paintComponent method on the superclass to initalise drawing
-        super.paintComponent(g);        
-        g.drawImage(Background, 0, 0, null);
-        Toolkit.getDefaultToolkit().sync();
+        super.paintComponent(g);
+        g.drawImage(currentRoom.Background,0,0,null);
         
-        for(Monster m: Monsters)
+        for(Monster m: currentRoom.Monsters)
         {            
-            g.drawImage(m.Sprite, m.Position.getX(), m.Position.getY(), null);                    
+            g.drawImage(m.Sprite, (int)m.Position.x, (int)m.Position.y, null);                    
         }
-        for(Treasure t: treasures)
+        for(Treasure t: currentRoom.treasures)
         {
-            g.drawImage(t.Sprite, t.Position.getX(), t.Position.getY(), null);            
+            g.drawImage(t.Sprite, (int)t.Position.x, (int)t.Position.y, null);           
         }
-        for(platform p: Platforms)
+        for(platform p: currentRoom.Platforms)
         {
-            g.drawImage(p.Sprite, p.Position.getX(), p.Position.getY(), null);
+            g.drawImage(p.Sprite, (int)p.Position.x, (int)p.Position.y, null);
         }
-    }        
+        
+        player.draw(g);
+        
+        Toolkit.getDefaultToolkit().sync();
+    
+        g.dispose();
+    }
     
     @Override
     public void actionPerformed(ActionEvent ae)
     {   
-        //Stub to stop errors due to not having keypress detection set up yet.
+        inputController.updateInput();
+        player.UpdatePlayer();
+        repaint();
+    }
+    
+    //needs our current active panel to capture key event 
+    private class TAdapter extends KeyAdapter
+    {
+        @Override
+        public void keyPressed(KeyEvent e)
+        {
+            inputController.CheckKeyPress(e);
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e)
+        {
+            inputController.CheckKeyRelease(e);
+        }
     }
 }
