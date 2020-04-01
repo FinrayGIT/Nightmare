@@ -20,18 +20,15 @@ public class EndGamePanel extends JPanel
     
     public EndGamePanel(Game theGame)
     {   
-        //Constructor for EndGamePanel object
+        //Constructor to create the EndGamePanel object.
         game = theGame;
+        
         try
         {
             backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/gameOver.png"));
-        }catch(Exception ex)
-        {
-            System.err.println("Error loading background image gameOver");
-        }
+        }   catch(Exception ex) {System.err.println("Error loading background image gameOver");}
+        
         setFocusable(true);
-        
-        
     }        
     
     @Override

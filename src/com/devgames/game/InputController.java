@@ -1,12 +1,13 @@
-
 package com.devgames.game;
 
 import com.devgames.levels.level;
 import java.awt.event.KeyEvent;
 
 public class InputController
-{    
+{   
+    //Passes level to InputController
     level level;
+    
     public InputController(level _level)
     {
         level = _level;
@@ -14,6 +15,7 @@ public class InputController
     
     public InputController.Input[] inputs =
     {   
+        //Array of possible inputs
         new InputController.Input(KeyEvent.VK_LEFT, InputController.inputAction.MoveLeft),
         new InputController.Input(KeyEvent.VK_RIGHT,InputController.inputAction.MoveRight),
         new InputController.Input(KeyEvent.VK_UP, InputController.inputAction.ClimbUp),
@@ -22,7 +24,8 @@ public class InputController
     };
     
     public static enum inputAction
-    {
+    {   
+        //Enumeration of possible inputs
         MoveLeft,
         MoveRight,
         ClimbUp,
@@ -31,7 +34,8 @@ public class InputController
     }
     
     public static class Input
-    {    
+    {   
+        //Input array constructor - requires keypress and action to be performed
         public int event;
         public inputAction action;
         public boolean IsPressed = false;
@@ -45,9 +49,10 @@ public class InputController
     
     public void updateInput()
     {
+        //Once an input is performed, this function calls the code to perform
+        //the required action
         for (int i = 0; i < inputs.length; i++)
         {
-            System.out.println("update input tick " + i);
             if (inputs[i].IsPressed)
             {  
                 switch(inputs[i].action)
@@ -77,6 +82,7 @@ public class InputController
     
     public void CheckKeyPress(KeyEvent e)
     {
+        //This function stores whether or not a key has been pressed
         for (int i = 0; i < inputs.length; i++)
         {
             if (e.getKeyCode() == inputs[i].event)
@@ -88,6 +94,7 @@ public class InputController
     
     public void CheckKeyRelease(KeyEvent e)
     {
+        //This function stores whether or not a key has been released
         for (int i = 0; i < inputs.length; i++)
         {
             if (e.getKeyCode() == inputs[i].event)

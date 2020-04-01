@@ -17,20 +17,17 @@ public class StartGamePanel extends JPanel
     
     public StartGamePanel(Game theGame)
     {   
-        //Constructor for StartGamePanel object
+        //Constructor to create the StartGamePanel object.
         game = theGame;
         addKeyListener(new TAdapter());
         
         try
         {
             backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp.png"));
-        }catch(Exception ex)
-        {
-            System.err.println("Error Loading Background Image 1");
-        }
+        }   catch(Exception ex) {System.err.println("Error Loading Background Image 1");}
+        
         setFocusable(true);
     }   
-    
     
     @Override
     public void paintComponent(Graphics g)
@@ -50,10 +47,10 @@ public class StartGamePanel extends JPanel
             if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();          
         }
         
-        @Override
-        public void keyPressed(KeyEvent e)
-        {
-            
-        }
+//        @Override
+//        public void keyPressed(KeyEvent e)
+//        {
+//            
+//        }
     }
 }

@@ -1,10 +1,8 @@
-
 package com.devgames.characters;
 
 import com.devgames.levels.Vector;
 import com.devgames.levels.baseLevelObject;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 
 public class Monster extends baseLevelObject
@@ -21,69 +19,60 @@ public class Monster extends baseLevelObject
         super(_position, "/Sprites/Graded/Frost-Brute-Graded-Single.png");
         player = thePlayer;    
         score = 50;
-        isVisible = true;
-        
-        /*try
-        {
-            sprite = ImageIO.read(getClass().getResourceAsStream
-                ("/Sprites/Graded/Frost-Brute-Graded-Single.png"));
-        }catch(Exception ex)
-        {
-            System.err.println("Error loading Monster sprite");
-        }*/        
-        
+        isVisible = true;   
     }
     
-    public BufferedImage getSprite()
-    {
-        return Sprite;        
-    }
-        
-    public void setPosition(Vector v)
-    {
-        Position.x += v.x;
-        Position.y += v.y;
-    }
-    
-//    public int getPlayerX()
-//    {           
-//        return player.position.getX();
-//    }
-    
-    public int getDamage()
-    {
-        return damage;
-    }
-    
-    public void setScore(int newScore)
-    {
-        score = newScore;
-    }
-    
-    public int getScore()
-    {
-        return score;
-    }
-    
-    public void setVisible(boolean visible)
-    {
-        isVisible = visible;
-    }
-    
-    public boolean getVisible()
-    {
-        return isVisible;
-    }
-    
-    public void draw(Graphics2D g)
+        public void draw(Graphics2D g)
     {
         //Draw the sprite at the correct coordinates in the graphics context
         if(isVisible == true)
             g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);
     }
     
-    public void doMove(int levelWidth, int levelHeight)
-    {
+      //TODO: Refactor/remove this code
+//    public BufferedImage getSprite()
+//    {
+//        return Sprite;        
+//    }
+//        
+//    public void setPosition(Vector v)
+//    {
+//        Position.x += v.x;
+//        Position.y += v.y;
+//    }
+//    
+//    public int getPlayerX()
+//    {           
+//       return player.position.getX();
+//    }
+//    
+//    public int getDamage()
+//    {
+//        return damage;
+//    }
+//    
+//    public void setScore(int newScore)
+//    {
+//        score = newScore;
+//    }
+//    
+//    public int getScore()
+//    {
+//        return score;
+//    }
+//    
+//    public void setVisible(boolean visible)
+//    {
+//        isVisible = visible;
+//    }
+//    
+//    public boolean getVisible()
+//    {
+//        return isVisible;
+//    }
+    
+//    public void doMove(int levelWidth, int levelHeight)
+//    {
         //Random rand = new Random();
         //int randomDirection;        
         // Create a vector to store the current position of the Monster
@@ -152,17 +141,12 @@ public class Monster extends baseLevelObject
 //        
 //        direction.setX((int) (direction.getX() / hyp)*speed);
 //        direction.setY((int) (direction.getY() / hyp)*speed);
-        
-        
-        
-    }
+//    }
     
-    
-    
-    public boolean attack()
-    {
-        return true;
-    }
+//    public boolean attack()
+//    {
+//        return true;
+//    }
     
     
 }
