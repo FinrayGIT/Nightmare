@@ -14,9 +14,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import objects.Treasure;
+import objects.ladder;
 import objects.platform;
 import objects.room;
 
@@ -25,6 +27,7 @@ public class level extends JPanel implements ActionListener
     public Game game;
     public Player player;
     public room[] rooms; 
+    public int roomIndex = 0;
     public room currentRoom;
     public static int CurrentRoomInt;
     public Timer timer;
@@ -34,7 +37,7 @@ public class level extends JPanel implements ActionListener
     {   
         //Constructer to create level objects.
         
-        player = new Player(new Vector(0,0), this);
+        player = new Player(new Vector(1700,0), this);
         setFocusable(true);
         setDoubleBuffered(true);
         addKeyListener(new TAdapter());
@@ -51,6 +54,30 @@ public class level extends JPanel implements ActionListener
     public void EndLevel()
     {
         timer.stop();
+    }
+    
+    public void GoToRoom(room _room)
+    {
+        if(currentRoom != null){
+         currentRoom.setVisible(false);
+        }
+        //do previous room here, (previousroom = currentRoom)#todo
+        currentRoom = _room;
+        
+        for (int i = 0; i < rooms.length; i++){
+            if (rooms[i] == _room){
+                roomIndex = i;
+            }
+        }
+        
+        currentRoom.requestFocus();
+        currentRoom.setVisible(true);
+    }
+    
+    public void GoToRoom(int _index)
+    {
+        roomIndex = _index;
+        GoToRoom(rooms[_index]);
     }
     
     @Override

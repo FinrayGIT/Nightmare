@@ -19,14 +19,14 @@ public class InputController
     public static InputController.Input[] inputs =
     {   
         //Array of possible inputs
-        new InputController.Input(KeyEvent.VK_LEFT, InputController.inputAction.MoveLeft),
-        new InputController.Input(KeyEvent.VK_RIGHT,InputController.inputAction.MoveRight),
-        new InputController.Input(KeyEvent.VK_UP, InputController.inputAction.ClimbUp),
-        new InputController.Input(KeyEvent.VK_DOWN, InputController.inputAction.ClimbDown),
-        new InputController.Input(KeyEvent.VK_SPACE,InputController.inputAction.Jump),
-        new InputController.Input(KeyEvent.VK_HOME,InputController.inputAction.NextLvl),
-        new InputController.Input(KeyEvent.VK_END,InputController.inputAction.PrevLvl),
-        new InputController.Input(KeyEvent.VK_CAPS_LOCK,InputController.inputAction.EnableClimb),
+        new InputController.Input(KeyEvent.VK_LEFT, inputAction.MoveLeft, inputState.Held),
+        new InputController.Input(KeyEvent.VK_RIGHT,inputAction.MoveRight, inputState.Held),
+        new InputController.Input(KeyEvent.VK_UP, inputAction.ClimbUp, inputState.Held),
+        new InputController.Input(KeyEvent.VK_DOWN, inputAction.ClimbDown, inputState.Held),
+        new InputController.Input(KeyEvent.VK_SPACE,inputAction.Jump, inputState.Down),
+        new InputController.Input(KeyEvent.VK_HOME,inputAction.NextLvl, inputState.Down),
+        new InputController.Input(KeyEvent.VK_END,inputAction.PrevLvl, inputState.Down),
+        new InputController.Input(KeyEvent.VK_CAPS_LOCK,inputAction.EnableClimb, inputState.Down),
     };
     
     public static enum inputAction
@@ -42,32 +42,44 @@ public class InputController
         EnableClimb,
     }
     
+    public static enum inputState
+    {
+        None,
+        Down,
+        Held,
+        Up
+    }
+    
     public static class Input
     {   
         //Input array constructor - requires keypress and action to be performed
-        public int event;
+        public int keyCode;
         public inputAction action;
-        public boolean IsPressed = false;
+        public inputState state;
+        public inputState activeState;
         
-        public Input(int _event, inputAction _action)
+        public Input(int _event, inputAction _action, inputState _state)
         {
-            event = _event;
+            keyCode = _event;
             action = _action;
+            activeState = _state;
+            state = inputState.Up;
         }
     }
     
     public void updateInput()
     {
+        
         //Once an input is performed, this function calls the code to perform
         //the required action
         for (int i = 0; i < inputs.length; i++)
         {
-            if (inputs[i].IsPressed)
-            {  
+            if (inputs[i].state == inputs[i].activeState)
+            {
                 switch(inputs[i].action)
                 {
                     case MoveLeft:
-                        level.player.MoveLeft();
+                        {level.player.MoveLeft();}
                         break;
                         
                     case MoveRight:
@@ -75,45 +87,47 @@ public class InputController
                         break;
                         
                     case ClimbUp:
-                        level.player.ClimbUp();
+                        level.player.MoveUp();
                         break;
                         
                     case ClimbDown:
-                        level.player.ClimbDown();
+                        level.player.MoveDown();
                         break;
-                    case EnableClimb:
-                        level.player.IsClimbing = true;
-                        break;                        
+                        
+                    case EnableClimb: //Testing purposes, disable for hand in
+                        {level.player.IsClimbing = !level.player.IsClimbing;}
+                        break;
+                        
                     case Jump:       
                         level.player.Jump();
                         break;
+                        
                     case NextLvl:
                         System.out.println("Attempting room+");
-//                        if (level.rooms.length + 1 <= level.rooms.length)
-//                        {
-                            game.goToRoom(1);
+                        if (level.roomIndex + 1 < level.rooms.length)
+                        {                           
+                            level.GoToRoom(level.roomIndex + 1);
                             System.out.println("Level+");
-//                        }
+                        }
                         break;
+                        
                     case PrevLvl:
                         System.out.println("Attempting room-");
-//                        if (level.CurrentRoomInt - 1 >= level.rooms.length)
-//                        {
-                            game.goToRoom(0);
-                            System.out.println("Level-");
-//                        }
+                        if (level.roomIndex - 1 >= 0)
+                        {
+                            level.GoToRoom(level.roomIndex - 1);
+                            System.out.println("Level+");
+                        }
                         break;
-                            
-                        
-                    
                 }
             }
-            if (!inputs[i].IsPressed)
-            {   
-                switch(inputs[i].action)
-                {
-                
-                }
+            if (inputs[i].state == inputState.Down)
+            {
+                inputs[i].state = inputState.Held;
+            }
+            if (inputs[i].state == inputState.Up)
+            {
+                inputs[i].state = inputState.None;
             }
         }
     }
@@ -123,9 +137,12 @@ public class InputController
         //This function stores whether or not a key has been pressed
         for (int i = 0; i < inputs.length; i++)
         {
-            if (e.getKeyCode() == inputs[i].event)
+            if (e.getKeyCode() == inputs[i].keyCode)
             {
-                inputs[i].IsPressed = true;
+                if (inputs[i].state == inputState.None)
+                {
+                    inputs[i].state = inputState.Down;
+                }
             }
         }
     }
@@ -135,9 +152,12 @@ public class InputController
         //This function stores whether or not a key has been released
         for (int i = 0; i < inputs.length; i++)
         {
-            if (e.getKeyCode() == inputs[i].event)
+            if (e.getKeyCode() == inputs[i].keyCode)
             {
-                inputs[i].IsPressed = false;
+                if (inputs[i].state == inputState.Held || inputs[i].state == inputState.Down)
+                {
+                    inputs[i].state = inputState.Up;
+                }
             }
         }
     }

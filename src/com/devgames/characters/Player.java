@@ -17,9 +17,15 @@ public class Player extends baseLevelObject
 {   
     //Final variables to store values which may require tweaking.
     public final float CLIMB_SPEED = 0.5f;
-    public final float MOVE_SPEED = 0.5f;
-    public final float JUMP_FORCE = 10.0f;
-    final float JUMP_DELAY_DURATION = 0.2f;
+    public final float MOVE_SPEED = 0.6f;
+    public final float JUMP_FORCE = 4f;
+    final float JUMP_DELAY_DURATION = 0.1f;
+    final float GRAVITY = 0.1f;
+    final int CROUCH_FRAMES = 0;
+    final int DEATH_FRAMES = 5;
+    final int WALK_FRAMES = 3;
+    final int IDLE_FRAMES = 0;
+    final int ALL_FRAMES = 15;
     float jumpDelayTimer; // Should this just be JUMP_DELAY_DURATION?
     
     //The position of the player in a single frame. 
@@ -27,12 +33,10 @@ public class Player extends baseLevelObject
     
     //Variables to store the possible states of the player.
     boolean moving = false;    
-    boolean IsGrounded = false;
-    boolean IsLefted = false;
-    boolean IsRighted = false;
-    boolean IsRoofed = false;
+    public boolean IsGrounded = false;
+    public boolean CanClimb = false;
     public boolean IsClimbing = false;
-    
+    public float lowestPoint = 1080;
     
     level level;
     
@@ -46,7 +50,6 @@ public class Player extends baseLevelObject
     Rectangle bottomCol;
     Rectangle bottomRightCol;
     
-    
     //Collider raycasts.
     Rectangle topLeftColRay;
     Rectangle topColRay;
@@ -57,20 +60,42 @@ public class Player extends baseLevelObject
     Rectangle bottomColRay;
     Rectangle bottomRightColRay;
     
-    
     BufferedImage colSprite;
     BufferedImage colSpriteRay;
     
+    public BufferedImage[] SpriteArray = new BufferedImage[16];
+    
+    public String playerStatus = null;
+    public int animationFrames;
+    public int lowerLimit = 0;
+    public int upperLimit = 0;
+    
+    int frameIndex = 0;
+    final float FRAME_LENGTH = 125;
+    float frameTime;
+        
     public Player(Vector _position, level _level)
     {
         //Constuctor for player.
         super(_position, "/Sprites/Plague Doctor.png");
+        
         velocity = new Vector(0,0);
         level = _level;
+        frameTime = FRAME_LENGTH;
+        
+        
+        
+        for (int i = 0; i <= ALL_FRAMES; i++)
+        {
+        try
+        {
+            SpriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/player_" + i + ".png"));
+        }   catch(Exception ex) {System.err.println("Error loading animated sprite frame " + i);}
+        }
         
         try
         {
-            Sprite = ImageIO.read(getClass().getResource("/Sprites/Plague-Doctor-Idle-Small.png"));
+            Sprite = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/player_0.png"));
         }   catch(Exception ex) {System.err.println("Error loading player sprite");}
         
         try
@@ -83,62 +108,207 @@ public class Player extends baseLevelObject
             colSpriteRay = ImageIO.read(getClass().getResource("/backgroundPlaceholder/colliderRay.png"));
         }   catch(Exception ex) {System.err.println("Error loading collider sprite");}
     }
-
+    
+  
     public void MoveLeft()
-    {
+    {       
         if (!IsClimbing)
-        {        
+        {
             velocity.x -= MOVE_SPEED;
+            upperLimit = 5;
+            lowerLimit = 1;
+            if (frameIndex < lowerLimit || frameIndex > upperLimit){
+                frameIndex = lowerLimit;
+            }
+        }
+        else
+        {
+            velocity.x -= CLIMB_SPEED;
         }
     }
     
     public void MoveRight()
-    {
+    {      
         if (!IsClimbing)
-        {        
+        {
             velocity.x += MOVE_SPEED;
+            upperLimit = 8;
+            lowerLimit = 5;
+            if (frameIndex < lowerLimit || frameIndex > upperLimit){
+                frameIndex = lowerLimit;
+            }
+        }
+        else
+        {
+            velocity.x += CLIMB_SPEED;
         }
     }
     
-    public void ClimbUp()
+    public void MoveUp()
     {
+        if (CanClimb && !IsClimbing){
+            IsClimbing = true;
+            IsGrounded = false;
+        }
         if (IsClimbing)
         {
             velocity.y -= CLIMB_SPEED;
         }
     }
-    
-    public void ClimbDown()
+        
+    public void MoveDown()
     {
+        if (CanClimb && !IsClimbing){
+            IsClimbing = true;
+            IsGrounded = false;
+        }
         if (IsClimbing)
         {
             velocity.y += CLIMB_SPEED;
         }
     }
-     
+    
     public void Jump()
     {
-        if (IsGrounded)
+        if (IsGrounded || IsClimbing)
         {   
             IsGrounded = false;
+            IsClimbing = false;
             velocity.y -= JUMP_FORCE;
             jumpDelayTimer = JUMP_DELAY_DURATION;
-            velocity.x += (JUMP_FORCE / 2);
+            velocity.x += (velocity.x / 2);
+            lowestPoint = 1080;
         }
     }
         
     public void UpdatePlayer(level _level)
-    {
-        //This function contains gravity and colliders
-        if (!IsGrounded || !IsClimbing)
-        {
-            velocity.y += 0.4f;
-        }
-        
+    {        
         if (Game.levelReady = true)
-        {
+        {   
+            //check that you are inside a climbable object     
+            boolean canClimbThisTick = false;
+            for (int i = 0; i < _level.currentRoom.Ladders.length; i++)
+            {
+                if ( _level.currentRoom.Ladders[i].getBounds().intersects(getBounds()))
+                {
+                    canClimbThisTick = true;
+                }
+            }
+            CanClimb = canClimbThisTick;
+            if (IsClimbing && !CanClimb){
+                IsClimbing = false;
+            }
 
-//Colliders
+            //Checks if a jump has been performed recently...
+            if (jumpDelayTimer > 0)
+            {
+                jumpDelayTimer -= 0.01f;
+            }
+        
+            //If not, this loop checks if the corner colliders intersect any 
+            //platforms, and stop movement if so. Makes platforms solid when
+            //approaching from an angle other than 90°.
+            else
+            {
+                //everything collision with world here, enemies elsewhere
+                IsGrounded = false;
+                for (int i = 0; i <  _level.currentRoom.Platforms.length; i++)
+                {   
+                    //Raycast collider logic.
+                    if (!IsClimbing && rightColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
+                    {   
+                        Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x - 1), 
+                                                   (_level.currentRoom.Platforms[i].Position.y - 1));
+                        velocity.x = 0;
+                    }
+
+                    if (!IsClimbing && leftColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
+                    {
+                        Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x + _level.currentRoom.Platforms[i].getBounds().width), 
+                                                   (_level.currentRoom.Platforms[i].Position.y - 1));
+                        velocity.x = 0;
+                    }
+
+                    if (!IsClimbing && !IsGrounded && bottomColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
+                    {   
+                       // System.out.println("Hit Rock Bottom");
+                        IsGrounded = true;
+                        velocity.y = 0;
+                        Position.y = (_level.currentRoom.Platforms[i].Position.y - Sprite.getHeight() + 2);
+                    }
+
+                    if (!IsClimbing && topColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
+                    {
+                       // System.out.println("Hit Top of the world");
+                        velocity.y = 0;
+                        Position.y = _level.currentRoom.Platforms[i].getBounds().y + _level.currentRoom.Platforms[i].getBounds().height;
+                    }                
+
+                }
+            }
+            
+            
+            // update position from velocity
+            if (!IsClimbing && !IsGrounded)
+            {   
+                //Left & right movement
+                Position.x += velocity.x;
+                //Decelleration
+                velocity.x -= velocity.x * 0.1f;
+                //Gravity
+                if (Position.y + velocity.y <= lowestPoint)
+                {
+                    Position.y += velocity.y;
+                    velocity.y += GRAVITY;
+                }
+            }
+
+            if (!IsClimbing)
+            {
+                //flat drag
+            velocity.x -= velocity.x * 0.1f;
+            }
+            else{
+               velocity.x -= velocity.x * 0.15f;
+               velocity.y -= velocity.y * 0.2f;
+            }
+            
+            //modify positions
+            Position.x += velocity.x;
+            Position.y += velocity.y;
+       
+            // check speed low enough for idle frame;
+            
+            if (IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 ){
+                upperLimit = 0;
+                lowerLimit = 0;
+                frameIndex = 0;
+            }
+            
+        
+            if (frameTime > 0){
+                frameTime -= level.timer.getDelay();// / 1000f;
+                if (frameTime <= 0){
+                    frameIndex ++;
+                    if (frameIndex > upperLimit)
+                    {
+                        System.out.println("On Frame " + frameIndex + " of " + lowerLimit + " / " + upperLimit);
+                        frameIndex = lowerLimit;
+                    }
+                    frameTime = FRAME_LENGTH;
+                }
+            }
+        }  
+    }
+    
+    public void draw(Graphics g)
+    {
+        //This function draws the player sprite, and for testing purposes
+        //can draw graphical representation of colliders.
+
+        g.drawImage(SpriteArray[frameIndex], (int)Position.x, (int)Position.y, null);        
+        
+        //Colliders
             
 /*TOP*/     topLeftCol = new Rectangle(Math.round((int)Position.x + (Sprite.getWidth() / 4)),
                 Math.round((int)Position.y + colSprite.getHeight()), 1, 1);
@@ -196,192 +366,7 @@ public class Player extends baseLevelObject
             bottomRightColRay = new Rectangle(Math.round((int)bottomRightCol.x + velocity.x),
                 Math.round((int)bottomRightCol.y + velocity.y), 1, 1);
 
-            
-        //Checks if a jump has been performed recently...
-        if (jumpDelayTimer > 0)
-        {
-            jumpDelayTimer -= 0.01f;
-        }
         
-        //If not, this loop checks if the corner colliders intersect any 
-        //platforms, and stop movement if so. Makes platforms solid when
-        //approaching from an angle other than 90°.
-        else
-        {
-            boolean hitRoofThisTick = false;
-            boolean hitGroundThisTick = false;
-            boolean hitLeftThisTick = false;
-            boolean hitRightThisTick = false;
-            
-            
-            
-            for (int i = 0; i <  _level.currentRoom.Platforms.length; i++)
-            {   
-                //Raycast collider logic.
-                if (!IsRighted && rightColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-                {
-                    Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x - 1), 
-                                               (_level.currentRoom.Platforms[i].Position.y - 1));
-                    velocity.x = 0;
-                    //System.out.println("Right Raycast doing work");
-                    hitRightThisTick = true;
-                    IsRighted = true;
-                    Position.x = (newPos.x - (Sprite.getWidth() / 5) * 4);
-                }
-                
-                if (!IsLefted && leftColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-                {
-                    Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x + _level.currentRoom.Platforms[i].getBounds().width), 
-                                               (_level.currentRoom.Platforms[i].Position.y - 1));
-                    velocity.x = 0;
-                    //System.out.println("Left Raycast doing work");
-                    hitLeftThisTick = true;
-                    IsLefted = true;
-                    Position.x = (newPos.x - Sprite.getWidth() / 8);
-                }
-                
-                if (!IsClimbing && !IsGrounded && bottomColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-                {
-                    Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x), 
-                                               (_level.currentRoom.Platforms[i].Position.y));
-                    //System.out.println("Bottom Raycast doing work " + Position.y);
-                    IsGrounded = true;
-                    hitGroundThisTick = true;
-                    velocity.y = 0;
-                    Position.y = (newPos.y - Sprite.getHeight());
-                }
-                
-                if (!IsClimbing && !IsRoofed && topColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-                {
-                    Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x),
-                                               (_level.currentRoom.Platforms[i].Position.y - 1));
-                    //System.out.println("Top Raycast doing work");
-                    IsRoofed = true;
-                    hitRoofThisTick = true;
-                    velocity.y = 0;
-                    Position.y = (newPos.y + _level.currentRoom.Platforms[i].getBounds().height + 1);
-                }                
-                
-                    
-                //Traditional collider logic.
-//                if (!IsGrounded && ((velocity.x > 0 && bottomRightCol.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                                || (velocity.x < 0 && bottomLeftCol.intersects(_level.currentRoom.Platforms[i].getBounds())) 
-//                                || (velocity.x > 0 && topRightCol.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                                || (velocity.x < 0 && topLeftCol.intersects(_level.currentRoom.Platforms[i].getBounds()))))
-//                {   
-//                    velocity.x = 0;   
-//                }
-                
-//                This loop checks if the bottom collider intersects any platforms.
-//                Makes floors solid.
-//                if (bottomCol.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                {
-//                    if (!IsGrounded)
-//                    {
-//                        
-//                    }
-//                    
-//                }
-                
-                //This loop checks if the left or right colliders intersect any
-                //platforms, and stop movement if so. Makes walls solid.
-//                for (platform Platform : _level.currentRoom.Platforms) 
-//                {
-//                    if (IsGrounded) 
-//                    {
-////                        if (velocity.x < 0 && leftCol.intersects(Platform.getBounds())) 
-//////                        || (velocity.x > 0 && rightCol.intersects(Platform.getBounds())))
-////                        {
-////                            velocity.x = 0;
-////                        }
-////                    }
-//                }
-                
-//                if (!IsRoofed && topCol.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                {
-//                    IsRoofed = true;
-//                    hitRoofThisTick = true;
-//                    velocity.y = 0;
-//                }
-            }
-                
-
-                if (!hitRoofThisTick)
-                {
-                    IsRoofed = false;
-                }
-
-                if (!hitGroundThisTick)
-                {
-                    IsGrounded = false;
-                }
-                
-                if (!hitLeftThisTick)
-                {
-                    IsLefted = false;
-                }
-                
-                if (!hitRightThisTick)
-                {
-                    IsRighted = false;
-                }
-                
-//               if (!IsGrounded && ((velocity.x > 0 && bottomRightColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                                  || (velocity.x < 0 && bottomLeftColRay.intersects(_level.currentRoom.Platforms[i].getBounds())))) 
-////                                || (velocity.x > 0 && topRightColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-////                                || (velocity.x < 0 && topLeftColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))))
-//                {
-//                    Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x - 1),
-//                                               (_level.currentRoom.Platforms[i].Position.y -1));
-//                    Position.x = (newPos.x - (Sprite.getWidth() /5) * 4);
-//                    velocity.x = 0;
-//                }
-
-//                    if (bottomCol.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                    {   
-//                        System.out.println(newPos.y);
-//                        Position.y = (newPos.y + 1);
-//                        System.out.println(newPos.y);
-//                        velocity.y = 0;
-//                    }
-            }
-            //This code updates player position based upon inputs (or lack thereof)
-            //then starts deceleration
-            if (!IsClimbing)
-            {
-                Position.x += velocity.x;
-                Position.y += velocity.y;
-                velocity.x -= velocity.x * 0.1f;
-            }
-            if (IsClimbing)
-            {
-                
-                if (InputController.inputs[4].IsPressed)
-                {
-                    Position.y -= velocity.y;
-                }
-                else if (InputController.inputs[3].IsPressed)
-                {
-                    Position.y += velocity.y;
-                }
-                else
-                {
-                    velocity.y -= velocity.y * 0.9f;
-                }
-                
-                
-            }
-            //System.out.println(Position.y);
-        }
-    }
-           
-
-    
-    public void draw(Graphics g)
-    {
-        //This function draws the player sprite, and for testing purposes
-        //can draw graphical representation of colliders.
-        g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);
         
         if(colSprite != null && bottomCol != null)
         {        
@@ -394,14 +379,14 @@ public class Player extends baseLevelObject
 //            g.drawImage(colSprite, bottomCol.x, bottomCol.y, null);
 //            g.drawImage(colSprite, bottomRightCol.x, bottomRightCol.y, null);
 //            
-//            g.drawImage(colSpriteRay, (int)(topLeftColRay.x + velocity.x), (int)(topLeftColRay.y + velocity.y), null);
-//            g.drawImage(colSpriteRay, (int)(topColRay.x + velocity.x), (int)(topColRay.y + velocity.y), null);
-//            g.drawImage(colSpriteRay, (int)(topRightColRay.x + velocity.x), (int)(topRightColRay.y + velocity.y), null);
-//            g.drawImage(colSpriteRay, (int)(leftColRay.x + velocity.x), (int)(leftColRay.y + velocity.y), null);
-//            g.drawImage(colSpriteRay, (int)(rightColRay.x + velocity.x), (int)(rightColRay.y + velocity.y), null);
-//            g.drawImage(colSpriteRay, (int)(bottomLeftColRay.x + velocity.x), (int)(bottomLeftColRay.y + velocity.y), null);
-//            g.drawImage(colSpriteRay, (int)(bottomColRay.x + velocity.x), (int)(bottomColRay.y + velocity.y), null);
-//            g.drawImage(colSpriteRay, (int)(bottomRightColRay.x + velocity.x), (int)(bottomRightColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(topLeftColRay.x + velocity.x), (int)(topLeftColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(topColRay.x + velocity.x), (int)(topColRay.y + velocity.y), null);
+           // g.drawImage(colSpriteRay, (int)(topRightColRay.x + velocity.x), (int)(topRightColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(leftColRay.x + velocity.x), (int)(leftColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(rightColRay.x + velocity.x), (int)(rightColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(bottomLeftColRay.x + velocity.x), (int)(bottomLeftColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(bottomColRay.x + velocity.x), (int)(bottomColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(bottomRightColRay.x + velocity.x), (int)(bottomRightColRay.y + velocity.y), null);
         }    
     }
 

@@ -28,7 +28,7 @@ public class Game
     //EndGamePanel endScreen;
     
     //Variables to store which level and room is currently being played
-    level currentLevel;
+    public level CurrentLevel;
     
     
     //room currentRoom;
@@ -96,7 +96,7 @@ public class Game
                 new platform[]
                 {
                     new platform(new Vector (0,781), "/levels/level0/room1/room1platform0.png"),
-/*should be 368,845*/new platform(new Vector (500,845), "/levels/level0/room1/room1platform1.png"),
+/*should be 368,845*/new platform(new Vector (700,845), "/levels/level0/room1/room1platform1.png"),
                     new platform(new Vector (1521,633), "/levels/level0/room1/room1platform2.png"),
                 },
                         
@@ -112,7 +112,7 @@ public class Game
                         
                 new ladder[]
                 {
-                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+                    new ladder(new Vector (1695, 628), "/levels/level0/room1/room1ladder0.png")
                 }),
                 
 //Level 0 Room 2
@@ -166,7 +166,8 @@ public class Game
                         
                 new ladder[]
                 {
-                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+                    new ladder(new Vector (1607, 165), "/levels/level0/room3/room3ladder0.png"),
+                    new ladder(new Vector (1733, 475), "/levels/level0/room3/room3ladder1.png")
                 }),
                 
 ////Level 0 Room 4
@@ -1015,22 +1016,22 @@ public class Game
     public void goToLevel(int _levelIndex)
     {
         //This function handles switching levels, and plays background music.
-        currentLevel = levels[_levelIndex];
-        currentLevel.requestFocus();
+        CurrentLevel = levels[_levelIndex];
+        CurrentLevel.requestFocus();
         //goToRoom(0);
-        currentLevel.StartLevel();
+        CurrentLevel.StartLevel();
         //Sound.play(getClass().getResourceAsStream("/Sounds/Music/BGM" + _levelIndex + ".wav"), true);
     }   
     
-    public void goToRoom(int _roomIndex)
-    {
-        //This function handles switching rooms
-        if (currentLevel.currentRoom != null) {currentLevel.currentRoom.setVisible(false);}
-        
-        currentLevel.currentRoom = currentLevel.rooms[_roomIndex];     
-        currentLevel.currentRoom.requestFocus();
-        currentLevel.currentRoom.setVisible(true);
-    }
+//    public void goToRoom(int _roomIndex)
+//    {
+//        //This function handles switching rooms
+//        if (currentLevel.currentRoom != null) {currentLevel.currentRoom.setVisible(false);}
+//        
+//        currentLevel.currentRoom = currentLevel.rooms[_roomIndex];     
+//        currentLevel.currentRoom.requestFocus();
+//        currentLevel.currentRoom.setVisible(true);
+//    }
     
     public static void main(String[] args) 
     {   

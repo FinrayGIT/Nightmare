@@ -25,7 +25,7 @@ public class baseLevelObject
     public Rectangle getBounds()
     {
         Rectangle rect = new Rectangle((int)Position.x, (int)Position.y,
-        Sprite.getHeight(), Sprite.getWidth());
+                Sprite.getWidth(), Sprite.getHeight());
         return rect;
     }
 }

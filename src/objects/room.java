@@ -21,6 +21,7 @@ public class room extends JPanel
         Platforms = _platforms;
         Monsters = _Monsters;
         treasures = _treasures;
+        Ladders = _ladders;
         
         try
         {

@@ -45,8 +45,8 @@ public class StartGamePanel extends JPanel
         public void keyReleased(KeyEvent e)
         {
             if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();
-            //level.CurrentRoomInt = 3;
-            game.goToRoom(2);
+                
+            game.CurrentLevel.GoToRoom(3);
         }
         
 //        @Override
