@@ -1,16 +1,16 @@
 package com.devgames.game;
 
 import com.devgames.characters.Monster;
-import com.devgames.characters.Treasure;
+import objects.Treasure;
 import com.devgames.game.screens.StartGamePanel;
-import com.devgames.levels.Vector;
-import com.devgames.levels.level;
-import com.devgames.levels.platform;
-import com.devgames.levels.room;
+import objects.Vector;
+import objects.platform;
+import objects.room;
 
 import javax.swing.JFrame;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import objects.ladder;
 
 
 public class Game 
@@ -29,16 +29,19 @@ public class Game
     
     //Variables to store which level and room is currently being played
     level currentLevel;
+    
+    
     //room currentRoom;
     
     //A check to ensure level has been fully loaded
     public static boolean levelReady = false;
     
+    
     public Game()
     {   
         //Game constructor
         initWindow();
-        initScreens();
+        initScreens();        
     }
     
     public level[] levels =  
@@ -46,35 +49,975 @@ public class Game
         //This constructor creates levels, which have rooms inside them, which
         //have platforms, monsters and treasure inside them. Objects inside 
         //level are created extending the baseLevelObject class.
-        new level( 
+        
+//Level 0
+        new level(
+//Level 0 Room 0
             new room[]
             {   
-                new room("/backgrounds/Room0.png",
-                
+                new room("/levels/level0/room0/room0.png",                
                 new platform[]
-                {
-                    new platform(new Vector(0,620), "/backgroundPlaceholder/collisionblockPlaceholder3.png"),
-                    new platform(new Vector(640,0), "/backgroundPlaceholder/collisionblockPlaceholder.png"),
-                },            
+                {   
+                    new platform(new Vector (0,872), "/levels/level0/room0/room0platform0.png"),
+                    new platform(new Vector (986,777), "/levels/level0/room0/room0platform1.png"),
+                    new platform(new Vector (1241,661), "/levels/level0/room0/room0platform2.png"), 
+                    new platform(new Vector (1477,262), "/levels/level0/room0/room0platform3.png")
+
+
+                      //Collision Testing Platforms
+//                    new platform(new Vector(0,0), "/backgroundPlaceholder/collisionblockPlaceholder.png"), // top left
+//                    new platform(new Vector(640, -450), "/backgroundPlaceholder/collisionblockPlaceholder.png"), // top
+//                    new platform(new Vector(1280,0), "/backgroundPlaceholder/collisionblockPlaceholder.png"), // top right
+//                    new platform(new Vector(0,640), "/backgroundPlaceholder/collisionblockPlaceholder.png"), // bottom left
+//                    new platform(new Vector(640,640), "/backgroundPlaceholder/collisionblockPlaceholder.png"), // bottom
+//                    new platform(new Vector(1280,640), "/backgroundPlaceholder/collisionblockPlaceholder.png"), // bottom right
+                },     
+                        
                 new Monster[]
                 {
-                    new Monster(new Vector(350,500), null ),
-                         new Monster(new Vector(250,500), null ),
-                          new Monster(new Vector(350,100), null )
+                    //new Monster(new Vector(350,500), null ),
+                         //new Monster(new Vector(250,500), null ),
+                          //new Monster(new Vector(350,100), null )
                 },
+                        
                 new Treasure[]
                 {
-                    new Treasure(new Vector(900,800), "/Sprites/skills/Skills_01.gif")
-                })                
-            })
-    };
+                    //new Treasure(new Vector(900,800), "/Sprites/skills/Skills_01.gif")
+                },
+                        
+                new ladder[]
+                {
+                    
+                }),
+                
+//Level 0 Room 1
+                
+                new room("/levels/level0/room1/room1-np.png",
+                new platform[]
+                {
+                    new platform(new Vector (0,781), "/levels/level0/room1/room1platform0.png"),
+/*should be 368,845*/new platform(new Vector (500,845), "/levels/level0/room1/room1platform1.png"),
+                    new platform(new Vector (1521,633), "/levels/level0/room1/room1platform2.png"),
+                },
+                        
+                new Monster[]
+                {
+
+                },
+                        
+                new Treasure[]
+                {
+
+                },
+                        
+                new ladder[]
+                {
+                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+                }),
+                
+//Level 0 Room 2
+                
+                new room("/levels/level0/room2/room2.png",
+                new platform[]
+                {
+                    new platform(new Vector (0,640), "/levels/level0/room2/room2platform0.png"),
+                    new platform(new Vector (1194,972), "/levels/level0/room2/room2platform1.png"),
+                    new platform(new Vector (1530,1038), "/levels/level0/room2/room2platform2.png"),
+                    new platform(new Vector (1722,780), "/levels/level0/room2/room2platform3.png")
+                },
+                        
+                new Monster[]
+                {
+
+                },
+                        
+                new Treasure[]
+                {
+
+                },
+                        
+                new ladder[]
+                {
+                    //new ladder(new Vector (1700, 661), "/rooms/room2/room2ladder.png")
+                }),
+                
+//Level 0 Room 3
+                
+                new room("/levels/level0/room3/room3-np.png",
+                new platform[]
+                {
+                    new platform(new Vector (0,737), "/levels/level0/room3/room3platform0.png"),
+                    new platform(new Vector (357,881), "/levels/level0/room3/room3platform1.png"),
+                    new platform(new Vector (552,995), "/levels/level0/room3/room3platform2.png"),
+                    new platform(new Vector (842,948), "/levels/level0/room3/room3platform3.png"),
+                    new platform(new Vector (1116,602), "/levels/level0/room3/room3platform4.png"),
+                    new platform(new Vector (1238,222), "/levels/level0/room3/room3platform5.png"),
+                },
+                        
+                new Monster[]
+                {
+
+                },
+                        
+                new Treasure[]
+                {
+
+                },
+                        
+                new ladder[]
+                {
+                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+                }),
+                
+////Level 0 Room 4
+//                new room("/levels/level0/room4/room4.png",
+//                new platform[]
+//                {
+//                    new platform(new Vector (20,160), "/levels/level0/room4/room4platform0.png"),
+//                    new platform(new Vector (805,978), "/levels/level0/room4/room4platform1.png"),
+//                    new platform(new Vector (1860,940), "/levels/level0/room4/room4platform2.png")
+//                    
+//                },
+//                        
+//                new Monster[]
+//                {
+//
+//                },
+//                        
+//                new Treasure[]
+//                {
+//
+//                },
+//                        
+//                new ladder[]
+//                {
+//                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+//                }),
+//                
+////Level 0 Room 5
+//                new room("/levels/level0/room5/room5.png",
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,939), "/levels/level0/room5/room5platform0.png"),
+//                    new platform(new Vector (985,858), "/levels/level0/room5/room5platform1.png"),
+//                    
+//                },
+//                        
+//                new Monster[]
+//                {
+//
+//                },
+//                        
+//                new Treasure[]
+//                {
+//
+//                },
+//                        
+//                new ladder[]
+//                {
+//                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+//                }),
+//                
+////Level 0 Room 6
+//                new room("/levels/level0/room6/room6.png",
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,852), "/levels/level0/room6/room6platform0.png"),                    
+//                },
+//                        
+//                new Monster[]
+//                {
+//
+//                },
+//                        
+//                new Treasure[]
+//                {
+//
+//                },
+//                        
+//                new ladder[]
+//                {
+//                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+//                }),
+//            }),
+//            
+////Level 1
+//        new level(
+//            new room[]
+//            {
+//                
+////Level 1 Room 0
+//                new room("/levels/level1/room0/room0.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (735,975), "/levels/level1/room0/room0platform0.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 1 Room 1
+//                new room("/levels/level1/room1/room1.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (873,852), "/levels/level1/room1/room1platform0.png"),
+//                    new platform(new Vector (453,921), "/levels/level1/room1/room1platform1.png"),
+//                    new platform(new Vector (0,970), "/levels/level1/room1/room1platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//        
+//
+//                
+////Level 1 Room 2
+//                new room("/levels/level1/room2/room2.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (720,993), "/levels/level1/room2/room2platform0.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 1 Room 3
+//                new room("/levels/level1/room3/room3.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,987), "/levels/level1/room3/room3platform0.png"),
+//                    new platform(new Vector (315,990), "/levels/level1/room3/room3platform1.png"),
+//                    new platform(new Vector (1194,882), "/levels/level1/room3/room3platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+////Level 1 Room 4
+//                new room("/levels/level1/room4/room4.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (60,708), "/levels/level1/room4/room4platform0.png"),
+//                    new platform(new Vector (135,561), "/levels/level1/room4/room4platform1.png"),
+//                    new platform(new Vector (1398,1008), "/levels/level1/room4/room4platform2.png"),
+//                    new platform(new Vector (1776,930), "/levels/level1/room4/room4platform3.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+////Level 1 Room 5
+//                new room("/levels/level1/room5/room5.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,927), "/levels/level1/room5/room5platform0.png"),
+//                    new platform(new Vector (801,891), "/levels/level1/room5/room5platform1.png"),
+//                    new platform(new Vector (1110,954), "/levels/level1/room5/room5platform2.png"),
+//                    new platform(new Vector (1629,975), "/levels/level1/room5/room5platform3.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+////Level 1 Room 6
+//                new room("/levels/level1/room6/room6.png",
+//                        
+//                new platform[]
+//                {   
+//                    
+//                    new platform(new Vector (0,979), "/levels/level1/room6/room6platform0.png"),
+//                    new platform(new Vector (239,520), "/levels/level1/room6/room6platform1.png"),
+//                    new platform(new Vector (694,1032), "/levels/level1/room6/room6platform2.png"),
+//                    new platform(new Vector (1114,1032), "/levels/level1/room6/room6platform3.png"),
+//                    new platform(new Vector (1533,993), "/levels/level1/room6/room6platform3.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+////Level 1 Room 7
+//                new room("/levels/level1/room7/room7.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,993), "/levels/level1/room7/room7platform0.png"),
+//                    new platform(new Vector (663,882), "/levels/level1/room7/room7platform1.png"),
+//                    new platform(new Vector (777,786), "/levels/level1/room7/room7platform2.png"),
+//                    new platform(new Vector (1662,993), "/levels/level1/room7/room7platform3.png"),
+//                    
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+////Level 1 Room 8
+//                new room("/levels/level1/room8/room8.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,609), "/levels/level1/room8/room8platform0.png"),
+//                    new platform(new Vector (213,1044), "/levels/level1/room8/room8platform1.png"),
+//                    new platform(new Vector (244,774), "/levels/level1/room8/room8platform2.png"),
+//                    new platform(new Vector (281,402), "/levels/level1/room8/room8platform3.png"),
+//                    new platform(new Vector (687,447), "/levels/level1/room8/room8platform4.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+////Level 1 Room 9
+//                new room("/levels/level1/room9/room9.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,954), "/levels/level1/room9/room9platform0.png"),
+//                    new platform(new Vector (606,993), "/levels/level1/room9/room9platform1.png"),
+//                    new platform(new Vector (1356,993), "/levels/level1/room9/room9platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                })
+//            }),
+//                    
+////Level 2
+//        new level(
+//            new room[]
+//            {   
+////Level 2 Room 0
+//                new room("/levels/level2/room0/room0.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,644), "/levels/level2/room0/room0platform0.png"),
+//                    new platform(new Vector (582,923), "/levels/level2/room0/room0platform1.png"),
+//                    new platform(new Vector (714,670), "/levels/level2/room0/room0platform2.png"),
+//                    new platform(new Vector (885,760), "/levels/level2/room0/room0platform3.png"),
+//                    new platform(new Vector (1105,656), "/levels/level2/room0/room0platform4.png"),
+//                    new platform(new Vector (1274,606), "/levels/level2/room0/room0platform5.png"),
+//                    
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 2 Room 1
+//                new room("/levels/level2/room1/room1.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,884), "/levels/level2/room1/room1platform0.png"),
+//                    new platform(new Vector (339,948), "/levels/level2/room1/room1platform1.png"),
+//                    new platform(new Vector (815,809), "/levels/level2/room1/room1platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 2 Room 2
+//                new room("/levels/level2/room2/room2.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,962), "/levels/level2/room2/room2platform0.png"),
+//                    new platform(new Vector (514,825), "/levels/level2/room2/room2platform1.png"),
+//                    new platform(new Vector (863,875), "/levels/level2/room2/room2platform2.png"),
+//                    new platform(new Vector (115,916), "/levels/level2/room2/room2platform3.png"),
+//                    new platform(new Vector (1455,962), "/levels/level2/room2/room2platform4.png"),
+//                    new platform(new Vector (1804,962), "/levels/level2/room2/room2platform5.png"),
+//                    new platform(new Vector (1606,499), "/levels/level2/room2/room2platform6.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    //needs ladders
+//                }),
+//                
+////Level 2 Room 3
+//                new room("/levels/level2/room3/room3.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,863), "/levels/level2/room3/room3platform0.png"),
+//                    new platform(new Vector (238,700), "/levels/level2/room3/room3platform1.png"),
+//                    new platform(new Vector (497,854), "/levels/level2/room3/room3platform2.png"),
+//                    new platform(new Vector (745,426), "/levels/level2/room3/room3platform3.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    //needs ladders
+//                }),
+//                
+////Level 2 Room 4
+//                new room("/levels/level2/room4/room4.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,962), "/levels/level2/room4/room4platform0.png"),
+//                    new platform(new Vector (0,499), "/levels/level2/room4/room4platform1.png"),
+//                    new platform(new Vector (558,659), "/levels/level2/room4/room4platform2.png"),
+//                    new platform(new Vector (842,807), "/levels/level2/room4/room4platform3.png"),
+//                    new platform(new Vector (1524,973), "/levels/level2/room4/room4platform4.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 2 Room 5
+//                
+//                new room("/levels/level2/room5/room5.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,0), "/levels/level2/room5/room5platform0.png"),
+//                    new platform(new Vector (581,0), "/levels/level2/room5/room5platform1.png"),
+//                    new platform(new Vector (1336,0), "/levels/level2/room5/room5platform2.png"),
+//                    new platform(new Vector (1413,403), "/levels/level2/room5/room5platform3.png"),
+//                    new platform(new Vector (1658,334), "/levels/level2/room5/room5platform4.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 2 Room 6
+//                new room("/levels/level2/room6/room6.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,973), "/levels/level2/room6/room6platform0.png"),
+//                    new platform(new Vector (585,863), "/levels/level2/room6/room6platform1.png"),
+//                    new platform(new Vector (837,534), "/levels/level2/room6/room6platform2.png"),
+//                    new platform(new Vector (1074,914), "/levels/level2/room6/room6platform3.png"),
+//                    new platform(new Vector (1336,1018), "/levels/level2/room6/room6platform4.png"),
+//                    new platform(new Vector (1122,262), "/levels/level2/room6/room6platform4.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    //needs ladders
+//                }),
+//                
+////Level 2 Room 7
+//                
+//                new room("/levels/level2/room7/room7.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (431,936), "/levels/level2/room6/room6platform0.png"),
+//                    new platform(new Vector (926,337), "/levels/level2/room6/room6platform1.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 2 Room 8
+//                new room("/levels/level2/room8/room8.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (397,747), "/levels/level2/room8/room8platform0.png"),
+//                    new platform(new Vector (524,470), "/levels/level2/room8/room8platform1.png"),
+//                    new platform(new Vector (1209,852), "/levels/level2/room8/room8platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 2 Room 9
+//                new room("/levels/level2/room9/room9.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (357,1001), "/levels/level2/room9/room9platform0.png"),
+//                    new platform(new Vector (0,577), "/levels/level2/room9/room9platform1.png"),
+//                    new platform(new Vector (1420,1052), "/levels/level2/room9/room9platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//            
+//        
+////Level 2 Room 10
+//                new room("/levels/level2/room10/room10.png",
+//                        
+//                new platform[]
+//                {   
+//                    new platform(new Vector (0,323), "/levels/level2/room10/room10platform0.png"),
+//                    new platform(new Vector (340,1055), "/levels/level2/room10/room10platform1.png"),
+//                    new platform(new Vector (527,540), "/levels/level2/room10/room10platform2.png"),
+//                    new platform(new Vector (638,954), "/levels/level2/room10/room10platform3.png"),
+//                    new platform(new Vector (637,209), "/levels/level2/room10/room10platform4.png"),
+//                    new platform(new Vector (738,502), "/levels/level2/room10/room10platform5.png"),
+//                    new platform(new Vector (765,807), "/levels/level2/room10/room10platform6.png"),
+//                    new platform(new Vector (1110,163), "/levels/level2/room10/room10platform7.png"),
+//                    new platform(new Vector (1162,365), "/levels/level2/room10/room10platform8.png"),
+//                    new platform(new Vector (1162,641), "/levels/level2/room10/room10platform9.png"),
+//                    new platform(new Vector (1175,954), "/levels/level2/room10/room10platform10.png"),
+//                    new platform(new Vector (1316,282), "/levels/level2/room10/room10platform11.png"),
+//                    new platform(new Vector (1627,641), "/levels/level2/room10/room10platform12.png"),
+//                    new platform(new Vector (1438,743), "/levels/level2/room10/room10platform13.png"),
+//                    
+//                    
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                })
+//            }
+//        ),
+//        
+//                
+////Level 3
+//        new level(
+//            new room[]
+//            {   
+//                //Level 3 Room 0
+//                new room("/levels/level3/room0/room0.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,994), "/levels/level3/room0/room0platform0.png"),
+//                    new platform(new Vector (1552,994), "/levels/level3/room0/room0platform1.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 1
+//                new room("/levels/level3/room1/room1.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,994), "/levels/level3/room1/room1platform0.png"),
+//                    new platform(new Vector (543,834), "/levels/level3/room1/room1platform1.png"),
+//                    new platform(new Vector (1586,966), "/levels/level3/room1/room1platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 2
+//                new room("/levels/level3/room2/room2.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,0), "/levels/level3/room2/room2platform0.png"),
+//                    new platform(new Vector (1329,976), "/levels/level3/room2/room2platform1.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 3
+//                new room("/levels/level3/room3/room3.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,0), "/levels/level3/room3/room3platform0.png"),
+//                    new platform(new Vector (603,986), "/levels/level3/room3/room3platform1.png"),
+//                    new platform(new Vector (1074,0), "/levels/level3/room3/room3platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 4
+//                new room("/levels/level3/room4/room4.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,0), "/levels/level3/room4/room4platform0.png"),
+//                    new platform(new Vector (585,505), "/levels/level3/room4/room4platform1.png"),
+//                    new platform(new Vector (567,857), "/levels/level3/room4/room4platform2.png"),
+//                    new platform(new Vector (867,395), "/levels/level3/room4/room4platform3.png"),
+//                    new platform(new Vector (1368,0), "/levels/level3/room4/room4platform4.png"),
+//                    new platform(new Vector (1442,970), "/levels/level3/room4/room4platform5.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 5
+//                new room("/levels/level3/room5/room5.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (364,438), "/levels/level3/room5/room5platform0.png"),
+//                    new platform(new Vector (795,540), "/levels/level3/room5/room5platform1.png"),
+//                    new platform(new Vector (654,1022), "/levels/level3/room5/room5platform2.png"),
+//                    new platform(new Vector (1352,1022), "/levels/level3/room5/room5platform3.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 6
+//                new room("/levels/level3/room6/room6.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,1022), "/levels/level3/room6/room7platform0.png"),
+//                    new platform(new Vector (222,885), "/levels/level3/room6/room7platform1.png"),
+//                    new platform(new Vector (542,771), "/levels/level3/room6/room7platform2.png"),
+//                    new platform(new Vector (814,0), "/levels/level3/room6/room7platform3.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 7
+//                new room("/levels/level3/room7/room7.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (520,94), "/levels/level3/room7/room7platform0.png"),
+//                    
+//                    
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 8
+//                new room("/levels/level3/room8/room8.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,532), "/levels/level3/room8/room8platform0.png"),
+//                    new platform(new Vector (960,641), "/levels/level3/room8/room8platform1.png"),
+//                    new platform(new Vector (1616,0), "/levels/level3/room8/room8platform2.png"),
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }),
+//                
+////Level 3 Room 9
+//                new room("/levels/level3/room9/room9.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,760), "/levels/level3/room9/room9platform0.png"),
+//                    new platform(new Vector (355,605), "/levels/level3/room9/room9platform1.png"),
+//                    new platform(new Vector (585,501), "/levels/level3/room9/room9platform2.png"),
+//                    new platform(new Vector (848,384), "/levels/level3/room9/room9platform3.png"),
+//                    new platform(new Vector (1104,501), "/levels/level3/room9/room9platform4.png"),
+//                    new platform(new Vector (1356,605), "/levels/level3/room9/room9platform5.png"),
+//                    new platform(new Vector (1663,532), "/levels/level3/room9/room9platform6.png"),
+//                    
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }
+//                ),
+////Level 3 Room 10
+//                new room("/levels/level3/room10/room10.png",
+//                        
+//                new platform[]
+//                {
+//                    new platform(new Vector (0,866), "/levels/level3/room10/room10platform0.png"),
+//                    new platform(new Vector (26,490), "/levels/level3/room10/room10platform1.png"),
+//                    new platform(new Vector (189,678), "/levels/level3/room10/room10platform2.png"),
+//                    new platform(new Vector (432,340), "/levels/level3/room10/room10platform3.png"),
+//                    new platform(new Vector (751,464), "/levels/level3/room10/room10platform4.png"),
+//                    new platform(new Vector (1776,760), "/levels/level3/room10/room10platform5.png"),
+//                    
+//                },
+//                new Monster[]
+//                {
+//                    
+//                },
+//                new Treasure[]
+//                {
+//                    
+//                },
+//                new ladder[]
+//                {
+//                    
+//                }
+//                )
+//            
+            }
+                )};
+                
+    
     
     public void goToLevel(int _levelIndex)
     {
         //This function handles switching levels, and plays background music.
         currentLevel = levels[_levelIndex];
         currentLevel.requestFocus();
-        goToRoom(_levelIndex);
+        //goToRoom(0);
         currentLevel.StartLevel();
         //Sound.play(getClass().getResourceAsStream("/Sounds/Music/BGM" + _levelIndex + ".wav"), true);
     }   
@@ -83,8 +1026,9 @@ public class Game
     {
         //This function handles switching rooms
         if (currentLevel.currentRoom != null) {currentLevel.currentRoom.setVisible(false);}
+        
         currentLevel.currentRoom = currentLevel.rooms[_roomIndex];     
-        //currentLevel.currentRoom.requestFocus();
+        currentLevel.currentRoom.requestFocus();
         currentLevel.currentRoom.setVisible(true);
     }
     

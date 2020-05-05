@@ -1,7 +1,7 @@
 package com.devgames.characters;
 
-import com.devgames.levels.Vector;
-import com.devgames.levels.baseLevelObject;
+import objects.Vector;
+import objects.baseLevelObject;
 import java.awt.Graphics2D;
 
 

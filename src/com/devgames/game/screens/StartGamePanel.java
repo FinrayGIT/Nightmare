@@ -1,7 +1,7 @@
 package com.devgames.game.screens;
 
 import com.devgames.game.Game;
-
+import com.devgames.game.level;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -44,7 +44,9 @@ public class StartGamePanel extends JPanel
         @Override        
         public void keyReleased(KeyEvent e)
         {
-            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();          
+            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();
+            //level.CurrentRoomInt = 3;
+            game.goToRoom(2);
         }
         
 //        @Override

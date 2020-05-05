@@ -1,19 +1,22 @@
 package com.devgames.game;
 
-import com.devgames.levels.level;
+import com.devgames.game.Game;
+
 import java.awt.event.KeyEvent;
 
 public class InputController
 {   
     //Passes level to InputController
     level level;
+    Game game;
     
     public InputController(level _level)
     {
         level = _level;
+        game = game;
     }
     
-    public InputController.Input[] inputs =
+    public static InputController.Input[] inputs =
     {   
         //Array of possible inputs
         new InputController.Input(KeyEvent.VK_LEFT, InputController.inputAction.MoveLeft),
@@ -21,6 +24,9 @@ public class InputController
         new InputController.Input(KeyEvent.VK_UP, InputController.inputAction.ClimbUp),
         new InputController.Input(KeyEvent.VK_DOWN, InputController.inputAction.ClimbDown),
         new InputController.Input(KeyEvent.VK_SPACE,InputController.inputAction.Jump),
+        new InputController.Input(KeyEvent.VK_HOME,InputController.inputAction.NextLvl),
+        new InputController.Input(KeyEvent.VK_END,InputController.inputAction.PrevLvl),
+        new InputController.Input(KeyEvent.VK_CAPS_LOCK,InputController.inputAction.EnableClimb),
     };
     
     public static enum inputAction
@@ -30,7 +36,10 @@ public class InputController
         MoveRight,
         ClimbUp,
         ClimbDown,
-        Jump
+        Jump,
+        NextLvl,
+        PrevLvl,
+        EnableClimb,
     }
     
     public static class Input
@@ -66,15 +75,44 @@ public class InputController
                         break;
                         
                     case ClimbUp:
+                        level.player.ClimbUp();
                         break;
                         
                     case ClimbDown:
-                        
+                        level.player.ClimbDown();
                         break;
-                        
+                    case EnableClimb:
+                        level.player.IsClimbing = true;
+                        break;                        
                     case Jump:       
                         level.player.Jump();
                         break;
+                    case NextLvl:
+                        System.out.println("Attempting room+");
+//                        if (level.rooms.length + 1 <= level.rooms.length)
+//                        {
+                            game.goToRoom(1);
+                            System.out.println("Level+");
+//                        }
+                        break;
+                    case PrevLvl:
+                        System.out.println("Attempting room-");
+//                        if (level.CurrentRoomInt - 1 >= level.rooms.length)
+//                        {
+                            game.goToRoom(0);
+                            System.out.println("Level-");
+//                        }
+                        break;
+                            
+                        
+                    
+                }
+            }
+            if (!inputs[i].IsPressed)
+            {   
+                switch(inputs[i].action)
+                {
+                
                 }
             }
         }
