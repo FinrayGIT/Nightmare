@@ -14,12 +14,15 @@ public class Monster extends baseLevelObject
     private int damage;
     private int score;
     
-    public Monster(Vector _position, Player thePlayer)
+    int health = 3;
+    int MaxHealth = 3;
+    
+    public Monster(Vector _position, String _path)
     {   
-        super(_position, "/Sprites/Graded/Frost-Brute-Graded-Single.png");
-        player = thePlayer;    
+        super(_position, _path );    
         score = 50;
-        isVisible = true;   
+        isVisible = true;
+        health = MaxHealth;
     }
     
         public void draw(Graphics2D g)
@@ -28,7 +31,22 @@ public class Monster extends baseLevelObject
         if(isVisible == true)
             g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);
     }
+        
+    public void TakeDamage(int _damage){
+        health -= _damage;
+        if (health < 0){
+            Die();
+        }
+    }
     
+    void Die()
+    {
+        System.out.println("DEAD");
+    }
+    
+    public boolean IsActive(){
+        return health > 0;
+    }
       //TODO: Refactor/remove this code
 //    public BufferedImage getSprite()
 //    {

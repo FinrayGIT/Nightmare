@@ -31,6 +31,7 @@ public class Sound
                     System.out.println("Error playing sound " + ex.getMessage());
                 }
             }
-        })          .start();
+        })          
+        .start();
     }
 }

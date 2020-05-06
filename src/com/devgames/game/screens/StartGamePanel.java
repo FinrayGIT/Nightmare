@@ -1,13 +1,12 @@
 package com.devgames.game.screens;
 
-import com.devgames.game.Game;
-import com.devgames.game.level;
-import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import com.devgames.game.Game;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import java.awt.Graphics;
 import java.awt.Toolkit;
 
 public class StartGamePanel extends JPanel
@@ -44,14 +43,11 @@ public class StartGamePanel extends JPanel
         @Override        
         public void keyReleased(KeyEvent e)
         {
-            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame(); 
-            game.CurrentLevel.GoToRoom(0);
+            if(e.getKeyCode() == KeyEvent.VK_P) 
+            {
+                game.startGame(); 
+            }
+            
         }
-        
-//        @Override
-//        public void keyPressed(KeyEvent e)
-//        {
-//            
-//        }
     }
 }

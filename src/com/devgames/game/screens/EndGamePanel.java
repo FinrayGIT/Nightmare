@@ -1,10 +1,6 @@
 package com.devgames.game.screens;
 
 import com.devgames.game.Game;
-import static com.devgames.game.Game.WINDOW_HEIGHT;
-import static com.devgames.game.Game.WINDOW_WIDTH;
-import java.awt.Dimension;
-
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -13,7 +9,6 @@ import java.awt.Toolkit;
 
 
 public class EndGamePanel extends JPanel
-
 {
     private Game game;
     private BufferedImage backgroundImage = null;    

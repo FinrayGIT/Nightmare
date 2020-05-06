@@ -1,9 +1,7 @@
 package objects;
 
-import objects.baseLevelObject;
-
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 
 public class Treasure extends baseLevelObject
 {    
@@ -32,32 +30,4 @@ public class Treasure extends baseLevelObject
     {
         isVisible = visible;
     }
-        
-      //TODO: Refactor/remove this code
-//    public void setPosition(Vector v)
-//    {
-//        Position += v;
-//    }
-    
-//    public Vector getPosition()
-//    {
-//        return Position;
-//    }
-//    
-//    public void setScore(int newScore)
-//    {
-//        
-//    }
-//    
-//    public void getScore()
-//    {
-//        
-//    }
-//    
-
-//    
-//    public boolean getVisible()
-//    {
-//        return isVisible;
-//    }
 }

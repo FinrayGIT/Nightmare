@@ -10,7 +10,7 @@ public class baseLevelObject
     public BufferedImage Sprite;
     
     //Constructor to create baseLevelObjects
-    
+
     //baseLevelObjects contain code that will be required in every object the
     //game uses.
     public baseLevelObject(Vector _position, String _path)
@@ -20,6 +20,12 @@ public class baseLevelObject
             {
                 Sprite = ImageIO.read(getClass().getResource(_path));
             }   catch(Exception ex) {System.err.println("Error loading image @" + _path);}
+    }
+    
+    public baseLevelObject(Vector _position, BufferedImage _sprite)
+    {
+        Position = _position;
+        Sprite = _sprite;
     }
     
     public Rectangle getBounds()
