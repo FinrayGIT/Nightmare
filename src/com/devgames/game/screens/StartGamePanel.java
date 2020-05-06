@@ -44,9 +44,8 @@ public class StartGamePanel extends JPanel
         @Override        
         public void keyReleased(KeyEvent e)
         {
-            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame();
-                
-            game.CurrentLevel.GoToRoom(3);
+            if(e.getKeyCode() == KeyEvent.VK_P) game.startGame(); 
+            game.CurrentLevel.GoToRoom(0);
         }
         
 //        @Override

@@ -9,6 +9,7 @@ import objects.Vector;
 
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ public class level extends JPanel implements ActionListener
 {   
     public Game game;
     public Player player;
-    public room[] rooms; 
+    public room[] rooms;
     public int roomIndex = 0;
     public room currentRoom;
     public static int CurrentRoomInt;
@@ -37,12 +38,13 @@ public class level extends JPanel implements ActionListener
     {   
         //Constructer to create level objects.
         
-        player = new Player(new Vector(1700,0), this);
+        player = new Player(new Vector(0,0), this);
         setFocusable(true);
         setDoubleBuffered(true);
         addKeyListener(new TAdapter());
         inputController = new InputController(this);
-        rooms = _rooms;          
+        rooms = _rooms;
+        
         timer = new Timer(10, this);   
     }
     
@@ -72,6 +74,8 @@ public class level extends JPanel implements ActionListener
         
         currentRoom.requestFocus();
         currentRoom.setVisible(true);
+        player.Position = currentRoom.SpawnPos;
+        player.Position.y = (player.Position.y - player.Sprite.getHeight());
     }
     
     public void GoToRoom(int _index)

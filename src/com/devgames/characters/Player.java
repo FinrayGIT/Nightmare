@@ -25,8 +25,8 @@ public class Player extends baseLevelObject
     final int DEATH_FRAMES = 5;
     final int WALK_FRAMES = 3;
     final int IDLE_FRAMES = 0;
-    final int ALL_FRAMES = 15;
-    float jumpDelayTimer; // Should this just be JUMP_DELAY_DURATION?
+    final int ALL_FRAMES = 49;
+    float jumpDelayTimer; 
     
     //The position of the player in a single frame. 
     public Vector velocity; 
@@ -36,7 +36,9 @@ public class Player extends baseLevelObject
     public boolean IsGrounded = false;
     public boolean CanClimb = false;
     public boolean IsClimbing = false;
-    public float lowestPoint = 1080;
+    public boolean PlayedGrabAnim = false;
+    public boolean movedLeftLast = false;
+    public boolean movedRightLast = false;
     
     level level;
     
@@ -63,12 +65,13 @@ public class Player extends baseLevelObject
     BufferedImage colSprite;
     BufferedImage colSpriteRay;
     
-    public BufferedImage[] SpriteArray = new BufferedImage[16];
+    public BufferedImage[] SpriteArray = new BufferedImage[ALL_FRAMES];
     
     public String playerStatus = null;
     public int animationFrames;
     public int lowerLimit = 0;
     public int upperLimit = 0;
+    public int lowestPoint = 1080;
     
     int frameIndex = 0;
     final float FRAME_LENGTH = 125;
@@ -115,7 +118,7 @@ public class Player extends baseLevelObject
         if (!IsClimbing)
         {
             velocity.x -= MOVE_SPEED;
-            upperLimit = 5;
+            upperLimit = 4;
             lowerLimit = 1;
             if (frameIndex < lowerLimit || frameIndex > upperLimit){
                 frameIndex = lowerLimit;
@@ -124,7 +127,12 @@ public class Player extends baseLevelObject
         else
         {
             velocity.x -= CLIMB_SPEED;
+            upperLimit = 36;
+            lowerLimit = 31;
+            frameIndex = 31;
         }
+        movedLeftLast = true;
+        movedRightLast = false;
     }
     
     public void MoveRight()
@@ -141,19 +149,61 @@ public class Player extends baseLevelObject
         else
         {
             velocity.x += CLIMB_SPEED;
+            lowerLimit = 31;
+            upperLimit = 36;
+            
         }
+        movedLeftLast = false;
+        movedRightLast = true;
     }
     
     public void MoveUp()
     {
-        if (CanClimb && !IsClimbing){
+        if (CanClimb && !IsClimbing)
+        {
+            if (!PlayedGrabAnim && movedLeftLast)
+            {   
+                frameIndex = 16;
+                lowerLimit = 16;
+                upperLimit = 20;
+                PlayedGrabAnim = true;
+            }
+            else if (!PlayedGrabAnim && movedRightLast)
+            {   
+                frameIndex = 21;
+                lowerLimit = 21;
+                upperLimit = 25;
+                PlayedGrabAnim = true;
+            }
+            
             IsClimbing = true;
             IsGrounded = false;
         }
         if (IsClimbing)
         {
             velocity.y -= CLIMB_SPEED;
+            
+            if (movedLeftLast)
+            {
+                frameIndex = 31;
+                lowerLimit = 31;
+                upperLimit = 36;
+            }
+            else if (movedRightLast)
+            {
+                frameIndex = 37;
+                lowerLimit = 37;
+                upperLimit = 42;
+            }
         }
+    }
+    
+    public void Crouch()
+    {
+        frameIndex = 15;
+        lowerLimit = 15;
+        upperLimit = 15;
+        Position.y = (Position.y + 35);
     }
         
     public void MoveDown()
@@ -177,7 +227,6 @@ public class Player extends baseLevelObject
             velocity.y -= JUMP_FORCE;
             jumpDelayTimer = JUMP_DELAY_DURATION;
             velocity.x += (velocity.x / 2);
-            lowestPoint = 1080;
         }
     }
         
@@ -279,7 +328,14 @@ public class Player extends baseLevelObject
        
             // check speed low enough for idle frame;
             
-            if (IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 ){
+            if (IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 && movedLeftLast)
+            {
+                upperLimit = 48;
+                lowerLimit = 48;
+                frameIndex = 48;
+            }
+            else if (IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 && movedRightLast)
+            {
                 upperLimit = 0;
                 lowerLimit = 0;
                 frameIndex = 0;
@@ -297,6 +353,15 @@ public class Player extends baseLevelObject
                     }
                     frameTime = FRAME_LENGTH;
                 }
+            }
+            for (int i = 0; i < _level.currentRoom.Triggers.length; i++)
+            {
+                if (this.getBounds().intersects(_level.currentRoom.Triggers[i]))
+                    {
+                        level.GoToRoom(i);
+                    }
+                    
+                    
             }
         }  
     }
@@ -380,12 +445,12 @@ public class Player extends baseLevelObject
 //            g.drawImage(colSprite, bottomRightCol.x, bottomRightCol.y, null);
 //            
             //g.drawImage(colSpriteRay, (int)(topLeftColRay.x + velocity.x), (int)(topLeftColRay.y + velocity.y), null);
-            //g.drawImage(colSpriteRay, (int)(topColRay.x + velocity.x), (int)(topColRay.y + velocity.y), null);
+            g.drawImage(colSpriteRay, (int)(topColRay.x + velocity.x), (int)(topColRay.y + velocity.y), null);
            // g.drawImage(colSpriteRay, (int)(topRightColRay.x + velocity.x), (int)(topRightColRay.y + velocity.y), null);
-            //g.drawImage(colSpriteRay, (int)(leftColRay.x + velocity.x), (int)(leftColRay.y + velocity.y), null);
-            //g.drawImage(colSpriteRay, (int)(rightColRay.x + velocity.x), (int)(rightColRay.y + velocity.y), null);
+            g.drawImage(colSpriteRay, (int)(leftColRay.x + velocity.x), (int)(leftColRay.y + velocity.y), null);
+            g.drawImage(colSpriteRay, (int)(rightColRay.x + velocity.x), (int)(rightColRay.y + velocity.y), null);
             //g.drawImage(colSpriteRay, (int)(bottomLeftColRay.x + velocity.x), (int)(bottomLeftColRay.y + velocity.y), null);
-            //g.drawImage(colSpriteRay, (int)(bottomColRay.x + velocity.x), (int)(bottomColRay.y + velocity.y), null);
+            g.drawImage(colSpriteRay, (int)(bottomColRay.x + velocity.x), (int)(bottomColRay.y + velocity.y), null);
             //g.drawImage(colSpriteRay, (int)(bottomRightColRay.x + velocity.x), (int)(bottomRightColRay.y + velocity.y), null);
         }    
     }

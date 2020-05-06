@@ -1,6 +1,7 @@
 package objects;
 
 import com.devgames.characters.Monster;
+import java.awt.Rectangle;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -13,15 +14,22 @@ public class room extends JPanel
     public Treasure[] treasures;
     public Monster[] Monsters;
     public ladder[] Ladders;
+    public Rectangle[] Triggers;
+    public Vector SpawnPos;
     
     
-    public room (String _backgroundPath, platform[] _platforms, Monster[] _Monsters, Treasure[] _treasures, ladder[] _ladders)
+    public room (String _backgroundPath, platform[] _platforms, 
+                Monster[] _Monsters, Treasure[] _treasures,
+                ladder[] _ladders, Rectangle[] _triggers, Vector _spawnpos)
     {
         //Constructor to create room objects
         Platforms = _platforms;
         Monsters = _Monsters;
         treasures = _treasures;
         Ladders = _ladders;
+        Triggers = _triggers;
+        SpawnPos = _spawnpos;
+        
         
         try
         {

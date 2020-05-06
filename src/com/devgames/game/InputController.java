@@ -27,6 +27,9 @@ public class InputController
         new InputController.Input(KeyEvent.VK_HOME,inputAction.NextLvl, inputState.Down),
         new InputController.Input(KeyEvent.VK_END,inputAction.PrevLvl, inputState.Down),
         new InputController.Input(KeyEvent.VK_CAPS_LOCK,inputAction.EnableClimb, inputState.Down),
+        new InputController.Input(KeyEvent.VK_C, inputAction.Crouch, inputState.Down),
+        new InputController.Input(KeyEvent.VK_PAGE_UP, inputAction.NextRoom, inputState.Down),
+        new InputController.Input(KeyEvent.VK_PAGE_DOWN, inputAction.PrevRoom, inputState.Down),
     };
     
     public static enum inputAction
@@ -39,7 +42,10 @@ public class InputController
         Jump,
         NextLvl,
         PrevLvl,
+        NextRoom,
+        PrevRoom,
         EnableClimb,
+        Crouch
     }
     
     public static enum inputState
@@ -101,8 +107,23 @@ public class InputController
                     case Jump:       
                         level.player.Jump();
                         break;
-                        
                     case NextLvl:
+                        System.out.println("Attempting lvl+");
+                        if (game.LevelIndex + 1 <= game.levels.length)
+                        {                           
+                            game.goToLevel(game.LevelIndex + 1);
+                            System.out.println("Level+");
+                        }
+                        break;
+                    case PrevLvl:
+                        System.out.println("Attempting lvl-");
+                        if (game.LevelIndex - 1 >= 0)
+                        {                           
+                            game.goToLevel(game.LevelIndex - 1);
+                            System.out.println("Level-");
+                        }
+                        break;
+                    case NextRoom:
                         System.out.println("Attempting room+");
                         if (level.roomIndex + 1 < level.rooms.length)
                         {                           
@@ -110,14 +131,16 @@ public class InputController
                             System.out.println("Level+");
                         }
                         break;
-                        
-                    case PrevLvl:
+                    case PrevRoom:
                         System.out.println("Attempting room-");
                         if (level.roomIndex - 1 >= 0)
                         {
                             level.GoToRoom(level.roomIndex - 1);
                             System.out.println("Level+");
                         }
+                        break;
+                    case Crouch:
+                        level.player.Crouch();
                         break;
                 }
             }

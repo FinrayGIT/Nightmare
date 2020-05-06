@@ -10,6 +10,7 @@ import objects.room;
 import javax.swing.JFrame;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import objects.ladder;
 
 
@@ -29,7 +30,7 @@ public class Game
     
     //Variables to store which level and room is currently being played
     public level CurrentLevel;
-    
+    public int LevelIndex;
     
     //room currentRoom;
     
@@ -88,7 +89,15 @@ public class Game
                 new ladder[]
                 {
                     
-                }),
+                },
+                new Rectangle[]
+                {
+                    new Rectangle (0,0,0,0),
+                    new Rectangle(1850,0,70,870),
+                },
+                new Vector (0,870)
+                        
+                ),
                 
 //Level 0 Room 1
                 
@@ -113,8 +122,20 @@ public class Game
                 new ladder[]
                 {
                     new ladder(new Vector (1695, 628), "/levels/level0/room1/room1ladder0.png")
-                }),
-                
+                },
+                new Rectangle[]
+                {
+                    new Rectangle (900, 1060, 1020, 20),
+                    new Rectangle (0,0,0,0),
+                    new Rectangle (0,0,0,0),
+                    new Rectangle (0,0,0,0),
+                    new Rectangle (0,0,0,0),
+                    new Rectangle (129,980,810,100),
+                            
+                },
+                new Vector (25,781)
+),
+                       
 //Level 0 Room 2
                 
                 new room("/levels/level0/room2/room2.png",
@@ -138,8 +159,14 @@ public class Game
                         
                 new ladder[]
                 {
-                    //new ladder(new Vector (1700, 661), "/rooms/room2/room2ladder.png")
-                }),
+                    new ladder(new Vector (1700, 661), "/rooms/room2/room2ladder0.png")
+                },
+                new Rectangle[]
+                {
+
+                },
+                  new Vector (40,834)                
+                ),
                 
 //Level 0 Room 3
                 
@@ -168,58 +195,76 @@ public class Game
                 {
                     new ladder(new Vector (1607, 165), "/levels/level0/room3/room3ladder0.png"),
                     new ladder(new Vector (1733, 475), "/levels/level0/room3/room3ladder1.png")
-                }),
+                },
+                new Rectangle[]
+                {
+
+                },
+                        new Vector (0,0)
+                ),
                 
-////Level 0 Room 4
-//                new room("/levels/level0/room4/room4.png",
-//                new platform[]
-//                {
-//                    new platform(new Vector (20,160), "/levels/level0/room4/room4platform0.png"),
-//                    new platform(new Vector (805,978), "/levels/level0/room4/room4platform1.png"),
-//                    new platform(new Vector (1860,940), "/levels/level0/room4/room4platform2.png")
-//                    
-//                },
-//                        
-//                new Monster[]
-//                {
-//
-//                },
-//                        
-//                new Treasure[]
-//                {
-//
-//                },
-//                        
-//                new ladder[]
-//                {
-//                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
-//                }),
-//                
-////Level 0 Room 5
-//                new room("/levels/level0/room5/room5.png",
-//                new platform[]
-//                {
-//                    new platform(new Vector (0,939), "/levels/level0/room5/room5platform0.png"),
-//                    new platform(new Vector (985,858), "/levels/level0/room5/room5platform1.png"),
-//                    
-//                },
-//                        
-//                new Monster[]
-//                {
-//
-//                },
-//                        
-//                new Treasure[]
-//                {
-//
-//                },
-//                        
-//                new ladder[]
-//                {
-//                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
-//                }),
-//                
-////Level 0 Room 6
+//Level 0 Room 4
+                new room("/levels/level0/room4/room4.png",
+                new platform[]
+                {
+                    new platform(new Vector (20,160), "/levels/level0/room4/room4platform0.png"),
+                    new platform(new Vector (805,978), "/levels/level0/room4/room4platform1.png"),
+                    new platform(new Vector (1860,940), "/levels/level0/room4/room4platform2.png")
+                    
+                },
+                        
+                new Monster[]
+                {
+
+                },
+                        
+                new Treasure[]
+                {
+
+                },
+                        
+                new ladder[]
+                {
+                    new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+                },
+                new Rectangle[]
+                {
+
+                },
+                new Vector (0,0)
+                ),
+                
+//Level 0 Room 5
+                new room("/levels/level0/room5/room5.png",
+                new platform[]
+                {
+                    new platform(new Vector (0,939), "/levels/level0/room5/room5platform0.png"),
+                    new platform(new Vector (985,858), "/levels/level0/room5/room5platform1.png"),
+                    
+                },
+                        
+                new Monster[]
+                {
+
+                },
+                        
+                new Treasure[]
+                {
+
+                },
+                        
+                new ladder[]
+                {
+                    new ladder(new Vector (1780, 0), "/rooms/room1/room1ladder.png")
+                },
+                new Rectangle[]
+                {
+
+                },
+                        new Vector (0,0)
+                ),
+                })}; 
+//Level 0 Room 6
 //                new room("/levels/level0/room6/room6.png",
 //                new platform[]
 //                {
@@ -238,16 +283,22 @@ public class Game
 //                        
 //                new ladder[]
 //                {
-//                    //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
-//                }),
+//                    new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //            }),
 //            
-////Level 1
+//                
+//Level 1
 //        new level(
 //            new room[]
 //            {
 //                
-////Level 1 Room 0
+//Level 1 Room 0
 //                new room("/levels/level1/room0/room0.png",
 //                        
 //                new platform[]
@@ -265,16 +316,19 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 1 Room 1
+//Level 1 Room 1
 //                new room("/levels/level1/room1/room1.png",
 //                        
 //                new platform[]
 //                {
 //                    new platform(new Vector (873,852), "/levels/level1/room1/room1platform0.png"),
-//                    new platform(new Vector (453,921), "/levels/level1/room1/room1platform1.png"),
-//                    new platform(new Vector (0,970), "/levels/level1/room1/room1platform2.png"),
 //                },
 //                new Monster[]
 //                {
@@ -287,11 +341,16 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //        
 //
 //                
-////Level 1 Room 2
+//Level 1 Room 2
 //                new room("/levels/level1/room2/room2.png",
 //                        
 //                new platform[]
@@ -309,16 +368,19 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 1 Room 3
+//Level 1 Room 3
 //                new room("/levels/level1/room3/room3.png",
 //                        
 //                new platform[]
 //                {
 //                    new platform(new Vector (0,987), "/levels/level1/room3/room3platform0.png"),
-//                    new platform(new Vector (315,990), "/levels/level1/room3/room3platform1.png"),
-//                    new platform(new Vector (1194,882), "/levels/level1/room3/room3platform2.png"),
 //                },
 //                new Monster[]
 //                {
@@ -331,8 +393,13 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
-////Level 1 Room 4
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
+//Level 1 Room 4
 //                new room("/levels/level1/room4/room4.png",
 //                        
 //                new platform[]
@@ -353,8 +420,13 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
-////Level 1 Room 5
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
+//Level 1 Room 5
 //                new room("/levels/level1/room5/room5.png",
 //                        
 //                new platform[]
@@ -375,8 +447,13 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
-////Level 1 Room 6
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
+//Level 1 Room 6
 //                new room("/levels/level1/room6/room6.png",
 //                        
 //                new platform[]
@@ -399,8 +476,13 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
-////Level 1 Room 7
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
+//Level 1 Room 7
 //                new room("/levels/level1/room7/room7.png",
 //                        
 //                new platform[]
@@ -422,8 +504,13 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
-////Level 1 Room 8
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
+//Level 1 Room 8
 //                new room("/levels/level1/room8/room8.png",
 //                        
 //                new platform[]
@@ -445,8 +532,13 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
-////Level 1 Room 9
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
+//Level 1 Room 9
 //                new room("/levels/level1/room9/room9.png",
 //                        
 //                new platform[]
@@ -466,14 +558,19 @@ public class Game
 //                new ladder[]
 //                {
 //                    
+//                },
+//                new Rectangle[]
+//                {
+//
 //                })
+//                
 //            }),
 //                    
-////Level 2
+//Level 2
 //        new level(
 //            new room[]
 //            {   
-////Level 2 Room 0
+//Level 2 Room 0
 //                new room("/levels/level2/room0/room0.png",
 //                        
 //                new platform[]
@@ -497,9 +594,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 1
+//Level 2 Room 1
 //                new room("/levels/level2/room1/room1.png",
 //                        
 //                new platform[]
@@ -519,9 +621,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 2
+//Level 2 Room 2
 //                new room("/levels/level2/room2/room2.png",
 //                        
 //                new platform[]
@@ -544,10 +651,15 @@ public class Game
 //                },
 //                new ladder[]
 //                {
-//                    //needs ladders
-//                }),
+//                    needs ladders
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 3
+//Level 2 Room 3
 //                new room("/levels/level2/room3/room3.png",
 //                        
 //                new platform[]
@@ -567,10 +679,15 @@ public class Game
 //                },
 //                new ladder[]
 //                {
-//                    //needs ladders
-//                }),
+//                    needs ladders
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 4
+//Level 2 Room 4
 //                new room("/levels/level2/room4/room4.png",
 //                        
 //                new platform[]
@@ -592,9 +709,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 5
+//Level 2 Room 5
 //                
 //                new room("/levels/level2/room5/room5.png",
 //                        
@@ -617,9 +739,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 6
+//Level 2 Room 6
 //                new room("/levels/level2/room6/room6.png",
 //                        
 //                new platform[]
@@ -641,10 +768,15 @@ public class Game
 //                },
 //                new ladder[]
 //                {
-//                    //needs ladders
-//                }),
+//                    needs ladders
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 7
+//Level 2 Room 7
 //                
 //                new room("/levels/level2/room7/room7.png",
 //                        
@@ -664,9 +796,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 8
+//Level 2 Room 8
 //                new room("/levels/level2/room8/room8.png",
 //                        
 //                new platform[]
@@ -686,9 +823,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 2 Room 9
+//Level 2 Room 9
 //                new room("/levels/level2/room9/room9.png",
 //                        
 //                new platform[]
@@ -708,10 +850,15 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //            
 //        
-////Level 2 Room 10
+//Level 2 Room 10
 //                new room("/levels/level2/room10/room10.png",
 //                        
 //                new platform[]
@@ -744,16 +891,21 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                })
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                )
 //            }
 //        ),
 //        
 //                
-////Level 3
+//Level 3
 //        new level(
 //            new room[]
 //            {   
-//                //Level 3 Room 0
+//                Level 3 Room 0
 //                new room("/levels/level3/room0/room0.png",
 //                        
 //                new platform[]
@@ -772,9 +924,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 1
+//Level 3 Room 1
 //                new room("/levels/level3/room1/room1.png",
 //                        
 //                new platform[]
@@ -794,9 +951,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 2
+//Level 3 Room 2
 //                new room("/levels/level3/room2/room2.png",
 //                        
 //                new platform[]
@@ -815,9 +977,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 3
+//Level 3 Room 3
 //                new room("/levels/level3/room3/room3.png",
 //                        
 //                new platform[]
@@ -837,9 +1004,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 4
+//Level 3 Room 4
 //                new room("/levels/level3/room4/room4.png",
 //                        
 //                new platform[]
@@ -862,9 +1034,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 5
+//Level 3 Room 5
 //                new room("/levels/level3/room5/room5.png",
 //                        
 //                new platform[]
@@ -885,17 +1062,22 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 6
+//Level 3 Room 6
 //                new room("/levels/level3/room6/room6.png",
 //                        
 //                new platform[]
 //                {
-//                    new platform(new Vector (0,1022), "/levels/level3/room6/room7platform0.png"),
-//                    new platform(new Vector (222,885), "/levels/level3/room6/room7platform1.png"),
-//                    new platform(new Vector (542,771), "/levels/level3/room6/room7platform2.png"),
-//                    new platform(new Vector (814,0), "/levels/level3/room6/room7platform3.png"),
+//                    new platform(new Vector (0,1022), "/levels/level3/room6/room6platform0.png"),
+//                    new platform(new Vector (222,885), "/levels/level3/room6/room6platform1.png"),
+//                    new platform(new Vector (542,771), "/levels/level3/room6/room6platform2.png"),
+//                    new platform(new Vector (814,0), "/levels/level3/room6/room6platform3.png"),
 //                },
 //                new Monster[]
 //                {
@@ -908,9 +1090,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 7
+//Level 3 Room 7
 //                new room("/levels/level3/room7/room7.png",
 //                        
 //                new platform[]
@@ -930,9 +1117,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 8
+//Level 3 Room 8
 //                new room("/levels/level3/room8/room8.png",
 //                        
 //                new platform[]
@@ -952,9 +1144,14 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }),
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }
+//                ),
 //                
-////Level 3 Room 9
+//Level 3 Room 9
 //                new room("/levels/level3/room9/room9.png",
 //                        
 //                new platform[]
@@ -979,9 +1176,13 @@ public class Game
 //                new ladder[]
 //                {
 //                    
-//                }
+//                },
+//                new Rectangle[]
+//                {
+//
+//                }                
 //                ),
-////Level 3 Room 10
+//Level 3 Room 10
 //                new room("/levels/level3/room10/room10.png",
 //                        
 //                new platform[]
@@ -1005,33 +1206,51 @@ public class Game
 //                new ladder[]
 //                {
 //                    
+//                },
+//                new Rectangle[]
+//                {
+//
 //                }
-//                )
-//            
-            }
-                )};
+//                
+//                )}
+      
+
                 
     
     
     public void goToLevel(int _levelIndex)
     {
         //This function handles switching levels, and plays background music.
+//        if (CurrentLevel.timer.isRunning())
+//        {CurrentLevel.EndLevel();}
         CurrentLevel = levels[_levelIndex];
         CurrentLevel.requestFocus();
         //goToRoom(0);
         CurrentLevel.StartLevel();
         //Sound.play(getClass().getResourceAsStream("/Sounds/Music/BGM" + _levelIndex + ".wav"), true);
+        LevelIndex = _levelIndex;
+        
     }   
     
-//    public void goToRoom(int _roomIndex)
-//    {
-//        //This function handles switching rooms
-//        if (currentLevel.currentRoom != null) {currentLevel.currentRoom.setVisible(false);}
-//        
-//        currentLevel.currentRoom = currentLevel.rooms[_roomIndex];     
-//        currentLevel.currentRoom.requestFocus();
-//        currentLevel.currentRoom.setVisible(true);
-//    }
+    public void startGame()
+    {
+        //This method will start the game after the splash screen and go to hub
+        //Currently, it just goes straight to level 1        
+        CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
+        cl.next(gameWindow.getContentPane());
+        goToLevel(0);
+        LevelIndex = 0;
+        levelReady = true;
+    }
+    
+    public void endGame()
+    {   
+        // This method will show the "Game Over" screen
+        //CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
+        //cl.next(gameWindow.getContentPane());
+        //endScreen.requestFocus();
+        //endScreen.setVisible(true);
+    }
     
     public static void main(String[] args) 
     {   
@@ -1039,14 +1258,6 @@ public class Game
         Game window = new Game();        
         window.startScreen.requestFocus();        
     }
-    
-    /*public void showstartScreen()
-    {        
-        startScreen.requestFocus(); 
-    
-        Turned this function off, handled it in main instead
-    
-    }*/
     
     public void showEndScreen()
     {
@@ -1066,6 +1277,7 @@ public class Game
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setTitle("Nightmare");
         gameWindow.setVisible(true);
+        
     }
     
     private void initScreens()
@@ -1094,22 +1306,15 @@ public class Game
 
     }
     
-    public void startGame()
-    {
-        //This method will start the game after the splash screen and go to hub
-        //Currently, it just goes straight to level 1        
-        CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
-        cl.next(gameWindow.getContentPane());
-        goToLevel(0);    
-        levelReady = true;
-    }
+    //    public void goToRoom(int _roomIndex)
+//    {
+//        //This function handles switching rooms
+//        if (currentLevel.currentRoom != null) {currentLevel.currentRoom.setVisible(false);}
+//        
+//        currentLevel.currentRoom = currentLevel.rooms[_roomIndex];     
+//        currentLevel.currentRoom.requestFocus();
+//        currentLevel.currentRoom.setVisible(true);
+//    }
     
-    public void endGame()
-    {   
-        // This method will show the "Game Over" screen
-        //CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
-        //cl.next(gameWindow.getContentPane());
-        //endScreen.requestFocus();
-        //endScreen.setVisible(true);
-    }
+    
 }
