@@ -12,6 +12,23 @@ public class Monster extends baseLevelObject
     private boolean isVisible;
     public Player player;
     
+    public enum eElement{
+        fire,
+        earth,
+        water,
+        air,
+        //do elements list
+    }
+    
+    public enum eMonsterType
+    {
+        orc,
+        ghost,
+        golem,
+        etc,
+        // monster types here
+    }
+    eMonsterType monsterType = eMonsterType.orc;
     
     // <editor-fold desc="ANIMATION VARIABLES">
     
@@ -22,7 +39,7 @@ public class Monster extends baseLevelObject
     float frameTime;
     
     // </editor-fold>
-    BufferedImage[] spriteArray1 = new BufferedImage[0];
+    BufferedImage[] spriteArray;
     
     private int speed = 3;
     private int damage;
@@ -32,9 +49,8 @@ public class Monster extends baseLevelObject
     int MaxHealth = 3;
     
     public Monster(     Vector _position,
-                        String _element,
-                        String _type,
-                        int    _frames      )
+                        eElement _element,
+                        eMonsterType _type )
             
     {   
         
@@ -42,31 +58,42 @@ public class Monster extends baseLevelObject
         score = 50;
         isVisible = true;
         health = MaxHealth;
-        loadSprites(_frames, _element, _type);
+        loadSprites(_element, _type);
     }
     
-    private void loadSprites(int _frames, String _element, String _type)
+    private void loadSprites(eElement _element, eMonsterType _type)
     {   
-        BufferedImage[] spriteArray = new BufferedImage[_frames];
-        
-        for (int i = 0; i <= (_frames-1); i++)
+        monsterType =  _type;
+        int frames = 0;
+        switch(_type)
+        {
+            case orc:
+                
+                break;
+                
+            case ghost:
+                
+                break;
+                
+            case golem:
+                
+                break;
+        }
+        spriteArray = new BufferedImage[frames];
+        for (int i = 0; i <= (frames-1); i++)
         {   
-            
-            
             try
             {
                 spriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/enemies/" + _element + "/" + _type + "/" + _type + "_" + i + ".png"));
             }   catch(Exception ex) {System.err.println("Error loading " + _element + " " + _type + " animation frame " + i);}
         }
-        spriteArray1 = spriteArray;
-        
     }
     
     public void draw(Graphics2D g)
     {   
         
         if (frameIndex < lowerLimit || frameIndex > upperLimit){frameIndex = lowerLimit;}     
-        g.drawImage(spriteArray1[frameIndex], (int)Position.x, (int)Position.y, null);
+        g.drawImage(spriteArray[frameIndex], (int)Position.x, (int)Position.y, null);
         //Draw the sprite at the correct coordinates in the graphics context
         if(isVisible == true)
             g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);

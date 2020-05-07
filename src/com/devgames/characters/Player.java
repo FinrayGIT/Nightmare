@@ -26,8 +26,9 @@ public class Player extends baseLevelObject
     //Final values to store values which may require tweaking.
     public final float CLIMB_SPEED = 0.5f;
     public final float MOVE_SPEED = 0.4f;
-    public float JUMP_FORCE = 4f;
+    public float JUMP_FORCE = 5f;
     final float JUMP_DELAY_DURATION = 0.1f;
+    final float DOSWAPCD = 130f;
     final float GRAVITY = 0.1f;
     final float FRAME_LENGTH = 125;
     final int CROUCH_FRAMES = 0;
@@ -36,13 +37,15 @@ public class Player extends baseLevelObject
     final int IDLE_FRAMES = 0;
     final int PLAYER_FRAMES = 49;
     public int scale = 50;
+    float doSwapTimer;
     float jumpDelayTimer;
     
     // </editor-fold>
     // <editor-fold desc="PLAYER STATES">
     
     //Variables to store the possible states of the player.
-    boolean moving = false;    
+    boolean moving = false; 
+    public boolean walkedOffSpawn = false;
     public boolean IsGrounded = false;
     public boolean canClimb = false;
     public boolean IsClimbing = false;
@@ -483,28 +486,32 @@ public class Player extends baseLevelObject
                         IsGrounded = true;
                         velocity.y = 0;
                         Position.y = ( game.CurrentLevel.currentRoom.platformColliders[i].rect.y - Sprite.getHeight()+2);
-                        System.out.println("Collided!");
+                        //System.out.println("Collided!");
                     }
                     
                     
 
-//                    if (!IsClimbing && topColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                    {
-//                       // System.out.println("Hit Top of the world");
-//                        velocity.y = 0;
-//                        Position.y = _level.currentRoom.Platforms[i].getBounds().y + _level.currentRoom.Platforms[i].getBounds().height;
-//                    }                
+                    if (!IsClimbing && topColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
+                    {
+                       // System.out.println("Hit Top of the world");
+                        velocity.y = 0;
+                        Position.y = game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().y + game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().height;
+                    }                
 
                 }
                 
                 
                 for (int i = 0; i < game.CurrentLevel.currentRoom.RTA.length; i++)
-                {
+                {   
+                    
+                    
+                    
                     //System.out.println("Checking RTA "+ game.CurrentLevel.currentRoom.RTA[i].rect.toString() + "  " + Position.x + ", " + Position.y);
                     if (getBounds().intersects(game.CurrentLevel.currentRoom.RTA[i].rect))  
                     {
                        game.CurrentLevel.currentRoom.RTA[i].DoSwap(game);
                     }
+                    
                 }
                 
                 

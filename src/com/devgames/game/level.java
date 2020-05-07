@@ -50,9 +50,9 @@ public class level extends JPanel implements ActionListener
             Projectiles.get(i).Update();
             Projectile p = Projectiles.get(i);
             
-            for (int j = 0; j < currentRoom.Platforms.length; j++)
+            for (int j = 0; j < currentRoom.platformColliders.length; j++)
             {
-                if (p.getBounds().intersects(currentRoom.Platforms[j].getBounds()))
+                if (p.getBounds().intersects(currentRoom.platformColliders[j].rect.getBounds()))
                 {
                     p.Stop();
                 }
@@ -102,6 +102,7 @@ public class level extends JPanel implements ActionListener
     
     public void GoToRoom(room _room)
     {
+        System.out.println("Go To Room Has Room : " + (_room!=null));
         if(currentRoom != null)
         {
             currentRoom.setVisible(false);
@@ -153,10 +154,10 @@ public class level extends JPanel implements ActionListener
             g.drawImage(t.Sprite, (int)t.Position.x, (int)t.Position.y, null);           
         }
         
-        for(platform p: currentRoom.Platforms)
-        {
-            g.drawImage(p.Sprite, (int)p.Position.x, (int)p.Position.y, null);
-        }
+//        for(platform p: currentRoom.Platforms)
+//        {
+//            g.drawImage(p.Sprite, (int)p.Position.x, (int)p.Position.y, null);
+//        }
         
         for (int i = 0; i < Projectiles.toArray().length; i++)
         {

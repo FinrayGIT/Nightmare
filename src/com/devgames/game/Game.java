@@ -54,18 +54,18 @@ public class Game
         //Level 0 Room 0
           
             new room("/levels/level0/room0/room0.png",                
-            new platform[]
-            {   
-//                new platform(new Vector (0,915), "/levels/level0/room0/room0platform0.png"),
-//                new platform(new Vector (986,777), "/levels/level0/room0/room0platform1.png"),
-//                new platform(new Vector (1241,661), "/levels/level0/room0/room0platform2.png"), 
-//                new platform(new Vector (1477,262), "/levels/level0/room0/room0platform3.png")
-
-            },     
+//            new platform[]
+//            {   
+////                new platform(new Vector (0,915), "/levels/level0/room0/room0platform0.png"),
+////                new platform(new Vector (986,777), "/levels/level0/room0/room0platform1.png"),
+////                new platform(new Vector (1241,661), "/levels/level0/room0/room0platform2.png"), 
+////                new platform(new Vector (1477,262), "/levels/level0/room0/room0platform3.png")
+//
+//            },     
 
             new Monster[]
             {
-                //new Monster(new Vector(800, 800), "/Sprites/Graded/Frost-Brute-Graded-Single.png")
+                new Monster(new Vector(800, 800), Monster.eElement.earth, Monster.eMonsterType.orc)
             },
 
             new Treasure[]
@@ -85,30 +85,52 @@ public class Game
                 (   
                     new Rectangle (1920, 0, 5, 1080),   /*Bounds of trigger*/ 
                     0, 1,                               /*Level & room target*/
-                    new Vector(100, 780)                /*Player spawn point*/
+                    new Vector(20, 620)                /*Player spawn point*/
                 ),
+                new Detector(   new Rectangle(800, 1080, 200, 1),  //Bounds of trigger
+                                0, 4,                           //Level & Room target
+                                new Vector (860, 0)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(1100, 1080, 200, 1),  //Bounds of trigger
+                                0, 4,                           //Level & Room target
+                                new Vector (1200, 0)          //Spawn point
+                            )
 
+            },
+                 
+            //PlatformCols
+            new Detector[]
+            {
+                new Detector(new Rectangle(-100, 915, 920, 20)),
+                new Detector(new Rectangle(995, 785, 100, 300)),
+                new Detector(new Rectangle(1265, 775, 700, 20)),
+                new Detector(new Rectangle(1480, 248, 540, 20)),
+                new Detector(new Rectangle(-19, -19, 20, 1080))
             },
             
             //Wind
             new Detector[]
             {
-                new Detector
-                        (
-                                new Rectangle(0, 950, 1, 1)
-                        ),
+                
             },
-                    
-            //PlatformCols
+            
+            //Doors        
             new Detector[]
             {
-                new Detector(new Rectangle(-100, 915, 920, 20)),
-                new Detector(new Rectangle(995, 785, 100, 20)),
-                new Detector(new Rectangle(1265, 775, 700, 20)),
-                new Detector(new Rectangle(1480, 248, 540, 20)),
-                new Detector(new Rectangle(-19, -19, 20, 1080))
-            }
+                
+            },
             
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
             ),
             
         
@@ -117,13 +139,13 @@ public class Game
     // <editor-fold desc="ROOM 1"> 
                 
             //Level 0 Room 1
-            new room("/levels/level0/room1/room1-np.png",
-            new platform[]
-            {
-                new platform(new Vector (0,781), "/levels/level0/room1/room1platform0.png"),
-                new platform(new Vector (368,845), "/levels/level0/room1/room1platform1.png"),
-                new platform(new Vector (1521,633), "/levels/level0/room1/room1platform2.png"),
-            },
+            new room("/levels/level0/room1/room1.png",
+//            new platform[]
+//            {
+//                new platform(new Vector (0,781), "/levels/level0/room1/room1platform0.png"),
+//                new platform(new Vector (368,845), "/levels/level0/room1/room1platform1.png"),
+//                new platform(new Vector (1521,633), "/levels/level0/room1/room1platform2.png"),
+//            },
 
             new Monster[]
             {
@@ -144,9 +166,23 @@ public class Game
             //RoomTransitions
             new Detector[]
             { 
-//                new Detector ( new Rectangle (1920, 0, 5, 1080), 
-//                        0, 1, 
-//                        new Vector(100, 780)),
+                new Detector(   new Rectangle(1920, 525, 5, 131),  //Bounds of trigger
+                                0, 2,                           //Level & Room target
+                                new Vector (40, 600)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(1920, 655, 1, 178),  //Bounds of trigger
+                                0, 2,                           //Level & Room target
+                                new Vector (40, 800)          //Spawn point
+                            )
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                new Detector((new Rectangle(0, 805, 240, 20))),   
+                new Detector((new Rectangle(368, 860, 315, 20))),
+                new Detector((new Rectangle(1560, 840, 360, 20))),
+                new Detector((new Rectangle(1650, 655, 270, 5))),
             },
                     
             //Wind
@@ -155,10 +191,22 @@ public class Game
                 new Detector((new Rectangle(960, 680, 370, 400)), 5)                
             },
             
-            //Platform Colliders
+            //Doors        
             new Detector[]
             {
-                new Detector((new Rectangle(960, 680, 370, 400)), 5)                
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
             }),
                 
 // </editor-fold> 
@@ -166,13 +214,13 @@ public class Game
                 
             //Level 0 Room 2
             new room("/levels/level0/room2/room2.png",
-            new platform[]
-            {
-                new platform(new Vector (0,640), "/levels/level0/room2/room2platform0.png"),
-                new platform(new Vector (1194,972), "/levels/level0/room2/room2platform1.png"),
-                new platform(new Vector (1530,1038), "/levels/level0/room2/room2platform2.png"),
-                new platform(new Vector (1722,780), "/levels/level0/room2/room2platform3.png")
-            },
+//            new platform[]
+//            {
+//                new platform(new Vector (0,640), "/levels/level0/room2/room2platform0.png"),
+//                new platform(new Vector (1194,972), "/levels/level0/room2/room2platform1.png"),
+//                new platform(new Vector (1530,1038), "/levels/level0/room2/room2platform2.png"),
+//                new platform(new Vector (1722,780), "/levels/level0/room2/room2platform3.png")
+//            },
 
             new Monster[]
             {
@@ -186,11 +234,62 @@ public class Game
 
             new ladder[]
             {
-                //new ladder(new Vector (1700, 661), "/rooms/room2/room2ladder0.png")
+                new ladder(new Vector (1730, 790), "/levels/level0/room2/room2ladder0.png")
             },
 
+            //RoomTransitions
             new Detector[]
-            {                         
+            { 
+                new Detector(   new Rectangle(0, 780, 1, 287),  //Bounds of trigger
+                                0, 1,                           //Level & Room target
+                                new Vector (1880, 600)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(0, 655, 1, 240),  //Bounds of trigger
+                                0, 1,                           //Level & Room target
+                                new Vector (1880, 800)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(890, 1080, 640, 1),  //Bounds of trigger
+                                0, 6,                           //Level & Room target
+                                new Vector (1250, 0)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(1600, 1080, 320, 1),  //Bounds of trigger
+                                0, 6,                           //Level & Room target
+                                new Vector (1730, 0)          //Spawn point
+                            )
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                new Detector((new Rectangle(-20, 655, 120, 20))),
+                new Detector((new Rectangle(-20, 865, 1040, 20))),
+                new Detector((new Rectangle(1195, 1020, 170, 20))),
+                new Detector((new Rectangle(1530, 1035, 70, 20))),
+                new Detector((new Rectangle(1730, 800, 290, 20))),
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
             }),
                 
 // </editor-fold> 
@@ -198,15 +297,15 @@ public class Game
                 
             //Level 0 Room 3
             new room("/levels/level0/room3/room3-np.png",
-            new platform[]
-            {
-                new platform(new Vector (0,737), "/levels/level0/room3/room3platform0.png"),
-                new platform(new Vector (357,881), "/levels/level0/room3/room3platform1.png"),
-                new platform(new Vector (552,995), "/levels/level0/room3/room3platform2.png"),
-                new platform(new Vector (842,948), "/levels/level0/room3/room3platform3.png"),
-                new platform(new Vector (1116,602), "/levels/level0/room3/room3platform4.png"),
-                new platform(new Vector (1238,222), "/levels/level0/room3/room3platform5.png"),
-            },
+//            new platform[]
+//            {
+//                new platform(new Vector (0,737), "/levels/level0/room3/room3platform0.png"),
+//                new platform(new Vector (357,881), "/levels/level0/room3/room3platform1.png"),
+//                new platform(new Vector (552,995), "/levels/level0/room3/room3platform2.png"),
+//                new platform(new Vector (842,948), "/levels/level0/room3/room3platform3.png"),
+//                new platform(new Vector (1116,602), "/levels/level0/room3/room3platform4.png"),
+//                new platform(new Vector (1238,222), "/levels/level0/room3/room3platform5.png"),
+//            },
 
             new Monster[]
             {
@@ -223,8 +322,41 @@ public class Game
                 new ladder(new Vector (1607, 165), "/levels/level0/room3/room3ladder0.png"),
                 new ladder(new Vector (1733, 475), "/levels/level0/room3/room3ladder1.png")
             },
+
+            //RoomTransitions
             new Detector[]
-            {   
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
             }),
                 
 // </editor-fold> 
@@ -232,13 +364,13 @@ public class Game
                 
             //Level 0 Room 4
             new room("/levels/level0/room4/room4.png",
-            new platform[]
-            {
-                new platform(new Vector (20,160), "/levels/level0/room4/room4platform0.png"),
-                new platform(new Vector (805,978), "/levels/level0/room4/room4platform1.png"),
-                new platform(new Vector (1860,940), "/levels/level0/room4/room4platform2.png")
-
-            },
+//            new platform[]
+//            {
+//                new platform(new Vector (20,160), "/levels/level0/room4/room4platform0.png"),
+//                new platform(new Vector (805,978), "/levels/level0/room4/room4platform1.png"),
+//                new platform(new Vector (1860,940), "/levels/level0/room4/room4platform2.png")
+//
+//            },
 
             new Monster[]
             {
@@ -254,8 +386,41 @@ public class Game
             {
                 //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
             },
-                            new Detector[]
-            {   
+
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
             }),
                 
 // </editor-fold>                 
@@ -263,12 +428,12 @@ public class Game
                 
             //Level 0 Room 5
             new room("/levels/level0/room5/room5.png",
-            new platform[]
-            {
-                new platform(new Vector (0,939), "/levels/level0/room5/room5platform0.png"),
-                new platform(new Vector (985,858), "/levels/level0/room5/room5platform1.png"),
-
-            },
+//            new platform[]
+//            {
+//                new platform(new Vector (0,939), "/levels/level0/room5/room5platform0.png"),
+//                new platform(new Vector (985,858), "/levels/level0/room5/room5platform1.png"),
+//
+//            },
 
             new Monster[]
             {
@@ -284,8 +449,41 @@ public class Game
             {
                //new ladder(new Vector (1780, 0), "/rooms/room1/room1ladder.png")
             },
+
+            //RoomTransitions
             new Detector[]
-            {   
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
             }),
                 
 // </editor-fold> 
@@ -293,10 +491,10 @@ public class Game
                 
             //Level 0 Room 6
             new room("/levels/level0/room6/room6.png",
-            new platform[]
-            {
-                new platform(new Vector (0,852), "/levels/level0/room6/room6platform0.png"),                    
-            },
+//            new platform[]
+//            {
+//                new platform(new Vector (0,852), "/levels/level0/room6/room6platform0.png"),                    
+//            },
 
             new Monster[]
             {
@@ -313,8 +511,40 @@ public class Game
                 //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
             },
 
-                    new Detector[]
-            {   
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
             }
         )}),
         
@@ -337,10 +567,6 @@ public class Game
                     //Level 1 Room 0
                     new room("/levels/level1/room0/room0.png",
 
-                    new platform[]
-                    {
-                        //new platform(new Vector (735,975), "/levels/level1/room0/room0platform0.png"),
-                    },
                     new Monster[]
                     {
 
@@ -353,9 +579,42 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {   
-                    }),
+
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }),
 
     // </editor-fold>                
     // <editor-fold desc="ROOM 1">               
@@ -363,10 +622,6 @@ public class Game
                     //Level 1 Room 1
                     new room("/levels/level1/room1/room1.png",
 
-                    new platform[]
-                    {
-                        new platform(new Vector (873,852), "/levels/level1/room1/room1platform0.png"),
-                    },
                     new Monster[]
                     {
 
@@ -379,20 +634,48 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {   
-                    }),
+
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }),
 
     // </editor-fold>        
     // <editor-fold desc="ROOM 2">
 
                     //Level 1 Room 2
                     new room("/levels/level1/room2/room2.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (720,993), "/levels/level1/room2/room2platform0.png"),
-                    },
                     new Monster[]
                     {
 
@@ -405,20 +688,48 @@ public class Game
                     {
 
                     },
-                   new Detector[]
-                    {   
-                    }
+
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
             
     // </editor-fold>
     // <editor-fold desc="ROOM 3">   
     //Level 1 Room 3
                     new room("/levels/level1/room3/room3.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,987), "/levels/level1/room3/room3platform0.png"),
-                    },
                     new Monster[]
                     {
 
@@ -431,23 +742,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     //</editor-fold> 
     // <editor-fold desc="ROOM 4"> 
     //Level 1 Room 4
                     new room("/levels/level1/room4/room4.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (60,708), "/levels/level1/room4/room4platform0.png"),
-                        new platform(new Vector (135,561), "/levels/level1/room4/room4platform1.png"),
-                        new platform(new Vector (1398,1008), "/levels/level1/room4/room4platform2.png"),
-                        new platform(new Vector (1776,930), "/levels/level1/room4/room4platform3.png"),
-                    },
                     new Monster[]
                     {
 
@@ -460,23 +795,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     //</editor-fold> 
     // <editor-fold desc="ROOM 5"> 
     //Level 1 Room 5
                     new room("/levels/level1/room5/room5.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,927), "/levels/level1/room5/room5platform0.png"),
-                        new platform(new Vector (801,891), "/levels/level1/room5/room5platform1.png"),
-                        new platform(new Vector (1110,954), "/levels/level1/room5/room5platform2.png"),
-                        new platform(new Vector (1629,975), "/levels/level1/room5/room5platform3.png"),
-                    },
                     new Monster[]
                     {
 
@@ -489,25 +848,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     //</editor-fold> 
     // <editor-fold desc="ROOM 6"> 
     //Level 1 Room 6
                     new room("/levels/level1/room6/room6.png",
-
-                    new platform[]
-                    {   
-
-                        new platform(new Vector (0,979), "/levels/level1/room6/room6platform0.png"),
-                        new platform(new Vector (239,520), "/levels/level1/room6/room6platform1.png"),
-                        new platform(new Vector (694,1032), "/levels/level1/room6/room6platform2.png"),
-                        new platform(new Vector (1114,1032), "/levels/level1/room6/room6platform3.png"),
-                        new platform(new Vector (1533,993), "/levels/level1/room6/room6platform3.png"),
-                    },
                     new Monster[]
                     {
 
@@ -520,24 +901,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     //</editor-fold> 
     // <editor-fold desc="ROOM 7"> 
     //Level 1 Room 7
                     new room("/levels/level1/room7/room7.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,993), "/levels/level1/room7/room7platform0.png"),
-                        new platform(new Vector (663,882), "/levels/level1/room7/room7platform1.png"),
-                        new platform(new Vector (777,786), "/levels/level1/room7/room7platform2.png"),
-                        new platform(new Vector (1662,993), "/levels/level1/room7/room7platform3.png"),
-
-                    },
                     new Monster[]
                     {
 
@@ -550,24 +954,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     //</editor-fold> 
     // <editor-fold desc="ROOM 8"> 
     //Level 1 Room 8
                     new room("/levels/level1/room8/room8.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,609), "/levels/level1/room8/room8platform0.png"),
-                        new platform(new Vector (213,1044), "/levels/level1/room8/room8platform1.png"),
-                        new platform(new Vector (244,774), "/levels/level1/room8/room8platform2.png"),
-                        new platform(new Vector (281,402), "/levels/level1/room8/room8platform3.png"),
-                        new platform(new Vector (687,447), "/levels/level1/room8/room8platform4.png"),
-                    },
                     new Monster[]
                     {
 
@@ -580,22 +1007,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     //</editor-fold> 
     // <editor-fold desc="ROOM 9"> 
     //Level 1 Room 9
                     new room("/levels/level1/room9/room9.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,954), "/levels/level1/room9/room9platform0.png"),
-                        new platform(new Vector (606,993), "/levels/level1/room9/room9platform1.png"),
-                        new platform(new Vector (1356,993), "/levels/level1/room9/room9platform2.png"),
-                    },
                     new Monster[]
                     {
 
@@ -608,10 +1060,42 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    })
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            })
 
                 }),
     //</editor-fold>
@@ -631,17 +1115,6 @@ public class Game
     //<editor-fold desc="ROOM 0">   
     //Level 2 Room 0
                     new room("/levels/level2/room0/room0.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,644), "/levels/level2/room0/room0platform0.png"),
-                        new platform(new Vector (582,923), "/levels/level2/room0/room0platform1.png"),
-                        new platform(new Vector (714,670), "/levels/level2/room0/room0platform2.png"),
-                        new platform(new Vector (885,760), "/levels/level2/room0/room0platform3.png"),
-                        new platform(new Vector (1105,656), "/levels/level2/room0/room0platform4.png"),
-                        new platform(new Vector (1274,606), "/levels/level2/room0/room0platform5.png"),
-
-                    },
                     new Monster[]
                     {
 
@@ -654,22 +1127,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 1">                 
     //Level 2 Room 1
                     new room("/levels/level2/room1/room1.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,884), "/levels/level2/room1/room1platform0.png"),
-                        new platform(new Vector (339,948), "/levels/level2/room1/room1platform1.png"),
-                        new platform(new Vector (815,809), "/levels/level2/room1/room1platform2.png"),
-                    },
                     new Monster[]
                     {
 
@@ -682,26 +1180,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 2">                 
     //Level 2 Room 2
                     new room("/levels/level2/room2/room2.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,962), "/levels/level2/room2/room2platform0.png"),
-                        new platform(new Vector (514,825), "/levels/level2/room2/room2platform1.png"),
-                        new platform(new Vector (863,875), "/levels/level2/room2/room2platform2.png"),
-                        new platform(new Vector (115,916), "/levels/level2/room2/room2platform3.png"),
-                        new platform(new Vector (1455,962), "/levels/level2/room2/room2platform4.png"),
-                        new platform(new Vector (1804,962), "/levels/level2/room2/room2platform5.png"),
-                        new platform(new Vector (1606,499), "/levels/level2/room2/room2platform6.png"),
-                    },
                     new Monster[]
                     {
 
@@ -714,23 +1233,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 3">                 
     //Level 2 Room 3
                     new room("/levels/level2/room3/room3.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,863), "/levels/level2/room3/room3platform0.png"),
-                        new platform(new Vector (238,700), "/levels/level2/room3/room3platform1.png"),
-                        new platform(new Vector (497,854), "/levels/level2/room3/room3platform2.png"),
-                        new platform(new Vector (745,426), "/levels/level2/room3/room3platform3.png"),
-                    },
                     new Monster[]
                     {
 
@@ -743,24 +1286,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 4">                 
     //Level 2 Room 4
                     new room("/levels/level2/room4/room4.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,962), "/levels/level2/room4/room4platform0.png"),
-                        new platform(new Vector (0,499), "/levels/level2/room4/room4platform1.png"),
-                        new platform(new Vector (558,659), "/levels/level2/room4/room4platform2.png"),
-                        new platform(new Vector (842,807), "/levels/level2/room4/room4platform3.png"),
-                        new platform(new Vector (1524,973), "/levels/level2/room4/room4platform4.png"),
-                    },
                     new Monster[]
                     {
 
@@ -773,25 +1339,48 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 5">                 
     //Level 2 Room 5
 
                     new room("/levels/level2/room5/room5.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,0), "/levels/level2/room5/room5platform0.png"),
-                        new platform(new Vector (581,0), "/levels/level2/room5/room5platform1.png"),
-                        new platform(new Vector (1336,0), "/levels/level2/room5/room5platform2.png"),
-                        new platform(new Vector (1413,403), "/levels/level2/room5/room5platform3.png"),
-                        new platform(new Vector (1658,334), "/levels/level2/room5/room5platform4.png"),
-                    },
                     new Monster[]
                     {
 
@@ -804,25 +1393,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 6">                 
     //Level 2 Room 6
                     new room("/levels/level2/room6/room6.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,973), "/levels/level2/room6/room6platform0.png"),
-                        new platform(new Vector (585,863), "/levels/level2/room6/room6platform1.png"),
-                        new platform(new Vector (837,534), "/levels/level2/room6/room6platform2.png"),
-                        new platform(new Vector (1074,914), "/levels/level2/room6/room6platform3.png"),
-                        new platform(new Vector (1336,1018), "/levels/level2/room6/room6platform4.png"),
-                        new platform(new Vector (1122,262), "/levels/level2/room6/room6platform4.png"),
-                    },
                     new Monster[]
                     {
 
@@ -835,22 +1446,48 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 7">                 
     //Level 2 Room 7
 
                     new room("/levels/level2/room7/room7.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (431,936), "/levels/level2/room6/room6platform0.png"),
-                        new platform(new Vector (926,337), "/levels/level2/room6/room6platform1.png"),
-                    },
                     new Monster[]
                     {
 
@@ -863,22 +1500,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 8">                 
     //Level 2 Room 8
                     new room("/levels/level2/room8/room8.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (397,747), "/levels/level2/room8/room8platform0.png"),
-                        new platform(new Vector (524,470), "/levels/level2/room8/room8platform1.png"),
-                        new platform(new Vector (1209,852), "/levels/level2/room8/room8platform2.png"),
-                    },
                     new Monster[]
                     {
 
@@ -891,22 +1553,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     //</editor-fold> 
     //<editor-fold desc="ROOM 9">                 
     //Level 2 Room 9
                     new room("/levels/level2/room9/room9.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (357,1001), "/levels/level2/room9/room9platform0.png"),
-                        new platform(new Vector (0,577), "/levels/level2/room9/room9platform1.png"),
-                        new platform(new Vector (1420,1052), "/levels/level2/room9/room9platform2.png"),
-                    },
                     new Monster[]
                     {
 
@@ -919,36 +1606,48 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
 
     //</editor-fold>           
     //<editor-fold desc="ROOM 10">         
     //Level 2 Room 10
                     new room("/levels/level2/room10/room10.png",
-
-                    new platform[]
-                    {   
-                        new platform(new Vector (0,323), "/levels/level2/room10/room10platform0.png"),
-                        new platform(new Vector (340,1055), "/levels/level2/room10/room10platform1.png"),
-                        new platform(new Vector (527,540), "/levels/level2/room10/room10platform2.png"),
-                        new platform(new Vector (638,954), "/levels/level2/room10/room10platform3.png"),
-                        new platform(new Vector (637,209), "/levels/level2/room10/room10platform4.png"),
-                        new platform(new Vector (738,502), "/levels/level2/room10/room10platform5.png"),
-                        new platform(new Vector (765,807), "/levels/level2/room10/room10platform6.png"),
-                        new platform(new Vector (1110,163), "/levels/level2/room10/room10platform7.png"),
-                        new platform(new Vector (1162,365), "/levels/level2/room10/room10platform8.png"),
-                        new platform(new Vector (1162,641), "/levels/level2/room10/room10platform9.png"),
-                        new platform(new Vector (1175,954), "/levels/level2/room10/room10platform10.png"),
-                        new platform(new Vector (1316,282), "/levels/level2/room10/room10platform11.png"),
-                        new platform(new Vector (1627,641), "/levels/level2/room10/room10platform12.png"),
-                        new platform(new Vector (1438,743), "/levels/level2/room10/room10platform13.png"),
-
-
-                    },
                     new Monster[]
                     {
 
@@ -961,10 +1660,42 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     )
                 }
             ),
@@ -984,12 +1715,6 @@ public class Game
     // <editor-fold desc="ROOM 0">   
                     //Level 3 Room 0
                     new room("/levels/level3/room0/room0.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,994), "/levels/level3/room0/room0platform0.png"),
-                        new platform(new Vector (1552,994), "/levels/level3/room0/room0platform1.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1002,22 +1727,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
 // </editor-fold>
     // <editor-fold desc="ROOM 1">                 
                     //Level 3 Room 1
                     new room("/levels/level3/room1/room1.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,994), "/levels/level3/room1/room1platform0.png"),
-                        new platform(new Vector (543,834), "/levels/level3/room1/room1platform1.png"),
-                        new platform(new Vector (1586,966), "/levels/level3/room1/room1platform2.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1030,21 +1780,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 2">                 
                     //Level 3 Room 2
                     new room("/levels/level3/room2/room2.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,0), "/levels/level3/room2/room2platform0.png"),
-                        new platform(new Vector (1329,976), "/levels/level3/room2/room2platform1.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1057,22 +1833,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 3">                 
                     //Level 3 Room 3
                     new room("/levels/level3/room3/room3.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,0), "/levels/level3/room3/room3platform0.png"),
-                        new platform(new Vector (603,986), "/levels/level3/room3/room3platform1.png"),
-                        new platform(new Vector (1074,0), "/levels/level3/room3/room3platform2.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1085,25 +1886,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 4">                 
                     //Level 3 Room 4
                     new room("/levels/level3/room4/room4.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,0), "/levels/level3/room4/room4platform0.png"),
-                        new platform(new Vector (585,505), "/levels/level3/room4/room4platform1.png"),
-                        new platform(new Vector (567,857), "/levels/level3/room4/room4platform2.png"),
-                        new platform(new Vector (867,395), "/levels/level3/room4/room4platform3.png"),
-                        new platform(new Vector (1368,0), "/levels/level3/room4/room4platform4.png"),
-                        new platform(new Vector (1442,970), "/levels/level3/room4/room4platform5.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1116,23 +1939,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 5">                 
                     //Level 3 Room 5
                     new room("/levels/level3/room5/room5.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (364,438), "/levels/level3/room5/room5platform0.png"),
-                        new platform(new Vector (795,540), "/levels/level3/room5/room5platform1.png"),
-                        new platform(new Vector (654,1022), "/levels/level3/room5/room5platform2.png"),
-                        new platform(new Vector (1352,1022), "/levels/level3/room5/room5platform3.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1145,23 +1992,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 6">                 
                     //Level 3 Room 6
                     new room("/levels/level3/room6/room6.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,1022), "/levels/level3/room6/room6platform0.png"),
-                        new platform(new Vector (222,885), "/levels/level3/room6/room6platform1.png"),
-                        new platform(new Vector (542,771), "/levels/level3/room6/room6platform2.png"),
-                        new platform(new Vector (814,0), "/levels/level3/room6/room6platform3.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1174,22 +2045,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 7">                 
                     //Level 3 Room 7
                     new room("/levels/level3/room7/room7.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (520,94), "/levels/level3/room7/room7platform0.png"),
-
-
-                    },
                     new Monster[]
                     {
 
@@ -1202,22 +2098,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 8">                 
                     //Level 3 Room 8
                     new room("/levels/level3/room8/room8.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,532), "/levels/level3/room8/room8platform0.png"),
-                        new platform(new Vector (960,641), "/levels/level3/room8/room8platform1.png"),
-                        new platform(new Vector (1616,0), "/levels/level3/room8/room8platform2.png"),
-                    },
                     new Monster[]
                     {
 
@@ -1230,27 +2151,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 9">                 
                     //Level 3 Room 9
                     new room("/levels/level3/room9/room9.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,760), "/levels/level3/room9/room9platform0.png"),
-                        new platform(new Vector (355,605), "/levels/level3/room9/room9platform1.png"),
-                        new platform(new Vector (585,501), "/levels/level3/room9/room9platform2.png"),
-                        new platform(new Vector (848,384), "/levels/level3/room9/room9platform3.png"),
-                        new platform(new Vector (1104,501), "/levels/level3/room9/room9platform4.png"),
-                        new platform(new Vector (1356,605), "/levels/level3/room9/room9platform5.png"),
-                        new platform(new Vector (1663,532), "/levels/level3/room9/room9platform6.png"),
-
-                    },
                     new Monster[]
                     {
 
@@ -1263,26 +2204,47 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }                
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }               
                     ),
     // </editor-fold> 
     // <editor-fold desc="ROOM 10"> 
                     //Level 3 Room 10
                     new room("/levels/level3/room10/room10.png",
-
-                    new platform[]
-                    {
-                        new platform(new Vector (0,866), "/levels/level3/room10/room10platform0.png"),
-                        new platform(new Vector (26,490), "/levels/level3/room10/room10platform1.png"),
-                        new platform(new Vector (189,678), "/levels/level3/room10/room10platform2.png"),
-                        new platform(new Vector (432,340), "/levels/level3/room10/room10platform3.png"),
-                        new platform(new Vector (751,464), "/levels/level3/room10/room10platform4.png"),
-                        new platform(new Vector (1776,760), "/levels/level3/room10/room10platform5.png"),
-
-                    },
                     new Monster[]
                     {
 
@@ -1295,11 +2257,42 @@ public class Game
                     {
 
                     },
-                    new Detector[]
-                    {
 
-                    }
-
+            //RoomTransitions
+            new Detector[]
+            { 
+                
+            },
+              
+            //Platform Colliders
+            new Detector[]
+            {
+                
+            },
+                    
+            //Wind
+            new Detector[]
+            {
+                        
+            },
+            
+            //Doors        
+            new Detector[]
+            {
+                
+            },
+            
+            //Spikes        
+            new Detector[]
+            {
+                
+            },
+                    
+            //Breakables        
+            new Detector[]
+            {
+                
+            }
                     )})};
     // </editor-fold> 
     

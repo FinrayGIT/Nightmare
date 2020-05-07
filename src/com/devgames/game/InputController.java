@@ -167,6 +167,7 @@ public class InputController
                         break;
                         
                     case NextRoom:
+                        
                             game.CurrentLevel.player.JUMP_FORCE += 0.1f;
                             System.out.println("JUMP FORCE: " + game.CurrentLevel.player.JUMP_FORCE);
 //                        System.out.println("Attempting room+");

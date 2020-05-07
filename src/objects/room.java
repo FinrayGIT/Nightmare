@@ -10,27 +10,31 @@ import javax.swing.JPanel;
 public class room extends JPanel
 {
     public BufferedImage Background;
-    public platform[] Platforms;
     public Treasure[] treasures;
     public Monster[] Monsters;
     public ladder[] Ladders;
     public Detector[] RTA;
     public Detector[] wind;
     public Detector[] platformColliders;
+    public Detector[] breakables;
+    public Detector[] doors;
+    public Detector[] spikes;
         
     public room (   String _backgroundPath, 
-                    platform[] _platforms, 
                     Monster[] _Monsters, 
                     Treasure[] _treasures,
                     ladder[] _ladders, 
-                    Detector[] _RTA )
+                    Detector[] _RTA,
+                    Detector[] _platformColliders)
     {
         //Constructor to create room objects
-        Platforms = _platforms;
         Monsters = _Monsters;
         treasures = _treasures;
         Ladders = _ladders;
         RTA = _RTA;
+        wind = new Detector[0];
+        platformColliders = _platformColliders;
+        
         
         
         try
@@ -40,22 +44,27 @@ public class room extends JPanel
     }
     
     public room (   String _backgroundPath, 
-                    platform[] _platforms, 
+                  //  platform[] _platforms, 
                     Monster[] _Monsters, 
                     Treasure[] _treasures,
                     ladder[] _ladders, 
                     Detector[] _RTA,
+                    Detector[] _platformColliders,
                     Detector[] _wind,
-                    Detector[] _platformColliders)
+                    Detector[] _doors,
+                    Detector[] _spikes,
+                    Detector[] _breakables
+                    )
     {
         //Constructor to create room objects
-        Platforms = _platforms;
+      //  Platforms = _platforms;
         Monsters = _Monsters;
         treasures = _treasures;
         Ladders = _ladders;
         RTA = _RTA;
-        wind = _wind;
         platformColliders = _platformColliders;
+        wind = _wind;
+        
         
         
         try
@@ -63,4 +72,7 @@ public class room extends JPanel
             Background = ImageIO.read(getClass().getResource(_backgroundPath));
         }   catch (IOException ex) {System.err.println("Error loading image @" + _backgroundPath);}
     }
+    
+    
+    
 }

@@ -37,8 +37,10 @@ public class Detector
     
     public void DoSwap(Game _game)
     {   
-        System.out.println("Do Swap! " + levelTarget  + "   " + roomTarget);
-        _game.goToLevel(levelTarget);
+        System.out.println("-----------Do Swap! " + levelTarget  + "   " + roomTarget);
+        if (_game.LevelIndex != levelTarget){
+            _game.goToLevel(levelTarget);
+        }
         _game.CurrentLevel.GoToRoom(roomTarget);
         _game.CurrentLevel.player.Position = spawnPos;
         //game.CurrentLevel.player.Position.y += game.CurrentLevel.player.Sprite.getHeight();
@@ -47,7 +49,7 @@ public class Detector
     public void DoBoost(Game _game)
     {
         System.out.println("Do Boost!");
-        if (_game.CurrentLevel.player.velocity.y >= -5) {_game.CurrentLevel.player.velocity.y -= 2;}
+        {if (_game.CurrentLevel.player.velocity.y >= -5) {_game.CurrentLevel.player.velocity.y -= 2;}}
     }
 }
 
