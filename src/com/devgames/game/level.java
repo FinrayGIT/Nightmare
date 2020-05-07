@@ -21,6 +21,9 @@ import java.awt.Toolkit;
 
 public class level extends JPanel implements ActionListener
 {   
+    Game game;
+    boolean disablePlayer = false;
+    public float GRAVITY = 0.1f;
     Vector spawnPos;
     public Player player;
     public room[] rooms;
@@ -67,15 +70,18 @@ public class level extends JPanel implements ActionListener
     public level (Game _game, Vector _spawnPos, room[] _rooms)
     {   
         //Constructer to create level objects.
+        game = _game;
         rooms = _rooms;
         spawnPos = _spawnPos;
-        player = new Player(_spawnPos, _game);
+        player = new Player(_spawnPos, game);
         setFocusable(true);
         setDoubleBuffered(true);
         addKeyListener(new TAdapter());
-        inputController = new InputController(this);
+        inputController = new InputController(this, _game);
         timer = new Timer(10, this);   
     }
+    
+   
     
     public void StartLevel()
     {
@@ -112,8 +118,11 @@ public class level extends JPanel implements ActionListener
         
         currentRoom.requestFocus();
         currentRoom.setVisible(true);
-        player.Position = spawnPos;
-        player.Position.y = (player.Position.y - player.Sprite.getHeight());
+        if (!disablePlayer && player !=null)
+        {
+            player.Position = spawnPos;
+            player.Position.y = (player.Position.y - player.Sprite.getHeight());
+        }
     }
     
     public void GoToRoom(int _index)
@@ -159,7 +168,7 @@ public class level extends JPanel implements ActionListener
 //          g.drawImage(l.Sprite, (int)l.Position.x, (int)l.Position.y, null);
 //      }
         
-        player.draw(g);
+        if (!disablePlayer && player !=null){player.draw(g);}
         g.dispose();        
         Toolkit.getDefaultToolkit().sync();            
     }
@@ -168,7 +177,7 @@ public class level extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent ae)
     {  
         //Once input it detected, updates and redraws scene.        
-        player.UpdatePlayer();
+        if (!disablePlayer && player !=null){player.UpdatePlayer();}
         inputController.updateInput();
         UpdateProjectiles();
         Toolkit.getDefaultToolkit().sync();

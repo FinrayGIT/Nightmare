@@ -26,7 +26,7 @@ public class Player extends baseLevelObject
     //Final values to store values which may require tweaking.
     public final float CLIMB_SPEED = 0.5f;
     public final float MOVE_SPEED = 0.6f;
-    public final float JUMP_FORCE = 4f;
+    public float JUMP_FORCE = 4f;
     final float JUMP_DELAY_DURATION = 0.1f;
     final float GRAVITY = 0.1f;
     final float FRAME_LENGTH = 125;
@@ -35,6 +35,7 @@ public class Player extends baseLevelObject
     final int WALK_FRAMES = 3;
     final int IDLE_FRAMES = 0;
     final int ALL_FRAMES = 49;
+    public int scale = 40;
     float jumpDelayTimer;
     
     // </editor-fold>
@@ -130,13 +131,13 @@ public class Player extends baseLevelObject
         {
         try
         {
-            SpriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/player_" + i + ".png"));
+            SpriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/" + scale + "/player_" + i + ".png"));
         }   catch(Exception ex) {System.err.println("Error loading animated sprite frame " + i);}
         }
         
         try
         {
-            Sprite = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/player_0.png"));
+            Sprite = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/40/player_0.png"));
         }   catch(Exception ex) {System.err.println("Error loading player sprite");}
         
         try
@@ -462,6 +463,16 @@ public class Player extends baseLevelObject
                 for (int i = 0; i < game.CurrentLevel.currentRoom.Monsters.length; i++){
                     //loop monsters, collide = die;
                 }
+                
+                //Wind Collider logic
+                
+                for (int i = 0; i < game.CurrentLevel.currentRoom.wind.length; i++)
+                {
+                    if (getBounds().intersects(game.CurrentLevel.currentRoom.wind[i].rect))
+                    {
+                        game.CurrentLevel.currentRoom.wind[i].DoBoost(game);
+                    }
+                }
                 // </editor-fold>
             }
             
@@ -475,7 +486,7 @@ public class Player extends baseLevelObject
                 if (Position.y + velocity.y <= lowestPoint) 
                 {
                     Position.y += velocity.y;
-                    velocity.y += GRAVITY;
+                    velocity.y += game.CurrentLevel.GRAVITY;
                 }
             }
             
@@ -554,12 +565,12 @@ public class Player extends baseLevelObject
 //            g.drawImage(colSprite, bottomRightCol.x, bottomRightCol.y, null);
 //            
             //g.drawImage(colSpriteRay, (int)(topLeftColRay.x + velocity.x), (int)(topLeftColRay.y + velocity.y), null);
-            g.drawImage(colSpriteRay, (int)(topColRay.x + velocity.x), (int)(topColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(topColRay.x + velocity.x), (int)(topColRay.y + velocity.y), null);
            // g.drawImage(colSpriteRay, (int)(topRightColRay.x + velocity.x), (int)(topRightColRay.y + velocity.y), null);
-            g.drawImage(colSpriteRay, (int)(leftColRay.x + velocity.x), (int)(leftColRay.y + velocity.y), null);
-            g.drawImage(colSpriteRay, (int)(rightColRay.x + velocity.x), (int)(rightColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(leftColRay.x + velocity.x), (int)(leftColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(rightColRay.x + velocity.x), (int)(rightColRay.y + velocity.y), null);
             //g.drawImage(colSpriteRay, (int)(bottomLeftColRay.x + velocity.x), (int)(bottomLeftColRay.y + velocity.y), null);
-            g.drawImage(colSpriteRay, (int)(bottomColRay.x + velocity.x), (int)(bottomColRay.y + velocity.y), null);
+            //g.drawImage(colSpriteRay, (int)(bottomColRay.x + velocity.x), (int)(bottomColRay.y + velocity.y), null);
             //g.drawImage(colSpriteRay, (int)(bottomRightColRay.x + velocity.x), (int)(bottomRightColRay.y + velocity.y), null);
                             // </editor-fold>
         }    

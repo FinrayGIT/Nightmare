@@ -1,6 +1,7 @@
 package com.devgames.game;
 
 import java.awt.event.KeyEvent;
+import objects.Vector;
 
 public class InputController
 {   
@@ -8,10 +9,10 @@ public class InputController
     level level;
     Game game;
     
-    public InputController(level _level)
+    public InputController(level _level, Game _game)
     {
         level = _level;
-        game = game;
+        game = _game;
     }
     
     public static InputController.Input[] inputs =
@@ -30,6 +31,8 @@ public class InputController
         new InputController.Input(KeyEvent.VK_PAGE_UP, inputAction.NextRoom, inputState.Down),
         new InputController.Input(KeyEvent.VK_PAGE_DOWN, inputAction.PrevRoom, inputState.Down),
         new InputController.Input(KeyEvent.VK_O, inputAction.Shoot, inputState.Down),
+        new InputController.Input(KeyEvent.VK_INSERT, inputAction.ScaleUp, inputState.Down),
+        new InputController.Input(KeyEvent.VK_DELETE, inputAction.ScaleUp, inputState.Down),
         // </editor-fold>
     };
     
@@ -47,7 +50,10 @@ public class InputController
         PrevRoom,
         EnableClimb,
         Crouch,
-        Shoot
+        Shoot,
+        ScaleUp,
+        ScaleDown,
+
     }
     
     public static enum inputState
@@ -87,19 +93,19 @@ public class InputController
                 switch(inputs[i].action)
                 {
                     case MoveLeft:
-                        {level.player.MoveLeft();}
+                        if (!level.disablePlayer){level.player.MoveLeft();}
                         break;
                         
                     case MoveRight:
-                        level.player.MoveRight();
+                        if (!level.disablePlayer){level.player.MoveRight();}
                         break;
                         
                     case ClimbUp:
-                        level.player.MoveUp();
+                        if (!level.disablePlayer){level.player.MoveUp();}
                         break;
                         
                     case ClimbDown:
-                        level.player.MoveDown();
+                        if (!level.disablePlayer){level.player.MoveDown();}
                         break;
                         
                     case EnableClimb: //Testing purposes, disable for hand in
@@ -107,51 +113,79 @@ public class InputController
                         break;
                         
                     case Jump:       
-                        level.player.Jump();
+                        if (!level.disablePlayer){level.player.Jump();}
+//                        System.out.println(game.CurrentLevel.roomIndex);
+//                        System.out.println(game.LevelIndex);
+                        
+                        break;
+                    case ScaleUp:
+//                        Vector _reSpawnPos;
+//                        if (level.player !=null){_reSpawnPos = level.player.Position;}
+//                        else {_reSpawnPos = new Vector(0,0);}
+//                        level.player.scale += 10;
+//                        level.player = null;
+//                        level.SpawnPlayer(level.player.scale, _reSpawnPos);
+                        break;
+                        
+                    case ScaleDown:
+//                        if (level.player !=null){_reSpawnPos = level.player.Position;}
+//                        else {_reSpawnPos = new Vector(0,0);}
+//                        level.player = null;
+//                        level.player.scale -= 10;
+//                        level.SpawnPlayer(level.player.scale, _reSpawnPos);
                         break;
                         
                     case NextLvl:
-                        System.out.println("Attempting lvl+");
-                        if (game.LevelIndex + 1 <= game.levels.length)
-                        {                           
-                            game.goToLevel(game.LevelIndex + 1);
-                            System.out.println("Level+");
-                        }
+                            game.CurrentLevel.GRAVITY += 0.01f;
+                            System.out.println("GRAVITY: " + game.CurrentLevel.GRAVITY);
+//                        System.out.println("Attempting lvl+");
+//                        if (game.LevelIndex + 1 <= game.levels.length)
+//                        {                           
+//                            game.goToLevel(game.LevelIndex + 1);
+//                            System.out.println("Level+");
+//                        }
                         break;
                         
                     case PrevLvl:
-                        System.out.println("Attempting lvl-");
-                        if (game.LevelIndex - 1 >= 0)
-                        {                           
-                            game.goToLevel(game.LevelIndex - 1);
-                            System.out.println("Level-");
-                        }
+                        game.CurrentLevel.GRAVITY -= 0.01f;
+                        System.out.println("GRAVITY: " + game.CurrentLevel.GRAVITY);
+//                        System.out.println("Attempting lvl-");
+//                        if (game.LevelIndex - 1 >= 0)
+//                        {                           
+//                            game.goToLevel(game.LevelIndex - 1);
+//                            System.out.println("Level-");
+//                        }
                         break;
                         
                     case NextRoom:
-                        System.out.println("Attempting room+");
-                        if (level.roomIndex + 1 < level.rooms.length)
-                        {                           
-                            level.GoToRoom(level.roomIndex + 1);
-                            System.out.println("Level+");
-                        }
+                            game.CurrentLevel.player.JUMP_FORCE += 0.1f;
+                            System.out.println("JUMP FORCE: " + game.CurrentLevel.player.JUMP_FORCE);
+//                        System.out.println("Attempting room+");
+//                        if (level.roomIndex + 1 < level.rooms.length)
+//                        {                           
+//                            level.GoToRoom(level.roomIndex + 1);
+//                            System.out.println("Room+");
+//                        }
                         break;
                         
                     case PrevRoom:
-                        System.out.println("Attempting room-");
-                        if (level.roomIndex - 1 >= 0)
-                        {
-                            level.GoToRoom(level.roomIndex - 1);
-                            System.out.println("Level+");
-                        }
+                        game.CurrentLevel.player.JUMP_FORCE -= 0.1f;
+                        System.out.println("JUMP FORCE: " + game.CurrentLevel.player.JUMP_FORCE);
+//                        System.out.println("Attempting room-");
+//                        if (level.roomIndex - 1 >= 0)
+//                        {
+//                            level.GoToRoom(level.roomIndex - 1);
+//                            System.out.println("Room-");
+//                        }
                         break;
                         
                     case Crouch:
-                        level.player.Crouch();
+                        //level.player.Crouch();
+                        level.disablePlayer = !level.disablePlayer;
                         break;
                         
                     case Shoot:
-                        level.player.Attack();
+                        if (!level.disablePlayer){level.player.Attack();}
                         break;
                 }
             }
