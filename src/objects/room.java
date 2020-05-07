@@ -1,6 +1,6 @@
 package objects;
 
-import com.devgames.game.RoomTransition;
+import com.devgames.game.Detector;
 import com.devgames.characters.Monster;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,15 +14,16 @@ public class room extends JPanel
     public Treasure[] treasures;
     public Monster[] Monsters;
     public ladder[] Ladders;
-    public RoomTransition[] RTA;
-    public RoomTransition[] wind;
+    public Detector[] RTA;
+    public Detector[] wind;
+    public Detector[] platformColliders;
         
     public room (   String _backgroundPath, 
                     platform[] _platforms, 
                     Monster[] _Monsters, 
                     Treasure[] _treasures,
                     ladder[] _ladders, 
-                    RoomTransition[] _RTA   )
+                    Detector[] _RTA )
     {
         //Constructor to create room objects
         Platforms = _platforms;
@@ -43,8 +44,9 @@ public class room extends JPanel
                     Monster[] _Monsters, 
                     Treasure[] _treasures,
                     ladder[] _ladders, 
-                    RoomTransition[] _RTA,
-                    RoomTransition[] _wind)
+                    Detector[] _RTA,
+                    Detector[] _wind,
+                    Detector[] _platformColliders)
     {
         //Constructor to create room objects
         Platforms = _platforms;
@@ -53,6 +55,7 @@ public class room extends JPanel
         Ladders = _ladders;
         RTA = _RTA;
         wind = _wind;
+        platformColliders = _platformColliders;
         
         
         try

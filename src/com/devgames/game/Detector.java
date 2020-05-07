@@ -4,15 +4,15 @@ import objects.Vector;
 import java.awt.Rectangle;
 
 
-public class RoomTransition      
+public class Detector      
 {   
     public Rectangle rect;
     int levelTarget;
     int roomTarget;
     int boost;
-    Vector spawnPos;    
+    Vector spawnPos;     
     
-    public RoomTransition(  Rectangle _rect, 
+    public Detector(        Rectangle _rect, 
                             int _levelTarget, 
                             int _roomTarget, 
                             Vector _spawnPos    )
@@ -23,11 +23,16 @@ public class RoomTransition
         spawnPos = _spawnPos;
     }
     
-        public RoomTransition(  Rectangle _rect, 
+    public Detector(            Rectangle _rect, 
                                 int _boost      )
     {
         rect = _rect;
         boost = _boost;
+    }
+    
+    public Detector(            Rectangle _rect)
+    {
+        rect = _rect;
     }
     
     public void DoSwap(Game _game)
@@ -42,7 +47,7 @@ public class RoomTransition
     public void DoBoost(Game _game)
     {
         System.out.println("Do Boost!");
-        _game.CurrentLevel.player.velocity.y -= 2;
+        if (_game.CurrentLevel.player.velocity.y >= -5) {_game.CurrentLevel.player.velocity.y -= 2;}
     }
 }
 

@@ -3,14 +3,18 @@ package objects;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
+
+
 public class Treasure extends baseLevelObject
 {    
     public static boolean isVisible;
+    public String name;
     
-    public Treasure(Vector _position, String _path)
+    public Treasure(Vector _position, String _path, String _name)
     {   
         //Constructor for Treasure objects
         super(_position, _path);
+        name = _name;
         isVisible = true;      
                         
     }

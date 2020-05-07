@@ -56,16 +56,16 @@ public class Game
             new room("/levels/level0/room0/room0.png",                
             new platform[]
             {   
-                new platform(new Vector (0,872), "/levels/level0/room0/room0platform0.png"),
-                new platform(new Vector (986,777), "/levels/level0/room0/room0platform1.png"),
-                new platform(new Vector (1241,661), "/levels/level0/room0/room0platform2.png"), 
-                new platform(new Vector (1477,262), "/levels/level0/room0/room0platform3.png")
+//                new platform(new Vector (0,915), "/levels/level0/room0/room0platform0.png"),
+//                new platform(new Vector (986,777), "/levels/level0/room0/room0platform1.png"),
+//                new platform(new Vector (1241,661), "/levels/level0/room0/room0platform2.png"), 
+//                new platform(new Vector (1477,262), "/levels/level0/room0/room0platform3.png")
 
             },     
 
             new Monster[]
             {
-                new Monster(new Vector(800, 800), "/Sprites/Graded/Frost-Brute-Graded-Single.png")
+                //new Monster(new Vector(800, 800), "/Sprites/Graded/Frost-Brute-Graded-Single.png")
             },
 
             new Treasure[]
@@ -75,20 +75,41 @@ public class Game
 
             new ladder[]
             {
-
+                new ladder(new Vector (1695, 640), "/levels/level0/room1/room1ladder0.png")
             },
 
             //RoomTransitions
-            new RoomTransition[]
+            new Detector[]
             { 
-                new RoomTransition 
+                new Detector 
                 (   
                     new Rectangle (1920, 0, 5, 1080),   /*Bounds of trigger*/ 
                     0, 1,                               /*Level & room target*/
                     new Vector(100, 780)                /*Player spawn point*/
                 ),
 
-            }),
+            },
+            
+            //Wind
+            new Detector[]
+            {
+                new Detector
+                        (
+                                new Rectangle(0, 950, 1, 1)
+                        ),
+            },
+                    
+            //PlatformCols
+            new Detector[]
+            {
+                new Detector(new Rectangle(-100, 915, 920, 20)),
+                new Detector(new Rectangle(995, 785, 100, 20)),
+                new Detector(new Rectangle(1265, 775, 700, 20)),
+                new Detector(new Rectangle(1480, 248, 540, 20)),
+                new Detector(new Rectangle(-19, -19, 20, 1080))
+            }
+            
+            ),
             
         
                 
@@ -106,7 +127,7 @@ public class Game
 
             new Monster[]
             {
-
+                //new Monster(new Vector (520, 680), "Earth", "normalorc", 18)
             },
 
             new Treasure[]
@@ -115,22 +136,29 @@ public class Game
             },
 
             new ladder[]
-            {
-                //new ladder(new Vector (1695, 628), "/levels/level0/room1/room1ladder0.png")
+            {   
+//                new ladder(new Vector (1695, 640), "/levels/level0/room1/room1ladder0.png")
+                new ladder(new Vector (1695, 628), "/levels/level0/room1/room1ladder0.png")
             },
 
             //RoomTransitions
-            new RoomTransition[]
+            new Detector[]
             { 
-//                new RoomTransition ( new Rectangle (1920, 0, 5, 1080), 
+//                new Detector ( new Rectangle (1920, 0, 5, 1080), 
 //                        0, 1, 
 //                        new Vector(100, 780)),
             },
                     
             //Wind
-            new RoomTransition[]
+            new Detector[]
             {
-                new RoomTransition((new Rectangle(960, 680, 370, 400)), 5)                
+                new Detector((new Rectangle(960, 680, 370, 400)), 5)                
+            },
+            
+            //Platform Colliders
+            new Detector[]
+            {
+                new Detector((new Rectangle(960, 680, 370, 400)), 5)                
             }),
                 
 // </editor-fold> 
@@ -161,7 +189,7 @@ public class Game
                 //new ladder(new Vector (1700, 661), "/rooms/room2/room2ladder0.png")
             },
 
-            new RoomTransition[]
+            new Detector[]
             {                         
             }),
                 
@@ -195,7 +223,7 @@ public class Game
                 new ladder(new Vector (1607, 165), "/levels/level0/room3/room3ladder0.png"),
                 new ladder(new Vector (1733, 475), "/levels/level0/room3/room3ladder1.png")
             },
-            new RoomTransition[]
+            new Detector[]
             {   
             }),
                 
@@ -226,7 +254,7 @@ public class Game
             {
                 //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
             },
-                            new RoomTransition[]
+                            new Detector[]
             {   
             }),
                 
@@ -256,7 +284,7 @@ public class Game
             {
                //new ladder(new Vector (1780, 0), "/rooms/room1/room1ladder.png")
             },
-            new RoomTransition[]
+            new Detector[]
             {   
             }),
                 
@@ -285,7 +313,7 @@ public class Game
                 //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
             },
 
-                    new RoomTransition[]
+                    new Detector[]
             {   
             }
         )}),
@@ -325,7 +353,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {   
                     }),
 
@@ -351,7 +379,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {   
                     }),
 
@@ -377,7 +405,7 @@ public class Game
                     {
 
                     },
-                   new RoomTransition[]
+                   new Detector[]
                     {   
                     }
                     ),
@@ -403,7 +431,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -432,7 +460,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -461,7 +489,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -492,7 +520,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -522,7 +550,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -552,7 +580,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -580,7 +608,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     })
@@ -626,7 +654,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -654,7 +682,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -686,7 +714,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -715,7 +743,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -745,7 +773,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -776,7 +804,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -807,7 +835,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -835,7 +863,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -863,7 +891,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -891,7 +919,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -933,7 +961,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -974,7 +1002,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1002,7 +1030,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1029,7 +1057,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1057,7 +1085,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1088,7 +1116,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1117,7 +1145,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1146,7 +1174,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1174,7 +1202,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1202,7 +1230,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1235,7 +1263,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }                
@@ -1267,7 +1295,7 @@ public class Game
                     {
 
                     },
-                    new RoomTransition[]
+                    new Detector[]
                     {
 
                     }
@@ -1297,7 +1325,7 @@ public class Game
         CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
         cl.next(gameWindow.getContentPane());
         goToLevel(0);
-        CurrentLevel.GoToRoom(1);
+        CurrentLevel.GoToRoom(0);
         levelReady = true;
     }
     

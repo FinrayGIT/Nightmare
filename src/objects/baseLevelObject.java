@@ -22,6 +22,11 @@ public class baseLevelObject
             }   catch(Exception ex) {System.err.println("Error loading image @" + _path);}
     }
     
+    public baseLevelObject(Vector _position)
+    {
+        Position = _position;
+    }
+    
     public baseLevelObject(Vector _position, BufferedImage _sprite)
     {
         Position = _position;

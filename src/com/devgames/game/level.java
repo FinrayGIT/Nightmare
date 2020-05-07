@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import objects.ladder;
 
 
 
@@ -27,6 +28,7 @@ public class level extends JPanel implements ActionListener
     Vector spawnPos;
     public Player player;
     public room[] rooms;
+    public ladder[] ladder;
     public room currentRoom;
     public int roomIndex = 0;
     public Timer timer;

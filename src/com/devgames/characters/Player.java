@@ -5,10 +5,10 @@ import objects.baseLevelObject;
 import objects.Vector;
 import com.devgames.game.level;
 import com.devgames.game.Game;
-import com.devgames.game.RoomTransition;
+import com.devgames.game.Detector;
 import com.devgames.game.InputController;
 import com.devgames.game.Projectile;
-import com.devgames.game.RoomTransition;
+import com.devgames.game.Detector;
 import objects.platform;
 
 import java.awt.Graphics;
@@ -25,7 +25,7 @@ public class Player extends baseLevelObject
     
     //Final values to store values which may require tweaking.
     public final float CLIMB_SPEED = 0.5f;
-    public final float MOVE_SPEED = 0.6f;
+    public final float MOVE_SPEED = 0.4f;
     public float JUMP_FORCE = 4f;
     final float JUMP_DELAY_DURATION = 0.1f;
     final float GRAVITY = 0.1f;
@@ -34,8 +34,8 @@ public class Player extends baseLevelObject
     final int DEATH_FRAMES = 5;
     final int WALK_FRAMES = 3;
     final int IDLE_FRAMES = 0;
-    final int ALL_FRAMES = 49;
-    public int scale = 40;
+    final int PLAYER_FRAMES = 49;
+    public int scale = 50;
     float jumpDelayTimer;
     
     // </editor-fold>
@@ -49,8 +49,8 @@ public class Player extends baseLevelObject
     public boolean PlayedGrabAnim = false;
     public boolean movedLeftLast = false;
     public boolean movedRightLast = false;
-    eHeldWeapon HeldWeapon;
-    boolean sawUnlocked;
+    public eHeldWeapon HeldWeapon;
+    boolean bonesawUnlocked;
     boolean crossbowUnlocked;
     boolean syringeUnlocked;
     public Vector velocity;
@@ -101,11 +101,11 @@ public class Player extends baseLevelObject
     
     Vector healthPos = new Vector(0,0);
     BufferedImage[] healthImages = new BufferedImage[4];
-    public BufferedImage[] SpriteArray = new BufferedImage[ALL_FRAMES];
+    BufferedImage[] spriteArray = new BufferedImage[PLAYER_FRAMES];
     
     // </editor-fold>
     
-    enum eHeldWeapon
+    public enum eHeldWeapon
     {
         None,
         Bonesaw,
@@ -127,11 +127,11 @@ public class Player extends baseLevelObject
         
         health = MaxHealth;
         
-        for (int i = 0; i <= ALL_FRAMES; i++)
+        for (int i = 0; i <= PLAYER_FRAMES; i++)
         {
         try
         {
-            SpriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/" + scale + "/player_" + i + ".png"));
+            spriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/Player/movement/" + scale + "/player_" + i + ".png"));
         }   catch(Exception ex) {System.err.println("Error loading animated sprite frame " + i);}
         }
         
@@ -181,22 +181,27 @@ public class Player extends baseLevelObject
     {       
         if (!IsClimbing)
         {
-            velocity.x -= MOVE_SPEED;
             upperLimit = 4;
             lowerLimit = 1;
-            
-            if (frameIndex < lowerLimit || frameIndex > upperLimit)
-            {
-                frameIndex = lowerLimit;
-            }
+            velocity.x -= MOVE_SPEED;
         }
-        
         else
         {
+            if (!PlayedGrabAnim)
+            {   
+                lowerLimit = 16;
+                upperLimit = 20;
+                PlayedGrabAnim = true;
+                System.out.println("Move left: " + PlayedGrabAnim);
+            }
+            
+            else 
+            {
+                upperLimit = 36;
+                lowerLimit = 31;
+            }
+            
             velocity.x -= CLIMB_SPEED;
-            upperLimit = 36;
-            lowerLimit = 31;
-            frameIndex = 31;
         }
         
         movedLeftLast = true;
@@ -207,21 +212,28 @@ public class Player extends baseLevelObject
     {      
         if (!IsClimbing)
         {
-            velocity.x += MOVE_SPEED;
             upperLimit = 8;
             lowerLimit = 5;
-            if (frameIndex < lowerLimit || frameIndex > upperLimit)
-            {
-                frameIndex = lowerLimit;
-            }
+            velocity.x += MOVE_SPEED;
         }
         
         else
         {
-            velocity.x += CLIMB_SPEED;
-            lowerLimit = 31;
-            upperLimit = 36;
+            if (!PlayedGrabAnim)
+            {   
+                lowerLimit = 21;
+                upperLimit = 25;
+                PlayedGrabAnim = true;
+                System.out.println("Move right: " + PlayedGrabAnim);
+            }
             
+            else
+            {
+                lowerLimit = 31;
+                upperLimit = 36;
+            }
+            
+            velocity.x += CLIMB_SPEED;
         }
         
         movedLeftLast = false;
@@ -232,65 +244,95 @@ public class Player extends baseLevelObject
     {
         if (canClimb && !IsClimbing)
         {
-            if (!PlayedGrabAnim && movedLeftLast)
-            {   
-                frameIndex = 16;
-                lowerLimit = 16;
-                upperLimit = 20;
-                PlayedGrabAnim = true;
-            }
-            
-            else if (!PlayedGrabAnim && movedRightLast)
-            {   
-                frameIndex = 21;
-                lowerLimit = 21;
-                upperLimit = 25;
-                PlayedGrabAnim = true;
-            }
-            
             IsClimbing = true;
             IsGrounded = false;
         }
         
         if (IsClimbing)
         {
-            velocity.y -= CLIMB_SPEED;
+            if (!PlayedGrabAnim && movedLeftLast)
+            {   
+                lowerLimit = 16;
+                upperLimit = 20;
+                PlayedGrabAnim = true;
+                System.out.println("Move up left: " + PlayedGrabAnim);
+            }
+            
+            else if (!PlayedGrabAnim && movedRightLast)
+            {   
+                lowerLimit = 21;
+                upperLimit = 25;
+                PlayedGrabAnim = true;
+                System.out.println("Move up right: " + PlayedGrabAnim);
+            }
             
             if (movedLeftLast)
             {
-                frameIndex = 31;
                 lowerLimit = 31;
                 upperLimit = 36;
             }
             
             else if (movedRightLast)
             {
-                frameIndex = 37;
                 lowerLimit = 37;
                 upperLimit = 42;
             }
+            
+            velocity.y -= CLIMB_SPEED;
         }
     }
     
-    public void Crouch()
-    {
-        frameIndex = 15;
-        lowerLimit = 15;
-        upperLimit = 15;
-        Position.y = (Position.y + 35);
-    }
-        
+  
     public void MoveDown()
-    {
+    {   
+        
         if (canClimb && !IsClimbing)
         {
             IsClimbing = true;
             IsGrounded = false;
         }
+        
         if (IsClimbing)
         {
+            
+            if (!PlayedGrabAnim && movedLeftLast)
+            {   
+                lowerLimit = 16;
+                upperLimit = 20;
+                PlayedGrabAnim = true;
+                System.out.println("Move down left: " + PlayedGrabAnim);
+            }
+            
+            else if (!PlayedGrabAnim && movedRightLast)
+            {   
+                lowerLimit = 21;
+                upperLimit = 25;
+                PlayedGrabAnim = true;
+                System.out.println("Move down right: " + PlayedGrabAnim);
+            }
+            
+            if (movedLeftLast)
+            {
+                lowerLimit = 31;
+                upperLimit = 36;
+            }
+            
+            else if (movedRightLast)
+            {
+                lowerLimit = 37;
+                upperLimit = 42;
+            }
+            
             velocity.y += CLIMB_SPEED;
         }
+    }
+    
+        public void Crouch()
+    {
+        frameIndex = 15;
+        lowerLimit = 15;
+        upperLimit = 15;
+        Position.y = (Position.y + 35);
     }
     
     public void Jump()
@@ -299,9 +341,10 @@ public class Player extends baseLevelObject
         {   
             IsGrounded = false;
             IsClimbing = false;
+            PlayedGrabAnim = false;
             velocity.y -= JUMP_FORCE;
             jumpDelayTimer = JUMP_DELAY_DURATION;
-            velocity.x += (velocity.x / 2);
+            velocity.x += (velocity.x / 4);
         }
     }
     
@@ -310,6 +353,7 @@ public class Player extends baseLevelObject
         if (HeldWeapon != eHeldWeapon.None)
         {        
             Projectile.eType type = Projectile.eType.FakeMelee;
+            
             if (HeldWeapon == eHeldWeapon.Crossbow)
             {
                 type = Projectile.eType.Arrow;
@@ -318,6 +362,7 @@ public class Player extends baseLevelObject
             {
                     type = Projectile.eType.Syringe;
             }
+            
             game.CurrentLevel.AddProjectile( (int)Position.x, (int)Position.y, (velocity.x < 0), type );
         }
     }
@@ -385,21 +430,23 @@ public class Player extends baseLevelObject
                 Math.round((int)bottomRightCol.y + velocity.y), 1, 1);
             
 // </editor-fold>
-            
             canClimb = false;
             
             //Checks if you are intersecting a climbable object  
             for (int i = 0; i < game.CurrentLevel.currentRoom.Ladders.length; i++)
             {
                 if ( game.CurrentLevel.currentRoom.Ladders[i].getBounds().intersects(getBounds()))
-                {
+                {   
+                    
                     canClimb = true;
                 }
             }
             
+            
             if (IsClimbing && !canClimb)
             {
                 IsClimbing = false;
+                PlayedGrabAnim = false;
             }
 
             //Reduces the cooldown on jump
@@ -415,31 +462,31 @@ public class Player extends baseLevelObject
             {   
                 // <editor-fold desc="COLLIDER LOGIC">
                 IsGrounded = false;
-                for (int i = 0; i <  game.CurrentLevel.currentRoom.Platforms.length; i++)
+                for (int i = 0; i <  game.CurrentLevel.currentRoom.platformColliders.length; i++)
                 {   
                     //"Raycast" collider logic.
-//                    if (!IsClimbing && rightColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                    {   
-//                        Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x - 1), 
-//                                                   (_level.currentRoom.Platforms[i].Position.y - 1));
-//                        velocity.x = 0;
-//                    }
-//
-//                    if (!IsClimbing && leftColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
-//                    {
-//                        Vector newPos = new Vector((_level.currentRoom.Platforms[i].Position.x + _level.currentRoom.Platforms[i].getBounds().width), 
-//                                                   (_level.currentRoom.Platforms[i].Position.y - 1));
-//                        velocity.x = 0;
-//                    }
+                    if (!IsClimbing && rightColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
+                    {   
+                        velocity.x = 0;
+                    }
+
+                    if (!IsClimbing && leftColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
+                    {
+                        velocity.x = 0;
+                        Position.x = (game.CurrentLevel.currentRoom.platformColliders[i].rect.x + game.CurrentLevel.currentRoom.platformColliders[i].rect.width);
+                    }
 
                  //   System.out.println("Bottom Ray : " + (bottomColRay!=null) + "    CurrentLevel : " + game.CurrentLevel);
-                    if (!IsClimbing && !IsGrounded && bottomColRay.intersects(game.CurrentLevel.currentRoom.Platforms[i].getBounds()))
+                    if (!IsClimbing && !IsGrounded && bottomColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
                     {   
                         //System.out.println("Hit Rock Bottom");
                         IsGrounded = true;
                         velocity.y = 0;
-                        Position.y = ( game.CurrentLevel.currentRoom.Platforms[i].Position.y - Sprite.getHeight()+2);
+                        Position.y = ( game.CurrentLevel.currentRoom.platformColliders[i].rect.y - Sprite.getHeight()+2);
+                        System.out.println("Collided!");
                     }
+                    
+                    
 
 //                    if (!IsClimbing && topColRay.intersects(_level.currentRoom.Platforms[i].getBounds()))
 //                    {
@@ -449,7 +496,8 @@ public class Player extends baseLevelObject
 //                    }                
 
                 }
-            
+                
+                
                 for (int i = 0; i < game.CurrentLevel.currentRoom.RTA.length; i++)
                 {
                     //System.out.println("Checking RTA "+ game.CurrentLevel.currentRoom.RTA[i].rect.toString() + "  " + Position.x + ", " + Position.y);
@@ -460,19 +508,62 @@ public class Player extends baseLevelObject
                 }
                 
                 
-                for (int i = 0; i < game.CurrentLevel.currentRoom.Monsters.length; i++){
+                for (int i = 0; i < game.CurrentLevel.currentRoom.Monsters.length; i++)
+                {
                     //loop monsters, collide = die;
                 }
                 
                 //Wind Collider logic
-                
-                for (int i = 0; i < game.CurrentLevel.currentRoom.wind.length; i++)
+                if (game.CurrentLevel.currentRoom.wind !=null)
                 {
-                    if (getBounds().intersects(game.CurrentLevel.currentRoom.wind[i].rect))
+                    for (Detector wind : game.CurrentLevel.currentRoom.wind) 
                     {
-                        game.CurrentLevel.currentRoom.wind[i].DoBoost(game);
+                        if (getBounds().intersects(wind.rect)) {wind.DoBoost(game);}
                     }
                 }
+                
+                
+                
+                for (int i = 0; i < game.CurrentLevel.currentRoom.treasures.length; i++)
+                {
+                    if (getBounds().intersects(game.CurrentLevel.currentRoom.treasures[i].getBounds()))
+                    {
+                        if ("bonesaw".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            bonesawUnlocked = true;
+                        }
+                        if ("crossbow".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            crossbowUnlocked = true;
+                        }
+                        if ("syringe".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            syringeUnlocked = true;
+                        }
+                        if ("key_0".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            syringeUnlocked = true;
+                        }
+                        if ("key_1".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            syringeUnlocked = true;
+                        }
+                        if ("key_2".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            syringeUnlocked = true;
+                        }
+                        if ("key_3".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            syringeUnlocked = true;
+                        }
+                        if ("key_4".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        {
+                            syringeUnlocked = true;
+                        }
+                        
+                    }
+                }
+                
                 // </editor-fold>
             }
             
@@ -480,7 +571,7 @@ public class Player extends baseLevelObject
             if (!IsClimbing && !IsGrounded)
             {   
                 Position.x += velocity.x;           //Left & right movement
-                velocity.x -= velocity.x * 0.1f;    //Drag
+                velocity.x -= velocity.x * 0.05f;    //Drag
                 
                 //Gravity
                 if (Position.y + velocity.y <= lowestPoint) 
@@ -543,8 +634,9 @@ public class Player extends baseLevelObject
     {
         //This function draws the player sprite, and for testing purposes
         //can draw graphical representation of colliders.
-
-        g.drawImage(SpriteArray[frameIndex], (int)Position.x, (int)Position.y, null);        
+        
+        if (frameIndex < lowerLimit || frameIndex > upperLimit){frameIndex = lowerLimit;}     
+        g.drawImage(spriteArray[frameIndex], (int)Position.x, (int)Position.y, null);
         
         //Health
         for (int i = 0; i < health; i++)

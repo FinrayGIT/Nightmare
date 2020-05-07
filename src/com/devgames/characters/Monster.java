@@ -3,12 +3,26 @@ package com.devgames.characters;
 import objects.Vector;
 import objects.baseLevelObject;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 
 public class Monster extends baseLevelObject
 {
     private boolean isVisible;
     public Player player;
+    
+    
+    // <editor-fold desc="ANIMATION VARIABLES">
+    
+    public int lowerLimit = 0;
+    public int upperLimit = 0;
+    public int animationFrames;
+    int frameIndex = 0;
+    float frameTime;
+    
+    // </editor-fold>
+    BufferedImage[] spriteArray1 = new BufferedImage[0];
     
     private int speed = 3;
     private int damage;
@@ -17,16 +31,42 @@ public class Monster extends baseLevelObject
     int health = 3;
     int MaxHealth = 3;
     
-    public Monster(Vector _position, String _path)
+    public Monster(     Vector _position,
+                        String _element,
+                        String _type,
+                        int    _frames      )
+            
     {   
-        super(_position, _path );    
+        
+        super(_position);
         score = 50;
         isVisible = true;
         health = MaxHealth;
+        loadSprites(_frames, _element, _type);
     }
     
-        public void draw(Graphics2D g)
-    {
+    private void loadSprites(int _frames, String _element, String _type)
+    {   
+        BufferedImage[] spriteArray = new BufferedImage[_frames];
+        
+        for (int i = 0; i <= (_frames-1); i++)
+        {   
+            
+            
+            try
+            {
+                spriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/enemies/" + _element + "/" + _type + "/" + _type + "_" + i + ".png"));
+            }   catch(Exception ex) {System.err.println("Error loading " + _element + " " + _type + " animation frame " + i);}
+        }
+        spriteArray1 = spriteArray;
+        
+    }
+    
+    public void draw(Graphics2D g)
+    {   
+        
+        if (frameIndex < lowerLimit || frameIndex > upperLimit){frameIndex = lowerLimit;}     
+        g.drawImage(spriteArray1[frameIndex], (int)Position.x, (int)Position.y, null);
         //Draw the sprite at the correct coordinates in the graphics context
         if(isVisible == true)
             g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);

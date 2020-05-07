@@ -31,8 +31,8 @@ public class InputController
         new InputController.Input(KeyEvent.VK_PAGE_UP, inputAction.NextRoom, inputState.Down),
         new InputController.Input(KeyEvent.VK_PAGE_DOWN, inputAction.PrevRoom, inputState.Down),
         new InputController.Input(KeyEvent.VK_O, inputAction.Shoot, inputState.Down),
-        new InputController.Input(KeyEvent.VK_INSERT, inputAction.ScaleUp, inputState.Down),
-        new InputController.Input(KeyEvent.VK_DELETE, inputAction.ScaleUp, inputState.Down),
+        new InputController.Input(KeyEvent.VK_INSERT, inputAction.WeaponUp, inputState.Down),
+        new InputController.Input(KeyEvent.VK_DELETE, inputAction.WeaponDown, inputState.Down),
         // </editor-fold>
     };
     
@@ -51,8 +51,8 @@ public class InputController
         EnableClimb,
         Crouch,
         Shoot,
-        ScaleUp,
-        ScaleDown,
+        WeaponUp,
+        WeaponDown,
 
     }
     
@@ -94,18 +94,22 @@ public class InputController
                 {
                     case MoveLeft:
                         if (!level.disablePlayer){level.player.MoveLeft();}
+                        //System.out.println(level.player.PlayedGrabAnim);
                         break;
                         
                     case MoveRight:
                         if (!level.disablePlayer){level.player.MoveRight();}
+                        //System.out.println(level.player.PlayedGrabAnim);
                         break;
                         
                     case ClimbUp:
                         if (!level.disablePlayer){level.player.MoveUp();}
+                        //System.out.println(level.player.PlayedGrabAnim);
                         break;
                         
                     case ClimbDown:
                         if (!level.disablePlayer){level.player.MoveDown();}
+                        //System.out.println(level.player.PlayedGrabAnim);
                         break;
                         
                     case EnableClimb: //Testing purposes, disable for hand in
@@ -118,7 +122,7 @@ public class InputController
 //                        System.out.println(game.LevelIndex);
                         
                         break;
-                    case ScaleUp:
+                    case WeaponUp:
 //                        Vector _reSpawnPos;
 //                        if (level.player !=null){_reSpawnPos = level.player.Position;}
 //                        else {_reSpawnPos = new Vector(0,0);}
@@ -127,7 +131,12 @@ public class InputController
 //                        level.SpawnPlayer(level.player.scale, _reSpawnPos);
                         break;
                         
-                    case ScaleDown:
+                    case WeaponDown:
+                            
+                          
+                            
+                          
+                            
 //                        if (level.player !=null){_reSpawnPos = level.player.Position;}
 //                        else {_reSpawnPos = new Vector(0,0);}
 //                        level.player = null;
