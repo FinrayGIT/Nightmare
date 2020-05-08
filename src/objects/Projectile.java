@@ -12,8 +12,9 @@ public class Projectile extends baseLevelObject
     float speed;
     float yVelocity;
     public int damage = 2;
-    eType type;
+    public eType type;
     public boolean isVisible = false;
+    public float life = 100;
     
     public Projectile(Vector _position, String _path) 
     {
@@ -35,6 +36,7 @@ public class Projectile extends baseLevelObject
     
     public void Fire(boolean left, eType _type)
     {   
+        
         isVisible = true;
         isAlive = true;
         type = _type;
@@ -46,7 +48,7 @@ public class Projectile extends baseLevelObject
         {
             speed = MOVE_SPEED;
         }
-
+        
         if (_type == Projectile.eType.Arrow){
             damage = 1;
         }
@@ -63,6 +65,8 @@ public class Projectile extends baseLevelObject
             Position.x += speed;
             Position.y += yVelocity;
         }
+        
+        life -= 0.01f;
     }
     
     public void Stop()

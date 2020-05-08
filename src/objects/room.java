@@ -16,32 +16,32 @@ public class room extends JPanel
     public Detector[] RTA;
     public Detector[] wind;
     public Detector[] platformColliders;
-    public Detector[] breakables;
+    public Detector[] Breakables;
     public Detector[] doors;
     public Detector[] spikes;
         
-    public room (   String _backgroundPath, 
-                    Monster[] _Monsters, 
-                    Treasure[] _treasures,
-                    ladder[] _ladders, 
-                    Detector[] _RTA,
-                    Detector[] _platformColliders)
-    {
-        //Constructor to create room objects
-        Monsters = _Monsters;
-        treasures = _treasures;
-        Ladders = _ladders;
-        RTA = _RTA;
-        wind = new Detector[0];
-        platformColliders = _platformColliders;
-        
-        
-        
-        try
-        {
-            Background = ImageIO.read(getClass().getResource(_backgroundPath));
-        }   catch (IOException ex) {System.err.println("Error loading image @" + _backgroundPath);}
-    }
+//    public room (   String _backgroundPath, 
+//                    Monster[] _Monsters, 
+//                    Treasure[] _treasures,
+//                    ladder[] _ladders, 
+//                    Detector[] _RTA,
+//                    Detector[] _platformColliders)
+//    {
+//        //Constructor to create room objects
+//        Monsters = _Monsters;
+//        treasures = _treasures;
+//        Ladders = _ladders;
+//        RTA = _RTA;
+//        wind = new Detector[0];
+//        platformColliders = _platformColliders;
+//        
+//        
+//        
+//        try
+//        {
+//            Background = ImageIO.read(getClass().getResource(_backgroundPath));
+//        }   catch (IOException ex) {System.err.println("Error loading image @" + _backgroundPath);}
+//    }
     
     public room (   String _backgroundPath, 
                   //  platform[] _platforms, 
@@ -64,7 +64,8 @@ public class room extends JPanel
         RTA = _RTA;
         platformColliders = _platformColliders;
         wind = _wind;
-        
+        spikes = _spikes;
+        Breakables = _breakables;
         
         
         try

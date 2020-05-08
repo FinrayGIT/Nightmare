@@ -26,9 +26,10 @@ public class Player extends baseLevelObject
     //Final values to store values which may require tweaking.
     public final float CLIMB_SPEED = 0.5f;
     public final float MOVE_SPEED = 0.4f;
-    public float JUMP_FORCE = 5f;
+    public float JUMP_FORCE = 3.75f;
     final float JUMP_DELAY_DURATION = 0.1f;
     final float DOSWAPCD = 130f;
+    public final float BOOST_DELAY_DURATION = 0.1f;
     final float GRAVITY = 0.1f;
     final float FRAME_LENGTH = 125;
     final int CROUCH_FRAMES = 0;
@@ -39,6 +40,7 @@ public class Player extends baseLevelObject
     public int scale = 50;
     float doSwapTimer;
     float jumpDelayTimer;
+    public float boostDelayTimer;
     
     // </editor-fold>
     // <editor-fold desc="PLAYER STATES">
@@ -52,9 +54,12 @@ public class Player extends baseLevelObject
     public boolean PlayedGrabAnim = false;
     public boolean movedLeftLast = false;
     public boolean movedRightLast = true;
+    public boolean IsBoosted = false;
+    public boolean hasKey = false;
+    public boolean attemptingDoor = false;
     float damageCD;
     boolean playedDeathAnim = false;
-    public eHeldWeapon HeldWeapon = eHeldWeapon.Crossbow;
+    public eHeldWeapon HeldWeapon = eHeldWeapon.Bonesaw;
     boolean bonesawUnlocked;
     boolean crossbowUnlocked;
     boolean syringeUnlocked;
@@ -62,7 +67,7 @@ public class Player extends baseLevelObject
     public Vector velocity;
     int health = 4;
     int MaxHealth = 4;
-    
+    Detector door;
     // </editor-fold>
     // <editor-fold desc="COLLIDERS">
     
@@ -207,6 +212,7 @@ public class Player extends baseLevelObject
         lowerLimit = 9;
         frameIndex = 9;
         velocity.x = 0;
+        health = 0;
         dead = true;
     }
     
@@ -285,6 +291,13 @@ public class Player extends baseLevelObject
     
     public void MoveUp()
     {
+        if (door != null)
+        {
+            System.out.println("Winrar");
+            //game.IsWinrarDotEXE();
+        }
+        else
+        {
         if (!dead && canClimb && !IsClimbing)
         {
             IsClimbing = true;
@@ -325,6 +338,8 @@ public class Player extends baseLevelObject
         }
         if (frameIndex < lowerLimit || frameIndex > upperLimit){
         frameIndex = lowerLimit;
+        }
+        
         }
     }
     
@@ -388,11 +403,13 @@ public class Player extends baseLevelObject
     
     public void Jump()
     {
-        if (!dead && IsGrounded || IsClimbing)
+        System.out.println("Jamp");
+        if (!dead && IsGrounded || IsClimbing || IsBoosted)
         {   
             IsGrounded = false;
             IsClimbing = false;
             PlayedGrabAnim = false;
+            velocity.y = 0;
             velocity.y -= JUMP_FORCE;
             jumpDelayTimer = JUMP_DELAY_DURATION;
             velocity.x += (velocity.x / 4);
@@ -422,7 +439,8 @@ public class Player extends baseLevelObject
     {        
         if (game.levelReady = true)
         {   
-                        
+             
+            //System.out.println(boostDelayTimer);          
             // <editor-fold desc="COLLIDER PLACEMENT">
 /*TOP*/     topLeftCol = new Rectangle(Math.round((int)Position.x + (Sprite.getWidth() / 4)),
                 Math.round((int)Position.y + colSprite.getHeight()), 1, 1);
@@ -505,6 +523,11 @@ public class Player extends baseLevelObject
                 damageCD -= 1;
             }
             
+            if (boostDelayTimer > 0)
+            {
+                boostDelayTimer -= 0.01f;
+            }
+            
             //Reduces the cooldown on jump
             if (jumpDelayTimer > 0)
             {
@@ -520,37 +543,19 @@ public class Player extends baseLevelObject
                 IsGrounded = false;
                 for (int i = 0; i <  game.CurrentLevel.currentRoom.platformColliders.length; i++)
                 {   
-                    //"Raycast" collider logic.
-                    if (!dead && !IsClimbing && rightColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
-                    {   
-                        velocity.x = 0;
-                    }
-
-                    if (!IsClimbing && leftColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
-                    {
-                        velocity.x = 0;
-                        Position.x = (game.CurrentLevel.currentRoom.platformColliders[i].rect.x + game.CurrentLevel.currentRoom.platformColliders[i].rect.width);
-                    }
+                   
 
                  //   System.out.println("Bottom Ray : " + (bottomColRay!=null) + "    CurrentLevel : " + game.CurrentLevel);
                     if (!dead && !IsClimbing && !IsGrounded && bottomColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
                     {   
                         //System.out.println("Hit Rock Bottom");
                         IsGrounded = true;
+                        IsBoosted = false;
                         velocity.y = 0;
                         Position.y = ( game.CurrentLevel.currentRoom.platformColliders[i].rect.y - Sprite.getHeight()+2);
                         //System.out.println("Collided!");
                     }
                     
-                    
-
-                    if (!dead && !IsClimbing && topColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
-                    {
-                       // System.out.println("Hit Top of the world");
-                        velocity.y = 0;
-                        Position.y = game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().y + game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().height;
-                    }                
-
                 }
                 
                 
@@ -558,7 +563,11 @@ public class Player extends baseLevelObject
                 {   
                     
                     //System.out.println("Checking RTA "+ game.CurrentLevel.currentRoom.RTA[i].rect.toString() + "  " + Position.x + ", " + Position.y);
-                    if (!dead && getBounds().intersects(game.CurrentLevel.currentRoom.RTA[i].rect))  
+                    // && velocity.x > 0
+                    if (!dead && 
+                            ((leftColRay.intersects(game.CurrentLevel.currentRoom.RTA[i].rect) && velocity.x < 0)
+                            ||
+                            (rightColRay.intersects(game.CurrentLevel.currentRoom.RTA[i].rect) && velocity.x > 0)))
                     {
                        game.CurrentLevel.currentRoom.RTA[i].DoSwap(game);
                     }
@@ -566,59 +575,126 @@ public class Player extends baseLevelObject
                 }
                 
                 
-                for (int i = 0; i < game.CurrentLevel.currentRoom.Monsters.length; i++)
-                {   
-                    //System.out.println("Checking collider with monster " + i + " of " + game.CurrentLevel.currentRoom.Monsters.length);
-                    //if (!dead && getBounds().intersects(game.CurrentLevel.currentRoom.Monsters[i].getBounds())) {TakeDamage();}
+//                for (int i = 0; i < game.CurrentLevel.currentRoom.Monsters.length; i++)
+//                {   
+//                    //System.out.println("Checking collider with monster " + i + " of " + game.CurrentLevel.currentRoom.Monsters.length);
+//                    //if (!dead && getBounds().intersects(game.CurrentLevel.currentRoom.Monsters[i].getBounds())) {TakeDamage();}
+//                }
+//                
+
+
+                //Door Collider logic
+                boolean foundDoor = false;
+                if (game.CurrentLevel.currentRoom.doors != null)
+                {
+                    for (Detector _door : game.CurrentLevel.currentRoom.doors)
+                    {
+                        if (getBounds().intersects(_door.rect) && hasKey){
+                           door = _door;
+                           foundDoor = true;
+                        }//&& attemptingDoor
+                         //       })
+                    }
                 }
-                
+                if (!foundDoor){
+                    door = null;
+                }
                 //Wind Collider logic
                 if (game.CurrentLevel.currentRoom.wind !=null)
                 {
                     for (Detector wind : game.CurrentLevel.currentRoom.wind) 
                     {
-                        if (getBounds().intersects(wind.rect)) {wind.DoBoost(game);}
+                        if (getBounds().intersects(wind.rect)) 
+                        {
+                            wind.DoBoost(game);
+                            IsBoosted = true;
+                        }
+                    }
+                }
+                
+                //Spikes Collider logic
+                if (game.CurrentLevel.currentRoom.spikes !=null)
+                {
+                    for (Detector spikes : game.CurrentLevel.currentRoom.spikes) 
+                    {
+                        if (getBounds().intersects(spikes.rect) && IsAlive()) 
+                        {   
+                            System.out.println("SPikes!");
+                            Die();
+                        }
+                    }
+                }
+                //Breakables collider logic
+                if (game.CurrentLevel.currentRoom.Breakables !=null)
+                {
+                    for (Detector Breakable : game.CurrentLevel.currentRoom.Breakables) 
+                    {
+                        if (!dead && rightColRay.intersects(Breakable.rect) && velocity.x > 0)
+                        {   
+                             System.out.println("Hit side of the world");
+                            velocity.x = 0;
+                        }
+
+                        if (!dead && leftColRay.intersects(Breakable.rect) && velocity.x < 0)
+                        {
+                             System.out.println("Hit side of the world 2");
+                            velocity.x = 0;
+                            //Position.x = (game.CurrentLevel.currentRoom.platformColliders[i].rect.x + game.CurrentLevel.currentRoom.platformColliders[i].rect.width);
+                        }
+                        
+                        if (!dead && topColRay.intersects(Breakable.rect) && velocity.y < 0)
+                        {
+                            System.out.println("Hit Top of the world");
+                            Position.y -= velocity.y;
+                            velocity.y = 0;
+                            
+                          //  Position.y = game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().y + game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().height;
+                        }  
+//                        
                     }
                 }
                 
                 
-                
                 for (int i = 0; i < game.CurrentLevel.currentRoom.treasures.length; i++)
                 {
-                    if (!dead && getBounds().intersects(game.CurrentLevel.currentRoom.treasures[i].getBounds()))
+                    if (!dead && game.CurrentLevel.currentRoom.treasures[i].isVisible 
+                            && getBounds().intersects(game.CurrentLevel.currentRoom.treasures[i].getBounds()))
                     {
-                        if ("bonesaw".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        if (0 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex) //bonesaw
                         {
                             bonesawUnlocked = true;
                         }
-                        if ("crossbow".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        if (1 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex) //xbow
                         {
                             crossbowUnlocked = true;
+                            HeldWeapon = eHeldWeapon.Crossbow;
+                            System.out.println("Picked up crossbow");
+                            game.CurrentLevel.currentRoom.treasures[i].setVisible(false);
                         }
-                        if ("syringe".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        if (2 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex) //syringe
                         {
                             syringeUnlocked = true;
                         }
-                        if ("key_0".equals(game.CurrentLevel.currentRoom.treasures[i].name))
+                        if (3 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex) // keys n shit
                         {
-                            syringeUnlocked = true;
+                            hasKey = true;
                         }
-                        if ("key_1".equals(game.CurrentLevel.currentRoom.treasures[i].name))
-                        {
-                            syringeUnlocked = true;
-                        }
-                        if ("key_2".equals(game.CurrentLevel.currentRoom.treasures[i].name))
-                        {
-                            syringeUnlocked = true;
-                        }
-                        if ("key_3".equals(game.CurrentLevel.currentRoom.treasures[i].name))
-                        {
-                            syringeUnlocked = true;
-                        }
-                        if ("key_4".equals(game.CurrentLevel.currentRoom.treasures[i].name))
-                        {
-                            syringeUnlocked = true;
-                        }
+//                        if (4 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex)
+//                        {
+//                            syringeUnlocked = true;
+//                        }
+//                        if ("key_2".equals(game.CurrentLevel.currentRoom.treasures[i].treasureIndex))
+//                        {
+//                            syringeUnlocked = true;
+//                        }
+//                        if ("key_3".equals(game.CurrentLevel.currentRoom.treasures[i].treasureIndex))
+//                        {
+//                            syringeUnlocked = true;
+//                        }
+//                        if ("key_4".equals(game.CurrentLevel.currentRoom.treasures[i].treasureIndex))
+//                        {
+//                            syringeUnlocked = true;
+//                        }
                         
                     }
                 }
@@ -626,6 +702,28 @@ public class Player extends baseLevelObject
                 // </editor-fold>
             }
             
+             for (int i = 0; i < game.CurrentLevel.currentRoom.platformColliders.length; i++)
+             {
+
+                    //Always on to stop at walls "Raycast" collider logic.
+                    if (!dead && !IsClimbing && rightColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()) && velocity.x > 0)
+                    {   
+                        velocity.x = 0;
+                    }
+
+                    if (!IsClimbing && leftColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()) && velocity.x < 0)
+                    {
+                        velocity.x = 0;
+                        //Position.x = (game.CurrentLevel.currentRoom.platformColliders[i].rect.x + game.CurrentLevel.currentRoom.platformColliders[i].rect.width);
+                    }
+                    if (!dead && !IsClimbing && topColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
+                    {
+                       // System.out.println("Hit Top of the world");
+                        velocity.y = 0;
+                        Position.y = game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().y + game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().height;
+                    }  
+             }
+             
             //In-air movement
             if (!dead && !IsClimbing && !IsGrounded)
             {   
@@ -714,6 +812,7 @@ public class Player extends baseLevelObject
         if (health > 0){
             g.drawImage(healthImages[MaxHealth - health], (int)healthPos.x, (int)healthPos.y, null);
         }
+        
         //}
         //}
         
@@ -746,9 +845,9 @@ public class Player extends baseLevelObject
         //This function handles picking up of treasures/pickups.
         if (t.getBounds().intersects(getBounds()))
         {
-            if (Treasure.isVisible == true)
+            if (t.isVisible == true)
             {                
-                Treasure.isVisible = false;
+                t.isVisible = false;
             }
             return true;
         }

@@ -18,8 +18,7 @@ public class Game
     public static final int WINDOW_WIDTH = 1920; 
     public static final int WINDOW_HEIGHT = 1080;
     JFrame gameWindow;    
-    StartGamePanel startScreen; 
-    StartGamePanel endScreen;
+    StartGamePanel startScreen;
     
     public level CurrentLevel;
     public int LevelIndex = 0;
@@ -66,10 +65,10 @@ public class Game
 
             new Monster[]
             {
-                new Monster(new Vector(500, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
-                new Monster(new Vector(400, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
-                new Monster(new Vector(300, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
-                new Monster(new Vector(100, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc)
+//                new Monster(new Vector(500, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
+//                new Monster(new Vector(400, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
+//                new Monster(new Vector(300, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
+//                new Monster(new Vector(100, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc)
             },
 
             new Treasure[]
@@ -79,24 +78,24 @@ public class Game
 
             new ladder[]
             {
-                new ladder(new Vector (1695, 640), "/levels/level0/room1/room1ladder0.png")
+                //new ladder(new Vector (1695, 640), "/levels/level0/room1/room0ladder0.png")
             },
 
             //RoomTransitions
             new Detector[]
             { 
                 new Detector 
-                (   //LHS Wall
-                    new Rectangle (1920, 0, 5, 1080),   /*Bounds of trigger*/ 
+                (   //RHS Wall
+                    new Rectangle (1920, 0, 20, 1080),   /*Bounds of trigger*/ 
                     0, 1,                               /*Level & room target*/
-                    new Vector(20, 620)                /*Player spawn point*/
+                    new Vector(0, 600)                /*Player spawn point*/
                 ),
                     
-                new Detector(   new Rectangle(800, 1080, 200, 1),  //Bounds of trigger
+                new Detector(   new Rectangle(0, 1080, 1080, 20),  //Bounds of trigger
                                 0, 4,                           //Level & Room target
                                 new Vector (860, 0)          //Spawn point
                             ),
-                new Detector(   new Rectangle(1100, 1080, 200, 1),  //Bounds of trigger
+                new Detector(   new Rectangle(1100, 1080, 200, 20),  //Bounds of trigger
                                 0, 4,                           //Level & Room target
                                 new Vector (1200, 0)          //Spawn point
                             )
@@ -122,7 +121,7 @@ public class Game
             //Doors        
             new Detector[]
             {
-                
+                new Detector(new Rectangle(88, 708, 180, 290), 3, "/levels/level0/room0/room0door.png")
             },
             
             //Spikes        
@@ -159,7 +158,7 @@ public class Game
 
             new Treasure[]
             {
-
+                new Treasure(new Vector(1800, 490), "Sprites/Graded/Interactive/doors with locks and keys/key_3.png", 3)
             },
 
             new ladder[]
@@ -170,14 +169,19 @@ public class Game
 
             //RoomTransitions
             new Detector[]
-            { 
-                new Detector(   new Rectangle(1920, 525, 5, 131),  //Bounds of trigger
-                                0, 2,                           //Level & Room target
-                                new Vector (40, 600)          //Spawn point
+            {   
+                new Detector(   new Rectangle (-19,0, 20, 1080),
+                                0, 0,
+                                new Vector(1920, 775)   
                             ),
-                new Detector(   new Rectangle(1920, 655, 1, 178),  //Bounds of trigger
+                
+                new Detector(   new Rectangle(1920, 525, 10, 131),  //Bounds of trigger
                                 0, 2,                           //Level & Room target
-                                new Vector (40, 800)          //Spawn point
+                                new Vector (40, 665)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(1920, 655, 10, 178),  //Bounds of trigger
+                                0, 2,                           //Level & Room target
+                                new Vector (40, 870)          //Spawn point
                             ),
                 new Detector(   new Rectangle(125, 1080, 375, 1),  //Bounds of trigger
                                 0, 5,                           //Level & Room target
@@ -219,7 +223,7 @@ public class Game
             //Breakables        
             new Detector[]
             {
-                
+                new Detector(new Rectangle(1692,350, 228, 220), 4, 0)
             }),
                 
 // </editor-fold> 
@@ -253,11 +257,11 @@ public class Game
             //RoomTransitions
             new Detector[]
             { 
-                new Detector(   new Rectangle(0, 780, 1, 287),  //Bounds of trigger
-                                0, 1,                           //Level & Room target
-                                new Vector (1880, 600)          //Spawn point
-                            ),
-                new Detector(   new Rectangle(0, 655, 1, 240),  //Bounds of trigger
+//                new Detector(   new Rectangle(0, 780, 5, 287),  //Bounds of trigger
+//                                0, 1,                           //Level & Room target
+//                                new Vector (1880, 600)          //Spawn point
+//                            ),
+                new Detector(   new Rectangle(0, 600, 5, 240),  //Bounds of trigger
                                 0, 1,                           //Level & Room target
                                 new Vector (1880, 800)          //Spawn point
                             ),
@@ -327,9 +331,9 @@ public class Game
 
             new Treasure[]
             {
-
+                new Treasure (new Vector(1337,622), "/Sprites/Graded/Weapons/crossbowpickup.png", 1)
             },
-
+//"Sprites\Graded\Weapons/crossbowpickup.png", 0)
             new ladder[]
             {
                 new ladder(new Vector (1607, 165), "/levels/level0/room3/room3ladder0.png"),
@@ -371,7 +375,7 @@ public class Game
             //Spikes        
             new Detector[]
             {
-                
+                new Detector((new Rectangle(435, 1050, 1920, 1)))
             },
                     
             //Breakables        
@@ -2341,7 +2345,7 @@ public class Game
         cl.next(gameWindow.getContentPane());
         
         goToLevel(0);
-        CurrentLevel.GoToRoom(0);
+        CurrentLevel.GoToRoom(1);
         levelReady = true;
     }
     
@@ -2356,8 +2360,8 @@ public class Game
             cl.next(gameWindow.getContentPane());
             levelReady = false;
             CurrentLevel.EndLevel();
-            endScreen.requestFocus();
-            endScreen.setVisible(true);
+            startScreen.requestFocus();
+            startScreen.setVisible(true);
         }
     }
     
@@ -2365,7 +2369,7 @@ public class Game
     {
         System.out.println("Got Game Restart");
         
-        endScreen.setVisible(false);
+        CurrentLevel = null;
         startScreen.requestFocus();
         startScreen.setVisible(true);
     }
@@ -2375,14 +2379,14 @@ public class Game
         Game window = new Game();        
         window.startScreen.requestFocus();        
     }
-    
-    public void showEndScreen()
-    {
-        //TBD: Add lose condition
-        //Brings up death screen
-        endScreen.setVisible(true);
-        endScreen.requestFocus();
-    }   
+//    
+//    public void showEndScreen()
+//    {
+//        //TBD: Add lose condition
+//        //Brings up death screen
+//        endScreen.setVisible(true);
+//        endScreen.requestFocus();
+//    }   
     
     private void initWindow()
     {
@@ -2404,9 +2408,9 @@ public class Game
         startScreen = new StartGamePanel(this);
         startScreen.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         gameWindow.getContentPane().add(startScreen, "INTRO");         
-        endScreen = new StartGamePanel(this);
-        endScreen.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        gameWindow.getContentPane().add(endScreen, "OUTRO");
+//        endScreen = new StartGamePanel(this);
+//        endScreen.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+//        gameWindow.getContentPane().add(endScreen, "OUTRO");
         
         //This loop sets up the levels on the gameWindow JFrame
         for (int levelLoop = 0; levelLoop < levels.length; levelLoop++)

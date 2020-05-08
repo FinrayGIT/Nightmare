@@ -71,16 +71,18 @@ public class StartGamePanel extends JPanel
         {
             if(e.getKeyCode() == KeyEvent.VK_P) 
             {
-                if (game.CurrentLevel != null){
-                if(!game.CurrentLevel.player.IsAlive())
+                System.out.println("P P P P P P");
+                if (game.CurrentLevel != null)
                 {
                     game.restartGame();
-                }
-                
-                else
-                {
-                    game.startGame(); 
-                }
+//                    if(!game.CurrentLevel.player.IsAlive())
+//                    {
+//                        game.restartGame();
+//                    }
+//                    else
+//                    {
+//                        game.startGame(); 
+//                    }
                 }
                 else{
                     game.startGame();

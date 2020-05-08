@@ -53,7 +53,8 @@ public class level extends JPanel implements ActionListener
         {
             Projectiles.get(i).Update();
             Projectile p = Projectiles.get(i);
-         
+            
+            
             if (p.isAlive)
             {            
                 for (int j = 0; j < currentRoom.platformColliders.length; j++)
@@ -71,6 +72,25 @@ public class level extends JPanel implements ActionListener
                         System.out.println("Arrow hit");
                         p.Stop();
                         currentRoom.Monsters[j].TakeDamage(p);
+                    }
+                }
+                
+                for (int j =0; j < currentRoom.Breakables.length; j++)
+                {
+                    if (currentRoom.Breakables[j].health > 0 
+                            && p.type == Projectile.eType.FakeMelee
+                            && p.getBounds().intersects(currentRoom.Breakables[j].rect.getBounds()))
+                    {
+                        System.out.println("WUT");
+                        p.Stop();
+                        p.isVisible = false;
+                        currentRoom.Breakables[j].health -= 1;//p.damage/p.damage;
+                    }
+                }
+                if (p.type == Projectile.eType.FakeMelee){
+                    if (p.life<9){
+                        p.Stop();
+                        p.isVisible = false;
                     }
                 }
             }
@@ -105,7 +125,7 @@ public class level extends JPanel implements ActionListener
     public void EndLevel()
     {
         setVisible(false);
-        timer.stop();
+  //      timer.stop();
     }
     
     public void GoToRoom(room _room)
@@ -160,7 +180,9 @@ public class level extends JPanel implements ActionListener
         
         for(Treasure t: currentRoom.treasures)
         {
+           if (t.isVisible){
             g.drawImage(t.Sprite, (int)t.Position.x, (int)t.Position.y, null);           
+        }
         }
         
 //        for(platform p: currentRoom.Platforms)
@@ -171,10 +193,22 @@ public class level extends JPanel implements ActionListener
         for (int i = 0; i < Projectiles.toArray().length; i++)
         {
             Projectile a = Projectiles.get(i);
-            if (a.isVisible)
+            if (a.isVisible && a.type != Projectile.eType.FakeMelee)
             {            
                 g.drawImage(a.Sprite, (int)a.Position.x, (int)a.Position.y, null);
             }
+        }
+        
+        if (currentRoom.Breakables !=null)
+        {
+            for (Detector b: currentRoom.Breakables)
+            {
+                if (b.health > 0)
+                {
+                    g.drawImage(b.Sprites[4-b.health], b.rect.x, b.rect.y, null);
+                }
+            }    
+            
         }
     
         //Draw ladders (for testing)
