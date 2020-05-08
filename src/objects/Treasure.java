@@ -1,7 +1,7 @@
 package objects;
 
 import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 
 
 
@@ -24,7 +24,7 @@ public class Treasure extends baseLevelObject
         return Sprite;
     }
     
-    public void draw(Graphics2D g)
+    public void draw(Graphics g)
     {
         //Draw the sprite at the correct coordinates in the graphics context
         if(isVisible == true)   g.drawImage(Sprite, (int)Position.x, (int)Position.y, null);

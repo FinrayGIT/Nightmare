@@ -49,7 +49,7 @@ public class Detector
     public void DoBoost(Game _game)
     {
         System.out.println("Do Boost!");
-        {if (_game.CurrentLevel.player.velocity.y >= -5) {_game.CurrentLevel.player.velocity.y -= 2;}}
+        {if (_game.CurrentLevel.player.velocity.y >= -10) {_game.CurrentLevel.player.velocity.y -= 2;}}
     }
 }
 

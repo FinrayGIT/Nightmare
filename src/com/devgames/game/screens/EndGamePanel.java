@@ -26,7 +26,7 @@ public class EndGamePanel extends JPanel
         setFocusable(true);
     }        
     
-    @Override
+   // @Override
     public void paintComponent(Graphics g)
     {
         //Calls the paintComponent method on the superclass to initalise drawing

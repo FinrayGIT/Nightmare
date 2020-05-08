@@ -36,6 +36,32 @@ public class InputController
         // </editor-fold>
     };
     
+    
+    
+    
+    
+//    Projectiles that are no longer in flight will still damage an enemy that walks into it.
+//Player interaction with monsters.
+//Monster death, player will still collider with dead monsters.
+//DoBoost could use some random force on top of its current input to simulate bobblyness.
+//
+    
+    
+//             where the rotation in part 3 is calculated from...
+//             vector a = position of projectile.
+//             vector b = position of projectile + velocity.
+//             angle = Math.Atan2(b.y - a.y,b.x - a.x);  //
+
+//No game over, it's turned off, why?
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public static enum inputAction
     {   
         //Enumeration of possible inputs

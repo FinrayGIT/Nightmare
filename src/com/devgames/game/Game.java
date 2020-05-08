@@ -15,7 +15,7 @@ import java.awt.Rectangle;
 public class Game 
 {   
     public static final int WINDOW_WIDTH = 1920; 
-    public static final int WINDOW_HEIGHT = 1080;
+    public static final int WINDOW_HEIGHT = 1108;
     JFrame gameWindow;    
     StartGamePanel startScreen; 
     //EndGamePanel endScreen;
@@ -65,7 +65,7 @@ public class Game
 
             new Monster[]
             {
-                new Monster(new Vector(800, 800), Monster.eElement.earth, Monster.eMonsterType.orc)
+                new Monster(new Vector(1300, 35), this, Monster.eElement.earth, Monster.eMonsterType.orc)
             },
 
             new Treasure[]
@@ -173,6 +173,14 @@ public class Game
                 new Detector(   new Rectangle(1920, 655, 1, 178),  //Bounds of trigger
                                 0, 2,                           //Level & Room target
                                 new Vector (40, 800)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(125, 1080, 375, 1),  //Bounds of trigger
+                                0, 5,                           //Level & Room target
+                                new Vector (300, 0)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(500, 1080, 450, 1),  //Bounds of trigger
+                                0, 5,                           //Level & Room target
+                                new Vector (920, 0)          //Spawn point
                             )
             },
               
@@ -296,7 +304,7 @@ public class Game
     // <editor-fold desc="ROOM 3">
                 
             //Level 0 Room 3
-            new room("/levels/level0/room3/room3-np.png",
+            new room("/levels/level0/room3/room3.png",
 //            new platform[]
 //            {
 //                new platform(new Vector (0,737), "/levels/level0/room3/room3platform0.png"),
@@ -332,6 +340,14 @@ public class Game
             //Platform Colliders
             new Detector[]
             {
+                new Detector((new Rectangle(0, 795, 255, 20))),
+                new Detector((new Rectangle(0, 1065, 430, 20))),
+                new Detector((new Rectangle(355, 882, 160, 20))),
+                new Detector((new Rectangle(552, 1010, 170, 20))),
+                new Detector((new Rectangle(843, 965, 177, 20))),
+                new Detector((new Rectangle(1120, 930, 620, 20))),
+                new Detector((new Rectangle(1670, 610, 250, 20))),
+                new Detector((new Rectangle(1280, 270, 306, 20))),
                 
             },
                     
@@ -2318,7 +2334,7 @@ public class Game
         CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
         cl.next(gameWindow.getContentPane());
         goToLevel(0);
-        CurrentLevel.GoToRoom(0);
+        CurrentLevel.GoToRoom(2);
         levelReady = true;
     }
     

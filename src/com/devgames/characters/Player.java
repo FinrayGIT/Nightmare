@@ -130,7 +130,7 @@ public class Player extends baseLevelObject
         
         health = MaxHealth;
         
-        for (int i = 0; i <= PLAYER_FRAMES; i++)
+        for (int i = 0; i < PLAYER_FRAMES; i++)
         {
         try
         {
@@ -366,7 +366,7 @@ public class Player extends baseLevelObject
                     type = Projectile.eType.Syringe;
             }
             
-            game.CurrentLevel.AddProjectile( (int)Position.x, (int)Position.y, (velocity.x < 0), type );
+            game.CurrentLevel.AddProjectile( ((int)Position.x + (Sprite.getWidth() / 2)), ((int)Position.y + (Sprite.getHeight() / 3)), (velocity.x < 0), type, movedRightLast);
         }
     }
         

@@ -28,7 +28,7 @@ public class StartGamePanel extends JPanel
         setFocusable(true);
     }   
     
-    @Override
+   // @Override
     public void paintComponent(Graphics g)
     {
         //Call the paintComponent method on the superclass to initalise drawing

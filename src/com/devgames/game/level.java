@@ -33,12 +33,15 @@ public class level extends JPanel implements ActionListener
     public int roomIndex = 0;
     public Timer timer;
     private InputController inputController;
+    String direction;
     ArrayList<Projectile> Projectiles = new ArrayList<Projectile>();
     
-    public void AddProjectile(int x, int y, boolean left, Projectile.eType _type)
+    public void AddProjectile(int x, int y, boolean left, Projectile.eType _type, boolean _movedRightLast)
     {
         Vector pos = new Vector(x,y);
-        Projectile projectile = new Projectile(pos, "/Sprites/Graded/Weapons/Arrow.png");
+        if (_movedRightLast) {direction = "left";}
+        else {direction = "right";}
+        Projectile projectile = new Projectile(pos, "/Sprites/Graded/Weapons/Arrow" + direction + ".png");
         projectile.Fire(left, _type);
         Projectiles.add(projectile);
     }
@@ -143,10 +146,10 @@ public class level extends JPanel implements ActionListener
         
         for(Monster m: currentRoom.Monsters)
         {    
-            if(m.IsActive())
-            {
-                g.drawImage(m.Sprite, (int)m.Position.x, (int)m.Position.y, null);                    
-            }
+//            if(m.IsActive())
+//            {
+                g.drawImage(m.GetFrame(), (int)m.Position.x, (int)m.Position.y, null);                    
+            //}
         }
         
         for(Treasure t: currentRoom.treasures)
@@ -183,8 +186,17 @@ public class level extends JPanel implements ActionListener
         if (!disablePlayer && player !=null){player.UpdatePlayer();}
         inputController.updateInput();
         UpdateProjectiles();
+        UpdateMonsters();
         Toolkit.getDefaultToolkit().sync();
         repaint();
+    }
+    
+    void UpdateMonsters(){
+        
+        for(Monster m: currentRoom.Monsters)
+        {    
+            m.Updatemonster();
+        }
     }
     
     
