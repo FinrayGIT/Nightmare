@@ -1,6 +1,7 @@
 package objects;
 
 import java.awt.image.BufferedImage;
+import javax.swing.text.Position;
 import objects.Vector;
 import objects.baseLevelObject;
 
@@ -12,7 +13,7 @@ public class Projectile extends baseLevelObject
     float yVelocity;
     public int damage = 2;
     eType type;
-    
+    public boolean isVisible = false;
     
     public Projectile(Vector _position, String _path) 
     {
@@ -33,7 +34,8 @@ public class Projectile extends baseLevelObject
     }
     
     public void Fire(boolean left, eType _type)
-    {
+    {   
+        isVisible = true;
         isAlive = true;
         type = _type;
         if (left)
@@ -64,7 +66,7 @@ public class Projectile extends baseLevelObject
     }
     
     public void Stop()
-    {
+    {   
         isAlive = false;
     }
 }

@@ -7,12 +7,14 @@ import objects.baseLevelObject;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import objects.Projectile;
 
 
 public class Monster extends baseLevelObject
 {
-    private boolean isVisible;
+    public boolean isVisible;
     
     Game game;
     public Vector velocity;
@@ -21,7 +23,7 @@ public class Monster extends baseLevelObject
     final float GRAVITY = 0.1f;
 
     public boolean movedLeftLast = false;
-    public boolean movedRightLast = false;
+    public boolean movedRightLast = true;
     public boolean attacking = false;
     final float CHARGE_DELAY_DURATION = 1f;
     public float chargeDelayTimer = 0;
@@ -35,7 +37,7 @@ public class Monster extends baseLevelObject
     final float FRAME_LENGTH = 125;
     final int ALL_FRAMES = 17;
     public BufferedImage[] SpriteArray = new BufferedImage[ALL_FRAMES];
-
+    
     //Lowest point can fall to
     public int lowestPoint = 1080;
     
@@ -62,6 +64,8 @@ public class Monster extends baseLevelObject
 
     public BufferedImage colSprite;
     public BufferedImage colSpriteRay;
+    
+    ArrayList<Projectile> Projectiles = new ArrayList<Projectile>();
     
     public enum eElement{
         fire,
@@ -118,7 +122,7 @@ public class Monster extends baseLevelObject
     private int score;
     
     int health = 3;
-    int MaxHealth = 3;
+    int MaxHealth = 2;
     
     public Monster(     Vector _position,
                         Game _game,
@@ -166,7 +170,7 @@ public class Monster extends baseLevelObject
                 Anims[1] = new AnimSet(eAnimState.AttackRight, 5, 9);
                 Anims[2] = new AnimSet(eAnimState.WalkLeft, 10, 13);                
                 Anims[3] = new AnimSet(eAnimState.WalkRight, 14, 17);
-                Anims[6] = new AnimSet(eAnimState.Die, 18, 22);
+                
                 //isFlying = true;
                 break;
                 
@@ -179,12 +183,11 @@ public class Monster extends baseLevelObject
                 break;
         }
         
-        frames = Anims[6].end+1;
-        
         //idles 
         Anims[4] = new AnimSet(eAnimState.IdleLeft, Anims[2].start, Anims[2].start );
         Anims[5] = new AnimSet(eAnimState.IdleRight, Anims[3].start, Anims[3].start );
-        
+        Anims[6] = new AnimSet(eAnimState.Die, Anims[3].end+1, Anims[3].end+5);
+        frames = Anims[6].end+1;
         spriteArray = new BufferedImage[frames];
         for (int i = 0; i <= (frames-1); i++)
         {   
@@ -193,46 +196,60 @@ public class Monster extends baseLevelObject
                 spriteArray[i] = ImageIO.read(getClass().getResource("/Sprites/Graded/enemies/" + _element + "/" + _type + "/" + _type + "_" + i + ".png"));
             }   catch(Exception ex) {System.err.println("Error loading " + _element + " " + _type + " animation frame " + i);}
         }
+        //offset monster height so we can place using Y position of platforms.
+        Position.y -= spriteArray[0].getHeight();
+        
+        MoveRight();
     }
     
     public BufferedImage GetFrame()
     { 
         //System.out.println("Asking for frame : " + frameIndex + "   of set : " + animIndex);
-        if (frameIndex < Anims[animIndex].start){frameIndex = Anims[animIndex].start;}
-        if (frameIndex > Anims[animIndex].end){frameIndex = Anims[animIndex].end;}
-        
+//        if (frameIndex < Anims[animIndex].start){frameIndex = Anims[animIndex].start;}
+//        if (frameIndex > Anims[animIndex].end){frameIndex = Anims[animIndex].end;}
+//        
         return spriteArray[frameIndex];
     }
 
         
-    public void TakeDamage(int _damage){
-        health -= _damage;
-        if (health < 0){
+    public void TakeDamage(Projectile _projectile){
+        
+        System.out.println("Ow! " + _projectile.damage);
+        Projectiles.add(_projectile);
+        health -= _projectile.damage;
+        if (!IsAlive()){
             Die();
         }
     }
     
     void Die()
-    {
+    {   
+        for (int i =0; i < Projectiles.toArray().length; i++)
+        {
+            Projectile a = Projectiles.get(i);
+            a.isVisible = false;
+        }
         System.out.println("DEAD");
         velocity.x = 0;
         animIndex = 6;
+        frameIndex = Anims[animIndex].start;
     }
     
     public boolean IsAlive(){
         return health > 0;
     }
-    
-    
+
      //movement
     public void MoveLeft()
     {
         if (IsAlive()){
         velocity.x -= MOVE_SPEED;
         animIndex = 2;
+        if (frameIndex < Anims[animIndex].start || frameIndex > Anims[animIndex].end){
+        frameIndex = Anims[animIndex].start;
+        }
         movedLeftLast = true;
         movedRightLast = false;
-        //attacking = false;
         }
     }
 
@@ -241,40 +258,31 @@ public class Monster extends baseLevelObject
         if (IsAlive()){
         velocity.x += MOVE_SPEED;
         animIndex = 3;
+        if (frameIndex < Anims[animIndex].start || frameIndex > Anims[animIndex].end){
+        frameIndex = Anims[animIndex].start;
+        }
         movedLeftLast = false;
         movedRightLast = true;
-        //attacking = false;
         }
     }
     public void LeftAttack()
     {   
-        if ( rightColRay.intersects(game.CurrentLevel.player.leftCol) || rightColRay.intersects(game.CurrentLevel.player.rightCol))
-            {
-                game.CurrentLevel.player.TakeDamage(this);
-            }
+
         animIndex = 0;
+                if (frameIndex < Anims[animIndex].start || frameIndex > Anims[animIndex].end){
         frameIndex = Anims[animIndex].start;
-        //dash
+        }
         velocity.x -= 8f;        
-//        upperLimit = 12;
-//        lowerLimit = 9;
-//        if (frameIndex < lowerLimit || frameIndex > upperLimit) {
-//            frameIndex = lowerLimit;
-//        }
-    //    System.out.println("On Frame " + frameIndex + " of " + lowerLimit + " / " + upperLimit);
         attacking = true;
         movedLeftLast = true;
         movedRightLast = false;
     }
     public void RightAttack(){
         animIndex = 1;
+                if (frameIndex < Anims[animIndex].start || frameIndex > Anims[animIndex].end){
         frameIndex = Anims[animIndex].start;
-        
+        }
         velocity.x += 8f;
-//        if (frameIndex < lowerLimit || frameIndex > upperLimit) {
-//            frameIndex = lowerLimit;
-//        }
-      //  System.out.println("On Frame " + frameIndex + " of " + lowerLimit + " / " + upperLimit);
         attacking = true;
         movedLeftLast = false;
         movedRightLast = true;
@@ -308,8 +316,6 @@ if((Mp-Pp)<=150){
     {
         if (game.levelReady = true)
         {   
-            
-            
                 // <editor-fold desc="COLLIDER PLACEMENT">
 /*TOP*/     topLeftCol = new Rectangle(Math.round((int)Position.x + (Sprite.getWidth() / 4)),
                 Math.round((int)Position.y + colSprite.getHeight()), 1, 1);
@@ -327,7 +333,7 @@ if((Mp-Pp)<=150){
             rightCol = new Rectangle(Math.round((int)Position.x + ((Sprite.getWidth() / 5) * 4 )),
                 Math.round((int)Position.y + (Sprite.getHeight()/2)), 1, 1);
             hitbox = new Rectangle(Math.round((int)Position.x + ((Sprite.getWidth() / 2))),
-                Math.round((int)Position.y), 1, Sprite.getHeight());
+                Math.round((int)Position.y + Sprite.getHeight() * 0.35f ), 1, Math.round(Sprite.getHeight() *0.65f));
             
             
 /*BOTTOM*/  bottomLeftCol = new Rectangle(Math.round((int)Position.x) + ((Sprite.getWidth() / 8) * 3),
@@ -371,7 +377,6 @@ if((Mp-Pp)<=150){
     // </editor-fold>             
             
             
-    
             //Reduces the cooldown on charge
             if (chargeDelayTimer > 0)
             {
@@ -401,7 +406,7 @@ if((Mp-Pp)<=150){
                         MoveRight();
                     }
                     velocity.x = 0;
-                    Position.x = (game.CurrentLevel.currentRoom.platformColliders[i].rect.x + game.CurrentLevel.currentRoom.platformColliders[i].rect.width);
+                    //Position.x = (game.CurrentLevel.currentRoom.platformColliders[i].rect.x + game.CurrentLevel.currentRoom.platformColliders[i].rect.width);
                 }
 
                 if (!IsGrounded && bottomColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
@@ -437,7 +442,10 @@ if((Mp-Pp)<=150){
              }
         }
         
-        boolean reachable = Reachable(game.CurrentLevel.player.Position.x, Position.x);
+boolean reachable = Reachable   (game.CurrentLevel.player.Position.x + 
+                                (game.CurrentLevel.player.Sprite.getWidth() / 2), 
+                                 Position.x + Sprite.getWidth() / 2                 );
+        
         if (IsAlive() && game.CurrentLevel.player.Position.x > Position.x && IsGrounded && !attacking) 
         {
             if (reachable && chargeDelayTimer <= 0)
@@ -500,6 +508,12 @@ if((Mp-Pp)<=150){
         //modify positions
         Position.x += velocity.x;
         Position.y += velocity.y;
+        
+        for (int i = 0; i < Projectiles.toArray().length; i++){
+            Projectile a = Projectiles.get(i);
+            a.Position.x += velocity.x;
+            a.Position.y += velocity.y;
+        }
 
         // check speed low enough for idle frame;
 
@@ -515,29 +529,59 @@ if((Mp-Pp)<=150){
 
         if (frameTime > 0){
             frameTime -= game.CurrentLevel.timer.getDelay();// / 1000f;
-            if (frameTime <= 0){
-                frameIndex ++;
-                if (attacking){
-                    System.out.println("Attacking, frame : " + frameIndex);
-                        }
-                if (chargeDelayTimer > 0){
-                    System.out.println("Charge Delay Cooldown : " + chargeDelayTimer);
-                }
+            if (frameTime <= 0)
+            {
+               // System.out.println("SET : " + animIndex + "  frame : " + frameIndex + " ending");
+                frameIndex++;
 
-                if (frameIndex > Anims[animIndex].end)
+                if (!IsAlive())
                 {
-                    if (attacking)
+                   // System.out.println("Dead, frame : " + frameIndex);
+                    if (frameIndex > Anims[6].end && isVisible)
                     {
-                        attacking = false;
-                        System.out.println("Ending Attack!, starting cooldown");
-                        chargeDelayTimer = CHARGE_DELAY_DURATION;
+                        System.out.println("Dead and anim over, going invisible");
+                        isVisible = false;
                     }
-                    
-                    
-                    frameIndex = Anims[animIndex].start;
+                }
+                else
+                {
+                    if (attacking){
+                        CheckMeleeAttackHit();
+                    }
+                    if (frameIndex > Anims[animIndex].end)
+                    {
+                        if (attacking)
+                        {
+                            attacking = false;
+                            chargeDelayTimer = CHARGE_DELAY_DURATION;
+                            if (movedLeftLast && !movedRightLast){
+                                MoveLeft();
+                            }
+                            else{
+                                MoveRight();
+                            }
+                        }                 
+                        frameIndex = Anims[animIndex].start;
+                    }
                 }
                 frameTime = FRAME_LENGTH;
             }
+        }
+    }
+    
+    void CheckMeleeAttackHit()
+    {
+        Rectangle hitCast = new Rectangle(
+                    (int)Position.x + Sprite.getWidth() / 3,
+                    (int)Position.y + Sprite.getHeight()/2,
+                    Sprite.getWidth()/3,
+                    Sprite.getHeight() - Sprite.getHeight()/2);
+     
+        //System.out.println("Do I Hit?! " + hitCast.toString() + "   " + game.CurrentLevel.player.getBounds());
+        
+        if ( hitCast.intersects(game.CurrentLevel.player.getBounds()))
+        {
+            game.CurrentLevel.player.TakeDamage(this);
         }
     }
 }

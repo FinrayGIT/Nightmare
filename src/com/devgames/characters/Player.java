@@ -51,10 +51,10 @@ public class Player extends baseLevelObject
     public boolean IsClimbing = false;
     public boolean PlayedGrabAnim = false;
     public boolean movedLeftLast = false;
-    public boolean movedRightLast = false;
+    public boolean movedRightLast = true;
     float damageCD;
     boolean playedDeathAnim = false;
-    public eHeldWeapon HeldWeapon;
+    public eHeldWeapon HeldWeapon = eHeldWeapon.Crossbow;
     boolean bonesawUnlocked;
     boolean crossbowUnlocked;
     boolean syringeUnlocked;
@@ -131,7 +131,7 @@ public class Player extends baseLevelObject
         velocity = new Vector(0,0);
         frameTime = FRAME_LENGTH;
         
-        health = MaxHealth;
+        health = 1;// MaxHealth;
         
         for (int i = 0; i < PLAYER_FRAMES; i++)
         {
@@ -181,14 +181,14 @@ public class Player extends baseLevelObject
                 velocity.x = -15f;
                 velocity.y = -2f;
             }
-            else
+            else if (_attacker.movedRightLast)
             {
                 velocity.x = 15f;
                 velocity.y = -2f;
             }
             System.out.println("Speed after damage:" + velocity.x);
             health -= 1;
-            if (health == 0)
+            if (health <= 0)
             {
                 Die();
             }
@@ -196,11 +196,16 @@ public class Player extends baseLevelObject
         
     }
     
+    public boolean IsAlive(){
+        return health > 0;
+    }
+    
     void Die()
     {   
         System.out.println("Player died!");
         upperLimit = 14;
         lowerLimit = 9;
+        frameIndex = 9;
         velocity.x = 0;
         dead = true;
     }
@@ -224,7 +229,7 @@ public class Player extends baseLevelObject
                 System.out.println("Move left: " + PlayedGrabAnim);
             }
             
-            else 
+            else
             {
                 upperLimit = 36;
                 lowerLimit = 31;
@@ -236,6 +241,10 @@ public class Player extends baseLevelObject
         if (!dead){
         movedLeftLast = true;
         movedRightLast = false;}
+        
+        if (frameIndex < lowerLimit || frameIndex > upperLimit){
+        frameIndex = lowerLimit;
+        }
     }
     
     public void MoveRight()
@@ -268,6 +277,10 @@ public class Player extends baseLevelObject
         
         movedLeftLast = false;
         movedRightLast = true;
+        
+        if (frameIndex < lowerLimit || frameIndex > upperLimit){
+        frameIndex = lowerLimit;
+        }
     }
     
     public void MoveUp()
@@ -309,6 +322,9 @@ public class Player extends baseLevelObject
             }
             
             velocity.y -= CLIMB_SPEED;
+        }
+        if (frameIndex < lowerLimit || frameIndex > upperLimit){
+        frameIndex = lowerLimit;
         }
     }
     
@@ -355,6 +371,10 @@ public class Player extends baseLevelObject
             
             velocity.y += CLIMB_SPEED;
         }
+        
+                                if (frameIndex < lowerLimit || frameIndex > upperLimit){
+        frameIndex = lowerLimit;
+        }
     }
     
         public void Crouch()
@@ -391,7 +411,7 @@ public class Player extends baseLevelObject
             }
             if (HeldWeapon == eHeldWeapon.Syringe)
             {
-                    type = Projectile.eType.Syringe;
+                type = Projectile.eType.Syringe;
             }
             
             game.CurrentLevel.AddProjectile( ((int)Position.x + (Sprite.getWidth() / 2)), ((int)Position.y + (Sprite.getHeight() / 3)), (velocity.x < 0), type, movedRightLast);
@@ -673,20 +693,29 @@ public class Player extends baseLevelObject
         if (!dead && frameIndex < lowerLimit || frameIndex > upperLimit){frameIndex = lowerLimit;}
         if (dead)
         {
+            System.out.println("Dead, finding appropriate anim, index : " + frameIndex);
             if(!playedDeathAnim) 
             {   
                 System.out.println("Starting death animation");
                 frameIndex = 9;
                 playedDeathAnim = true;
             }
+            if (frameIndex >= upperLimit)
+            {
+                game.endGame();
+            }
         }
         g.drawImage(spriteArray[frameIndex], (int)Position.x, (int)Position.y, null);
         
         //Health
-        for (int i = 0; i < health; i++)
-        {
-            g.drawImage(healthImages[i], (int)healthPos.x, (int)healthPos.y, null);
+//        for (int i = 0; i < health; i++)
+//        {
+//            if (i <= health){
+        if (health > 0){
+            g.drawImage(healthImages[MaxHealth - health], (int)healthPos.x, (int)healthPos.y, null);
         }
+        //}
+        //}
         
         if(colSprite != null && bottomCol != null)
         {     

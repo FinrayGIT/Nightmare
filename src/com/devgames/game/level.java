@@ -70,7 +70,7 @@ public class level extends JPanel implements ActionListener
                     {   
                         System.out.println("Arrow hit");
                         p.Stop();
-                        currentRoom.Monsters[j].TakeDamage(p.damage);
+                        currentRoom.Monsters[j].TakeDamage(p);
                     }
                 }
             }
@@ -151,11 +151,11 @@ public class level extends JPanel implements ActionListener
         
         for(Monster m: currentRoom.Monsters)
         {    
-//            if(m.IsAlive())
-//            {
+            if(m.isVisible)
+            {
                 g.drawImage(m.GetFrame(), (int)m.Position.x, (int)m.Position.y, null);
                 //g.drawImage(m.colSprite, (int)m.hitbox.x, (int)m.hitbox.y, null);
-            //}
+            }
         }
         
         for(Treasure t: currentRoom.treasures)
@@ -171,7 +171,10 @@ public class level extends JPanel implements ActionListener
         for (int i = 0; i < Projectiles.toArray().length; i++)
         {
             Projectile a = Projectiles.get(i);
-            g.drawImage(a.Sprite, (int)a.Position.x, (int)a.Position.y, null);
+            if (a.isVisible)
+            {            
+                g.drawImage(a.Sprite, (int)a.Position.x, (int)a.Position.y, null);
+            }
         }
     
         //Draw ladders (for testing)

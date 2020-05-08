@@ -114,7 +114,7 @@ public class InputController
         //the required action
         for (int i = 0; i < inputs.length; i++)
         {
-            if (inputs[i].state == inputs[i].activeState)
+            if (inputs[i].state == inputs[i].activeState && level.player.IsAlive())
             {
                 switch(inputs[i].action)
                 {

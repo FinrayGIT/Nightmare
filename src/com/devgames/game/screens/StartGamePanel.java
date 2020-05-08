@@ -8,11 +8,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.io.IOException;
 
 public class StartGamePanel extends JPanel
 {
     private Game game;
     private BufferedImage backgroundImage;
+    private BufferedImage deadImage;
     
     public StartGamePanel(Game theGame)
     {   
@@ -23,7 +25,15 @@ public class StartGamePanel extends JPanel
         try
         {
             backgroundImage = ImageIO.read(getClass().getResource("/backgroundTemp/backgroundTemp.png"));
-        }   catch(Exception ex) {System.err.println("Error Loading Background Image 1");}
+        }   catch(IOException ex) {System.err.println("Error Loading Background Image 1");}
+
+        
+        try
+        {
+            deadImage = ImageIO.read(getClass().getResource("/backgroundTemp/gameOver.png"));
+        }   catch(IOException ex) {System.err.println("Error Loading Background Image Death");}
+        
+        
         
         setFocusable(true);
     }   
@@ -33,7 +43,23 @@ public class StartGamePanel extends JPanel
     {
         //Call the paintComponent method on the superclass to initalise drawing
         super.paintComponent(g);
-        g.drawImage(backgroundImage, 0, 0, null);                
+        if (game.CurrentLevel != null)
+        {
+              if(game.CurrentLevel.player.IsAlive())
+              {
+                  g.drawImage(backgroundImage, 0, 0, null);  
+              }
+
+              else
+              {
+                  g.drawImage(deadImage, 0, 0, null);    
+              }
+        } 
+        else
+        {
+            g.drawImage(backgroundImage, 0, 0, null);  
+        }
+
         Toolkit.getDefaultToolkit().sync();
     }
     
@@ -45,9 +71,21 @@ public class StartGamePanel extends JPanel
         {
             if(e.getKeyCode() == KeyEvent.VK_P) 
             {
-                game.startGame(); 
-            }
-            
+                if (game.CurrentLevel != null){
+                if(!game.CurrentLevel.player.IsAlive())
+                {
+                    game.restartGame();
+                }
+                
+                else
+                {
+                    game.startGame(); 
+                }
+                }
+                else{
+                    game.startGame();
+                }
+             }
         }
     }
 }

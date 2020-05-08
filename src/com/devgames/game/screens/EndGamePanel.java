@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class EndGamePanel extends JPanel
@@ -17,6 +19,7 @@ public class EndGamePanel extends JPanel
     {   
         //Constructor to create the EndGamePanel object.
         game = theGame;
+        addKeyListener(new TAdapter());
         
         try
         {
@@ -34,4 +37,18 @@ public class EndGamePanel extends JPanel
         g.drawImage(backgroundImage, 0, 0, null);
         Toolkit.getDefaultToolkit().sync();
     }       
+    
+        
+    private class TAdapter extends KeyAdapter
+    {   
+        //Listens for keypress on P and starts the game     
+        @Override        
+        public void keyReleased(KeyEvent e)
+        {
+            if(e.getKeyCode() == KeyEvent.VK_P) 
+            {
+                game.restartGame(); 
+            }
+        }
+    }
 }

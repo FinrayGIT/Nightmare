@@ -2,6 +2,7 @@ package com.devgames.game;
 
 import com.devgames.game.screens.StartGamePanel;
 import com.devgames.characters.Monster;
+import com.devgames.game.screens.EndGamePanel;
 import objects.Treasure;
 import objects.Vector;
 import objects.platform;
@@ -18,7 +19,7 @@ public class Game
     public static final int WINDOW_HEIGHT = 1080;
     JFrame gameWindow;    
     StartGamePanel startScreen; 
-    //EndGamePanel endScreen;
+    StartGamePanel endScreen;
     
     public level CurrentLevel;
     public int LevelIndex = 0;
@@ -45,7 +46,7 @@ public class Game
     new level
     (
         this,
-        new Vector(0,0),
+        new Vector(0,650),
         new room[]
         { 
                 
@@ -65,7 +66,10 @@ public class Game
 
             new Monster[]
             {
-                new Monster(new Vector(500, 35), this, Monster.eElement.earth, Monster.eMonsterType.orc)
+                new Monster(new Vector(500, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
+                new Monster(new Vector(400, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
+                new Monster(new Vector(300, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc),
+                new Monster(new Vector(100, 915), this, Monster.eElement.earth, Monster.eMonsterType.orc)
             },
 
             new Treasure[]
@@ -82,11 +86,12 @@ public class Game
             new Detector[]
             { 
                 new Detector 
-                (   
+                (   //LHS Wall
                     new Rectangle (1920, 0, 5, 1080),   /*Bounds of trigger*/ 
                     0, 1,                               /*Level & room target*/
                     new Vector(20, 620)                /*Player spawn point*/
                 ),
+                    
                 new Detector(   new Rectangle(800, 1080, 200, 1),  //Bounds of trigger
                                 0, 4,                           //Level & Room target
                                 new Vector (860, 0)          //Spawn point
@@ -101,7 +106,7 @@ public class Game
             //PlatformCols
             new Detector[]
             {
-                new Detector(new Rectangle(-100, 915, 920, 20)),
+                new Detector(new Rectangle(-100, 915, 870, 20)),
                 new Detector(new Rectangle(995, 785, 100, 300)),
                 new Detector(new Rectangle(1265, 775, 700, 20)),
                 new Detector(new Rectangle(1480, 248, 540, 20)),
@@ -2336,17 +2341,33 @@ public class Game
         cl.next(gameWindow.getContentPane());
         
         goToLevel(0);
-        CurrentLevel.GoToRoom(2);
+        CurrentLevel.GoToRoom(0);
         levelReady = true;
     }
     
     public void endGame()
     {   
-        // This method will show the "Game Over" screen
-        //CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
-        //cl.next(gameWindow.getContentPane());
-        //endScreen.requestFocus();
-        //endScreen.setVisible(true);
+        if (levelReady)
+        {
+            System.out.println("End Game");
+
+            // This method will show the "Game Over" screen
+            CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
+            cl.next(gameWindow.getContentPane());
+            levelReady = false;
+            CurrentLevel.EndLevel();
+            endScreen.requestFocus();
+            endScreen.setVisible(true);
+        }
+    }
+    
+    public void restartGame()
+    {
+        System.out.println("Got Game Restart");
+        
+        endScreen.setVisible(false);
+        startScreen.requestFocus();
+        startScreen.setVisible(true);
     }
     
     public static void main(String[] args) 
@@ -2359,7 +2380,8 @@ public class Game
     {
         //TBD: Add lose condition
         //Brings up death screen
-        //endScreen.requestFocus();
+        endScreen.setVisible(true);
+        endScreen.requestFocus();
     }   
     
     private void initWindow()
@@ -2372,7 +2394,7 @@ public class Game
         gameWindow.setResizable(false);
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setTitle("Nightmare");
-        gameWindow.setUndecorated(true);
+        //gameWindow.setUndecorated(true);
         gameWindow.setVisible(true);
     }
     
@@ -2382,9 +2404,9 @@ public class Game
         startScreen = new StartGamePanel(this);
         startScreen.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         gameWindow.getContentPane().add(startScreen, "INTRO");         
-        //endScreen = new EndGamePanel(this);
-        //endScreen.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        //gameWindow.getContentPane().add(endScreen, "OUTRO");
+        endScreen = new StartGamePanel(this);
+        endScreen.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        gameWindow.getContentPane().add(endScreen, "OUTRO");
         
         //This loop sets up the levels on the gameWindow JFrame
         for (int levelLoop = 0; levelLoop < levels.length; levelLoop++)
