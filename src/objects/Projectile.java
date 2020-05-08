@@ -1,4 +1,4 @@
-package com.devgames.game;
+package objects;
 
 import java.awt.image.BufferedImage;
 import objects.Vector;
@@ -7,10 +7,10 @@ import objects.baseLevelObject;
 public class Projectile extends baseLevelObject 
 {
     final float MOVE_SPEED = 15;
-    boolean isAlive = false;
+    public boolean isAlive = false;
     float speed;
     float yVelocity;
-    int damage = 2;
+    public int damage = 2;
     eType type;
     
     

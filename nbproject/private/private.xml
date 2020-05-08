@@ -12,23 +12,22 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/InputController.java</file>
-            <file>file:/E:/Github/Nightmare/src/objects/platform.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/Projectile.java</file>
-            <file>file:/E:/Github/Nightmare/src/objects/Treasure.java</file>
-            <file>file:/E:/Github/Nightmare/src/objects/Vector.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/Game.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/Detector.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/screens/EndGamePanel.java</file>
-            <file>file:/E:/Github/Nightmare/src/objects/ladder.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/characters/Monster.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/screens/StartGamePanel.java</file>
-            <file>file:/E:/Github/Nightmare/src/objects/room.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/level.java</file>
-            <file>file:/E:/Github/Nightmare/src/objects/wind.java</file>
-            <file>file:/E:/Github/Nightmare/src/objects/baseLevelObject.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/game/Sound.java</file>
-            <file>file:/E:/Github/Nightmare/src/com/devgames/characters/Player.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/objects/Treasure.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/objects/wind.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/game/screens/EndGamePanel.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/characters/Player.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/objects/room.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/game/Detector.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/game/InputController.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/game/screens/StartGamePanel.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/objects/ladder.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/game/Game.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/objects/Projectile.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/game/level.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/objects/platform.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/characters/Monster.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/com/devgames/game/Sound.java</file>
+            <file>file:/C:/Github/NightmareSSD/src/objects/baseLevelObject.java</file>
         </group>
     </open-files>
 </project-private>

@@ -23,7 +23,10 @@ public class Monster extends baseLevelObject
     public boolean movedLeftLast = false;
     public boolean movedRightLast = false;
     public boolean attacking = false;
-
+    final float CHARGE_DELAY_DURATION = 1f;
+    public float chargeDelayTimer = 0;
+    boolean attackFrameSkip = false;
+    
     boolean moving = false;
     public boolean IsGrounded = false;
 
@@ -55,9 +58,10 @@ public class Monster extends baseLevelObject
     Rectangle bottomLeftColRay;
     Rectangle bottomColRay;
     Rectangle bottomRightColRay;
+    public Rectangle hitbox;
 
-    BufferedImage colSprite;
-    BufferedImage colSpriteRay;
+    public BufferedImage colSprite;
+    public BufferedImage colSpriteRay;
     
     public enum eElement{
         fire,
@@ -86,7 +90,8 @@ public class Monster extends baseLevelObject
         WalkLeft,
         WalkRight,
         IdleLeft,
-        IdleRight
+        IdleRight,
+        Die,
     }
     
     class AnimSet
@@ -102,16 +107,8 @@ public class Monster extends baseLevelObject
         }
     }
     
-    public AnimSet[] Anims = new AnimSet[6];
+    public AnimSet[] Anims = new AnimSet[7];
     int animIndex;
-    
-//    public int attackLeftLowerLimit = 0;
-//    public int attackLeftUpperLimit = 0;
-//    public int attackLeftLowerLimit = 0;
-//    public int attackLeftUpperLimit = 0;
-    public int lowerLimit = 0; //remove me, now Anim[x].start
-    public int upperLimit = 5;//remove me, now Anim[n].end
-    public int animationFrames;
     
     // </editor-fold>
     BufferedImage[] spriteArray;
@@ -168,7 +165,8 @@ public class Monster extends baseLevelObject
                 Anims[0] = new AnimSet(eAnimState.AttackLeft, 0, 4);
                 Anims[1] = new AnimSet(eAnimState.AttackRight, 5, 9);
                 Anims[2] = new AnimSet(eAnimState.WalkLeft, 10, 13);                
-                Anims[3] = new AnimSet(eAnimState.WalkRight, 14, 17); 
+                Anims[3] = new AnimSet(eAnimState.WalkRight, 14, 17);
+                Anims[6] = new AnimSet(eAnimState.Die, 18, 22);
                 //isFlying = true;
                 break;
                 
@@ -181,7 +179,7 @@ public class Monster extends baseLevelObject
                 break;
         }
         
-        frames = Anims[3].end+1;
+        frames = Anims[6].end+1;
         
         //idles 
         Anims[4] = new AnimSet(eAnimState.IdleLeft, Anims[2].start, Anims[2].start );
@@ -199,7 +197,7 @@ public class Monster extends baseLevelObject
     
     public BufferedImage GetFrame()
     { 
-        System.out.println("Asking for frame : " + frameIndex + "   of set : " + animIndex);
+        //System.out.println("Asking for frame : " + frameIndex + "   of set : " + animIndex);
         if (frameIndex < Anims[animIndex].start){frameIndex = Anims[animIndex].start;}
         if (frameIndex > Anims[animIndex].end){frameIndex = Anims[animIndex].end;}
         
@@ -217,43 +215,47 @@ public class Monster extends baseLevelObject
     void Die()
     {
         System.out.println("DEAD");
+        velocity.x = 0;
+        animIndex = 6;
     }
     
-    public boolean IsActive(){
+    public boolean IsAlive(){
         return health > 0;
     }
+    
     
      //movement
     public void MoveLeft()
     {
-            velocity.x -= MOVE_SPEED;
-
-            animIndex = 2;
-//            if (frameIndex < lowerLimit || frameIndex > upperLimit){
-//                frameIndex = lowerLimit;
-//            }
-
+        if (IsAlive()){
+        velocity.x -= MOVE_SPEED;
+        animIndex = 2;
         movedLeftLast = true;
         movedRightLast = false;
-        attacking = false;
+        //attacking = false;
+        }
     }
 
     public void MoveRight()
     {
-            velocity.x += MOVE_SPEED;
-            animIndex = 3;
-//            if (frameIndex < lowerLimit || frameIndex > upperLimit) {
-//                frameIndex = lowerLimit;
-//            }
+        if (IsAlive()){
+        velocity.x += MOVE_SPEED;
+        animIndex = 3;
         movedLeftLast = false;
         movedRightLast = true;
-        attacking = false;
+        //attacking = false;
+        }
     }
     public void LeftAttack()
-    {
+    {   
+        if ( rightColRay.intersects(game.CurrentLevel.player.leftCol) || rightColRay.intersects(game.CurrentLevel.player.rightCol))
+            {
+                game.CurrentLevel.player.TakeDamage(this);
+            }
         animIndex = 0;
+        frameIndex = Anims[animIndex].start;
         //dash
-        velocity.x -= 3f;        
+        velocity.x -= 8f;        
 //        upperLimit = 12;
 //        lowerLimit = 9;
 //        if (frameIndex < lowerLimit || frameIndex > upperLimit) {
@@ -261,16 +263,21 @@ public class Monster extends baseLevelObject
 //        }
     //    System.out.println("On Frame " + frameIndex + " of " + lowerLimit + " / " + upperLimit);
         attacking = true;
+        movedLeftLast = true;
+        movedRightLast = false;
     }
     public void RightAttack(){
         animIndex = 1;
+        frameIndex = Anims[animIndex].start;
         
-        velocity.x += 3f;
+        velocity.x += 8f;
 //        if (frameIndex < lowerLimit || frameIndex > upperLimit) {
 //            frameIndex = lowerLimit;
 //        }
       //  System.out.println("On Frame " + frameIndex + " of " + lowerLimit + " / " + upperLimit);
         attacking = true;
+        movedLeftLast = false;
+        movedRightLast = true;
     }
     public void MoveDown()
     {
@@ -293,15 +300,17 @@ if((Mp-Pp)<=150){
               Reachable= false;
           }
       }
-      System.out.println("Reachable : " + Reachable);
+      //System.out.println("Reachable : " + Reachable);
         return Reachable;
     }
     
     public  void Updatemonster()
     {
         if (game.levelReady = true)
-        {
-                        // <editor-fold desc="COLLIDER PLACEMENT">
+        {   
+            
+            
+                // <editor-fold desc="COLLIDER PLACEMENT">
 /*TOP*/     topLeftCol = new Rectangle(Math.round((int)Position.x + (Sprite.getWidth() / 4)),
                 Math.round((int)Position.y + colSprite.getHeight()), 1, 1);
             
@@ -316,7 +325,9 @@ if((Mp-Pp)<=150){
                 Math.round((int)Position.y + (Sprite.getHeight()/2)), 1, 1);
             
             rightCol = new Rectangle(Math.round((int)Position.x + ((Sprite.getWidth() / 5) * 4 )),
-                Math.round((int)Position.y + (Sprite.getHeight()/2)), 1, 1); 
+                Math.round((int)Position.y + (Sprite.getHeight()/2)), 1, 1);
+            hitbox = new Rectangle(Math.round((int)Position.x + ((Sprite.getWidth() / 2))),
+                Math.round((int)Position.y), 1, Sprite.getHeight());
             
             
 /*BOTTOM*/  bottomLeftCol = new Rectangle(Math.round((int)Position.x) + ((Sprite.getWidth() / 8) * 3),
@@ -357,23 +368,38 @@ if((Mp-Pp)<=150){
             
             bottomRightColRay = new Rectangle(Math.round((int)bottomRightCol.x + velocity.x),
                 Math.round((int)bottomRightCol.y + velocity.y), 1, 1);
+    // </editor-fold>             
             
+            
+    
+            //Reduces the cooldown on charge
+            if (chargeDelayTimer > 0)
+            {
+                chargeDelayTimer -= 0.01f;
+            }
             
             boolean wasGroundedLastStep = IsGrounded;
             IsGrounded = false;
             Vector lastPosition = Position;
             //Checks if a jump has been performed recently...
             //everything collision with world here, enemies elsewhere
+            
             for (int i = 0; i <  game.CurrentLevel.currentRoom.platformColliders.length; i++)
             {   
                 //"Raycast" collider logic.
                 if (rightColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
                 {   
+                    if (!movedLeftLast && movedRightLast){
+                        MoveLeft();
+                    }
                     velocity.x = 0;
                 }
 
                 if (leftColRay.intersects(game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds()))
                 {
+                    if (movedLeftLast && !movedRightLast){
+                        MoveRight();
+                    }
                     velocity.x = 0;
                     Position.x = (game.CurrentLevel.currentRoom.platformColliders[i].rect.x + game.CurrentLevel.currentRoom.platformColliders[i].rect.width);
                 }
@@ -391,7 +417,8 @@ if((Mp-Pp)<=150){
                     Position.y = game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().y + game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().height;
                 }                
             }
-             if (!IsGrounded && wasGroundedLastStep)
+            
+             if (IsAlive() && !IsGrounded && wasGroundedLastStep)
             {
                 Position = lastPosition;
                 velocity.x = -velocity.x;
@@ -411,9 +438,9 @@ if((Mp-Pp)<=150){
         }
         
         boolean reachable = Reachable(game.CurrentLevel.player.Position.x, Position.x);
-        if (game.CurrentLevel.player.Position.x > Position.x && IsGrounded) 
+        if (IsAlive() && game.CurrentLevel.player.Position.x > Position.x && IsGrounded && !attacking) 
         {
-            if (reachable)
+            if (reachable && chargeDelayTimer <= 0)
                 RightAttack();
             else
                 if (movedRightLast){
@@ -422,9 +449,9 @@ if((Mp-Pp)<=150){
                 else{
                     MoveLeft();
                 }
-        } else if (game.CurrentLevel.player.Position.x < Position.x && IsGrounded)
+        } else if (IsAlive() && game.CurrentLevel.player.Position.x < Position.x && IsGrounded && !attacking)
         {
-            if (reachable)
+            if (reachable && chargeDelayTimer <= 0)
                 LeftAttack();
             else
                 if (movedLeftLast){
@@ -434,9 +461,18 @@ if((Mp-Pp)<=150){
                     MoveRight();
                 }
         }
+        
+//        if (attacking && reee){
+//            if (movedLeftLast && !movedRightLast){
+//                velocity.x -= 1f;
+//            }
+//            if (!movedLeftLast && movedRightLast){
+//                velocity.x += 1f;
+//            }
+//        }
 
         // update position from velocity
-        if (!IsGrounded)
+        if (IsAlive() && !IsGrounded)
         {
             //Left & right movement
             Position.x += velocity.x;
@@ -450,10 +486,15 @@ if((Mp-Pp)<=150){
             }
         }
 
-        if (IsGrounded)
+        if (IsAlive() && IsGrounded)
         {
+            if (!attacking){
             velocity.x -= velocity.x * 0.15f;
             velocity.y -= velocity.y * 0.2f;
+            }
+            else{
+                velocity.x -= velocity.x * 0.05f;
+            }
         }
 
         //modify positions
@@ -476,9 +517,23 @@ if((Mp-Pp)<=150){
             frameTime -= game.CurrentLevel.timer.getDelay();// / 1000f;
             if (frameTime <= 0){
                 frameIndex ++;
+                if (attacking){
+                    System.out.println("Attacking, frame : " + frameIndex);
+                        }
+                if (chargeDelayTimer > 0){
+                    System.out.println("Charge Delay Cooldown : " + chargeDelayTimer);
+                }
+
                 if (frameIndex > Anims[animIndex].end)
                 {
-
+                    if (attacking)
+                    {
+                        attacking = false;
+                        System.out.println("Ending Attack!, starting cooldown");
+                        chargeDelayTimer = CHARGE_DELAY_DURATION;
+                    }
+                    
+                    
                     frameIndex = Anims[animIndex].start;
                 }
                 frameTime = FRAME_LENGTH;

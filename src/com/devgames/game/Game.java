@@ -15,7 +15,7 @@ import java.awt.Rectangle;
 public class Game 
 {   
     public static final int WINDOW_WIDTH = 1920; 
-    public static final int WINDOW_HEIGHT = 1108;
+    public static final int WINDOW_HEIGHT = 1080;
     JFrame gameWindow;    
     StartGamePanel startScreen; 
     //EndGamePanel endScreen;
@@ -65,7 +65,7 @@ public class Game
 
             new Monster[]
             {
-                new Monster(new Vector(1300, 35), this, Monster.eElement.earth, Monster.eMonsterType.orc)
+                new Monster(new Vector(500, 35), this, Monster.eElement.earth, Monster.eMonsterType.orc)
             },
 
             new Treasure[]
@@ -2330,9 +2330,11 @@ public class Game
     }   
     
     public void startGame()
-    {      
+    {  
+        //gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
         cl.next(gameWindow.getContentPane());
+        
         goToLevel(0);
         CurrentLevel.GoToRoom(2);
         levelReady = true;
@@ -2370,6 +2372,7 @@ public class Game
         gameWindow.setResizable(false);
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setTitle("Nightmare");
+        gameWindow.setUndecorated(true);
         gameWindow.setVisible(true);
     }
     

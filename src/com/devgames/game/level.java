@@ -1,5 +1,6 @@
 package com.devgames.game;
 
+import objects.Projectile;
 import com.devgames.characters.Player;
 import com.devgames.characters.Monster;
 import objects.Treasure;
@@ -52,21 +53,25 @@ public class level extends JPanel implements ActionListener
         {
             Projectiles.get(i).Update();
             Projectile p = Projectiles.get(i);
-            
-            for (int j = 0; j < currentRoom.platformColliders.length; j++)
-            {
-                if (p.getBounds().intersects(currentRoom.platformColliders[j].rect.getBounds()))
+         
+            if (p.isAlive)
+            {            
+                for (int j = 0; j < currentRoom.platformColliders.length; j++)
                 {
-                    p.Stop();
+                    if (p.getBounds().intersects(currentRoom.platformColliders[j].rect.getBounds()))
+                    {
+                        p.Stop();
+                    }
                 }
-            }
-            
-            for (int j = 0; j < currentRoom.Monsters.length; j++)
-            {
-                if (p.getBounds().intersects(currentRoom.Monsters[j].getBounds()))
+
+                for (int j = 0; j < currentRoom.Monsters.length; j++)
                 {
-                    p.Stop();
-                    currentRoom.Monsters[j].TakeDamage(p.damage);
+                    if ( currentRoom.Monsters[j].IsAlive() && p.getBounds().intersects((currentRoom.Monsters[j].hitbox.getBounds())))
+                    {   
+                        System.out.println("Arrow hit");
+                        p.Stop();
+                        currentRoom.Monsters[j].TakeDamage(p.damage);
+                    }
                 }
             }
         }
@@ -110,7 +115,7 @@ public class level extends JPanel implements ActionListener
         {
             currentRoom.setVisible(false);
         }
-        
+        Projectiles.clear();
         //do previous room here, (previousroom = currentRoom)#todo
         currentRoom = _room;
         
@@ -146,9 +151,10 @@ public class level extends JPanel implements ActionListener
         
         for(Monster m: currentRoom.Monsters)
         {    
-//            if(m.IsActive())
+//            if(m.IsAlive())
 //            {
-                g.drawImage(m.GetFrame(), (int)m.Position.x, (int)m.Position.y, null);                    
+                g.drawImage(m.GetFrame(), (int)m.Position.x, (int)m.Position.y, null);
+                //g.drawImage(m.colSprite, (int)m.hitbox.x, (int)m.hitbox.y, null);
             //}
         }
         
