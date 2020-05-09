@@ -30,16 +30,18 @@ public class Player extends baseLevelObject
     final float JUMP_DELAY_DURATION = 0.1f;
     final float DOSWAPCD = 130f;
     public final float BOOST_DELAY_DURATION = 0.1f;
+    public final float SHOOT_DELAY_DURATION = 1f;
     final float GRAVITY = 0.1f;
     final float FRAME_LENGTH = 125;
     final int CROUCH_FRAMES = 0;
     final int DEATH_FRAMES = 5;
     final int WALK_FRAMES = 3;
     final int IDLE_FRAMES = 0;
-    final int PLAYER_FRAMES = 49;
+    final int PLAYER_FRAMES = 69;
     public int scale = 50;
     float doSwapTimer;
     float jumpDelayTimer;
+    float shootDelayTimer;
     public float boostDelayTimer;
     
     // </editor-fold>
@@ -57,9 +59,10 @@ public class Player extends baseLevelObject
     public boolean IsBoosted = false;
     public boolean hasKey = false;
     public boolean attemptingDoor = false;
+    public boolean hasWon = false;
     float damageCD;
     boolean playedDeathAnim = false;
-    public eHeldWeapon HeldWeapon = eHeldWeapon.Bonesaw;
+    public eHeldWeapon HeldWeapon = eHeldWeapon.None;
     boolean bonesawUnlocked;
     boolean crossbowUnlocked;
     boolean syringeUnlocked;
@@ -70,6 +73,8 @@ public class Player extends baseLevelObject
     Detector door;
     // </editor-fold>
     // <editor-fold desc="COLLIDERS">
+    
+    boolean attacking = false;
     
     //Colliders.
     Rectangle topLeftCol;
@@ -294,7 +299,8 @@ public class Player extends baseLevelObject
         if (door != null)
         {
             System.out.println("Winrar");
-            //game.IsWinrarDotEXE();
+            hasWon = true;
+            game.endGame();
         }
         else
         {
@@ -421,17 +427,34 @@ public class Player extends baseLevelObject
         if (!dead && HeldWeapon != eHeldWeapon.None)
         {        
             Projectile.eType type = Projectile.eType.FakeMelee;
+            if (movedLeftLast)
+            {lowerLimit = 53;
+            upperLimit = 56;}
+            if (movedRightLast)
+            {lowerLimit = 49;
+             upperLimit = 52;}
             
-            if (HeldWeapon == eHeldWeapon.Crossbow)
-            {
+            if (HeldWeapon == eHeldWeapon.Crossbow && crossbowUnlocked )
+            {   
+                if (movedLeftLast)
+                {lowerLimit = 63;
+                upperLimit = 68;}
+                if (movedRightLast)
+                {lowerLimit = 57;
+                upperLimit = 62;}
                 type = Projectile.eType.Arrow;
             }
-            if (HeldWeapon == eHeldWeapon.Syringe)
+            if (HeldWeapon == eHeldWeapon.Syringe && syringeUnlocked)
             {
                 type = Projectile.eType.Syringe;
             }
             
-            game.CurrentLevel.AddProjectile( ((int)Position.x + (Sprite.getWidth() / 2)), ((int)Position.y + (Sprite.getHeight() / 3)), (velocity.x < 0), type, movedRightLast);
+            if (shootDelayTimer <= 0)
+            {
+                attacking = true;
+                game.CurrentLevel.AddProjectile( ((int)Position.x + (Sprite.getWidth() / 2)), ((int)Position.y + (Sprite.getHeight() / 3)), (velocity.x < 0), type, movedRightLast);
+                shootDelayTimer = SHOOT_DELAY_DURATION;
+            }
         }
     }
         
@@ -533,7 +556,11 @@ public class Player extends baseLevelObject
             {
                 jumpDelayTimer -= 0.01f;
             }
-        
+            
+            if (shootDelayTimer > 0)
+            {
+                 shootDelayTimer -= 0.01f;
+            }
             //This loop checks if the colliders intersect any platforms, 
             //and prevents movement if so.
             
@@ -565,9 +592,9 @@ public class Player extends baseLevelObject
                     //System.out.println("Checking RTA "+ game.CurrentLevel.currentRoom.RTA[i].rect.toString() + "  " + Position.x + ", " + Position.y);
                     // && velocity.x > 0
                     if (!dead && 
-                            ((leftColRay.intersects(game.CurrentLevel.currentRoom.RTA[i].rect) && velocity.x < 0)
+                            ((leftColRay.intersects(game.CurrentLevel.currentRoom.RTA[i].rect) && movedLeftLast)
                             ||
-                            (rightColRay.intersects(game.CurrentLevel.currentRoom.RTA[i].rect) && velocity.x > 0)))
+                            (rightColRay.intersects(game.CurrentLevel.currentRoom.RTA[i].rect) && movedRightLast)))
                     {
                        game.CurrentLevel.currentRoom.RTA[i].DoSwap(game);
                     }
@@ -628,7 +655,9 @@ public class Player extends baseLevelObject
                 if (game.CurrentLevel.currentRoom.Breakables !=null)
                 {
                     for (Detector Breakable : game.CurrentLevel.currentRoom.Breakables) 
-                    {
+                    {   
+                        if (Breakable.health == 0)
+                        {
                         if (!dead && rightColRay.intersects(Breakable.rect) && velocity.x > 0)
                         {   
                              System.out.println("Hit side of the world");
@@ -650,7 +679,8 @@ public class Player extends baseLevelObject
                             
                           //  Position.y = game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().y + game.CurrentLevel.currentRoom.platformColliders[i].rect.getBounds().height;
                         }  
-//                        
+//                      }  
+                        }
                     }
                 }
                 
@@ -663,6 +693,9 @@ public class Player extends baseLevelObject
                         if (0 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex) //bonesaw
                         {
                             bonesawUnlocked = true;
+                            HeldWeapon = eHeldWeapon.Bonesaw;
+                            System.out.println("Picked up bonesaw");
+                            game.CurrentLevel.currentRoom.treasures[i].setVisible(false);
                         }
                         if (1 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex) //xbow
                         {
@@ -678,6 +711,7 @@ public class Player extends baseLevelObject
                         if (3 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex) // keys n shit
                         {
                             hasKey = true;
+                            game.CurrentLevel.currentRoom.treasures[i].setVisible(false);
                         }
 //                        if (4 == game.CurrentLevel.currentRoom.treasures[i].treasureIndex)
 //                        {
@@ -757,14 +791,14 @@ public class Player extends baseLevelObject
             Position.y += velocity.y; }              //Up & down movement
        
             //Idle check
-            if (!dead && IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 && movedLeftLast)
+            if (!dead && IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 && movedLeftLast && !attacking)
             {
                 upperLimit = 48;
                 lowerLimit = 48;
                 frameIndex = 48;
             }
             
-            else if (!dead && IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 && movedRightLast)
+            else if (!dead && IsGrounded && !IsClimbing && Math.abs(velocity.x) < 1 && movedRightLast && !attacking)
             {
                 upperLimit = 0;
                 lowerLimit = 0;
@@ -777,6 +811,20 @@ public class Player extends baseLevelObject
                 if (frameTime <= 0)
                 {
                     frameIndex ++;
+                   
+                    if (attacking && frameIndex > upperLimit)
+                    {
+                        attacking = false;
+//                        if (movedLeftLast && !movedRightLast){
+//                            MoveLeft();
+//                        }
+//                        else{
+//                            MoveRight();
+//                        }
+                    }       
+                    
+                    
+                    
                     frameTime = FRAME_LENGTH;
                 }
             } 

@@ -37,7 +37,7 @@ public class Detector
     }
     
     
-    // DETECTOR FOR STALAGMITES
+    // DETECTOR FOR STALAGTITES
     public Detector(Rectangle _rect, int _health, int sceneUID)
     {
         System.out.println("NEW STALAGMITE");
@@ -86,7 +86,7 @@ public class Detector
         }
         _game.CurrentLevel.GoToRoom(roomTarget);
         _game.CurrentLevel.player.Position.x = spawnPos.x;
-        _game.CurrentLevel.player.Position.y = spawnPos.y + _game.CurrentLevel.player.Sprite.getHeight() - 1;
+        _game.CurrentLevel.player.Position.y = spawnPos.y - _game.CurrentLevel.player.Sprite.getHeight() - 1;
         //game.CurrentLevel.player.Position.y += game.CurrentLevel.player.Sprite.getHeight();
     }
     

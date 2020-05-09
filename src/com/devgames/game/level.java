@@ -88,7 +88,7 @@ public class level extends JPanel implements ActionListener
                     }
                 }
                 if (p.type == Projectile.eType.FakeMelee){
-                    if (p.life<9){
+                    if (p.life<95){
                         p.Stop();
                         p.isVisible = false;
                     }
@@ -115,7 +115,7 @@ public class level extends JPanel implements ActionListener
     
     public void StartLevel()
     {
-        //Sound.play(getClass().getResourceAsStream("/Sounds/Music/BGM" + _levelIndex + ".wav"), true);
+        Sound.play(getClass().getResourceAsStream("/Sounds/Music/BGM1.wav"), true);
         setVisible(true);
         requestFocus(true);
         repaint();
@@ -168,6 +168,14 @@ public class level extends JPanel implements ActionListener
         //This function draws all required graphics in level.
         super.paintComponent(g);
         g.drawImage(currentRoom.Background,0,0,null);
+        
+        if (currentRoom.doors != null)
+        {
+            for(Detector d: currentRoom.doors)
+            {
+                g.drawImage(d.Sprites[0], d.rect.x, d.rect.y, null);
+            }
+        }
         
         for(Monster m: currentRoom.Monsters)
         {    

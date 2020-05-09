@@ -15,6 +15,7 @@ public class StartGamePanel extends JPanel
     private Game game;
     private BufferedImage backgroundImage;
     private BufferedImage deadImage;
+    private BufferedImage winImage;
     
     public StartGamePanel(Game theGame)
     {   
@@ -33,6 +34,11 @@ public class StartGamePanel extends JPanel
             deadImage = ImageIO.read(getClass().getResource("/backgroundTemp/gameOver.png"));
         }   catch(IOException ex) {System.err.println("Error Loading Background Image Death");}
         
+        try
+        {
+            winImage = ImageIO.read(getClass().getResource("/backgroundTemp/gameWin.png"));
+        }   catch(IOException ex) {System.err.println("Error Loading Background Image Death");}
+        
         
         
         setFocusable(true);
@@ -45,11 +51,14 @@ public class StartGamePanel extends JPanel
         super.paintComponent(g);
         if (game.CurrentLevel != null)
         {
-              if(game.CurrentLevel.player.IsAlive())
+              if(game.CurrentLevel.player.IsAlive() && !game.CurrentLevel.player.hasWon)
               {
                   g.drawImage(backgroundImage, 0, 0, null);  
               }
-
+              else if (game.CurrentLevel.player.hasWon)
+              {
+                  g.drawImage(winImage, 0,0, null);
+              }
               else
               {
                   g.drawImage(deadImage, 0, 0, null);    

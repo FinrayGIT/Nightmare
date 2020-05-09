@@ -66,6 +66,7 @@ public class room extends JPanel
         wind = _wind;
         spikes = _spikes;
         Breakables = _breakables;
+        doors = _doors;
         
         
         try

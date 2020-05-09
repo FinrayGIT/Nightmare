@@ -86,16 +86,16 @@ public class Game
             { 
                 new Detector 
                 (   //RHS Wall
-                    new Rectangle (1920, 0, 20, 1080),   /*Bounds of trigger*/ 
+                    new Rectangle (1900, 0, 20, 1080),   /*Bounds of trigger*/ 
                     0, 1,                               /*Level & room target*/
-                    new Vector(0, 600)                /*Player spawn point*/
+                    new Vector(0, 800)                /*Player spawn point*/
                 ),
                     
-                new Detector(   new Rectangle(0, 1080, 1080, 20),  //Bounds of trigger
-                                0, 4,                           //Level & Room target
-                                new Vector (860, 0)          //Spawn point
-                            ),
-                new Detector(   new Rectangle(1100, 1080, 200, 20),  //Bounds of trigger
+//                new Detector(   new Rectangle(0, 1080, 1080, 200),  //Bounds of trigger
+//                                0, 4,                           //Level & Room target
+//                                new Vector (860, 0)          //Spawn point
+//                            ),
+                new Detector(   new Rectangle(0, 1080, 1920, 200),  //Bounds of trigger
                                 0, 4,                           //Level & Room target
                                 new Vector (1200, 0)          //Spawn point
                             )
@@ -121,7 +121,7 @@ public class Game
             //Doors        
             new Detector[]
             {
-                new Detector(new Rectangle(88, 708, 180, 290), 3, "/levels/level0/room0/room0door.png")
+                new Detector(new Rectangle(85, 809, 180, 290), 3, "/levels/level0/room0/room0door.png")
             },
             
             //Spikes        
@@ -158,7 +158,7 @@ public class Game
 
             new Treasure[]
             {
-                new Treasure(new Vector(1800, 490), "Sprites/Graded/Interactive/doors with locks and keys/key_3.png", 3)
+                new Treasure(new Vector(1790, 490), "/Sprites/Graded/Interactive/doorskeys/key_3.png", 3)
             },
 
             new ladder[]
@@ -172,22 +172,22 @@ public class Game
             {   
                 new Detector(   new Rectangle (-19,0, 20, 1080),
                                 0, 0,
-                                new Vector(1920, 775)   
+                                new Vector(1880, 770)   
                             ),
                 
-                new Detector(   new Rectangle(1920, 525, 10, 131),  //Bounds of trigger
+                new Detector(   new Rectangle(1920, 525, 20, 131),  //Bounds of trigger
                                 0, 2,                           //Level & Room target
                                 new Vector (40, 665)          //Spawn point
                             ),
-                new Detector(   new Rectangle(1920, 655, 10, 178),  //Bounds of trigger
+                new Detector(   new Rectangle(1920, 655, 20, 178),  //Bounds of trigger
                                 0, 2,                           //Level & Room target
                                 new Vector (40, 870)          //Spawn point
                             ),
-                new Detector(   new Rectangle(125, 1080, 375, 1),  //Bounds of trigger
+                new Detector(   new Rectangle(-5000, 1080, 10800, 2000),  //Bounds of trigger
                                 0, 5,                           //Level & Room target
                                 new Vector (300, 0)          //Spawn point
                             ),
-                new Detector(   new Rectangle(500, 1080, 450, 1),  //Bounds of trigger
+                new Detector(   new Rectangle(500, 1080, 450, 20),  //Bounds of trigger
                                 0, 5,                           //Level & Room target
                                 new Vector (920, 0)          //Spawn point
                             )
@@ -223,7 +223,7 @@ public class Game
             //Breakables        
             new Detector[]
             {
-                new Detector(new Rectangle(1692,350, 228, 220), 4, 0)
+                new Detector(new Rectangle(1692,345, 228, 220), 4, 0)
             }),
                 
 // </editor-fold> 
@@ -263,15 +263,19 @@ public class Game
 //                            ),
                 new Detector(   new Rectangle(0, 600, 5, 240),  //Bounds of trigger
                                 0, 1,                           //Level & Room target
-                                new Vector (1880, 800)          //Spawn point
+                                new Vector (1880, 835)          //Spawn point
                             ),
-                new Detector(   new Rectangle(890, 1080, 640, 1),  //Bounds of trigger
+                new Detector(   new Rectangle(890, 1080, 640, 20),  //Bounds of trigger
                                 0, 6,                           //Level & Room target
                                 new Vector (1250, 0)          //Spawn point
                             ),
-                new Detector(   new Rectangle(1600, 1080, 320, 1),  //Bounds of trigger
+                new Detector(   new Rectangle(0, 1080, 1080, 20),  //Bounds of trigger
                                 0, 6,                           //Level & Room target
                                 new Vector (1730, 0)          //Spawn point
+                            ),
+                new Detector(   new Rectangle(1919, 0, 20, 1080),  //Bounds of trigger
+                                0, 3,                           //Level & Room target
+                                new Vector (20, 795)          //Spawn point
                             )
             },
               
@@ -326,14 +330,16 @@ public class Game
 
             new Monster[]
             {
-
+                new Monster(new Vector(155, 1055), this, Monster.eElement.earth, Monster.eMonsterType.orc),
+                new Monster(new Vector(1270, 930), this, Monster.eElement.earth, Monster.eMonsterType.orc)
+            
             },
 
             new Treasure[]
             {
-                new Treasure (new Vector(1337,622), "/Sprites/Graded/Weapons/crossbowpickup.png", 1)
+                new Treasure (new Vector(1357,220), "/Sprites/Graded/Weapons/bonesawpickup.png", 0)
             },
-//"Sprites\Graded\Weapons/crossbowpickup.png", 0)
+
             new ladder[]
             {
                 new ladder(new Vector (1607, 165), "/levels/level0/room3/room3ladder0.png"),
@@ -343,7 +349,10 @@ public class Game
             //RoomTransitions
             new Detector[]
             { 
-                
+                new Detector(   new Rectangle(-19, 0, 20, 1080),  //Bounds of trigger
+                                0, 2,                           //Level & Room target
+                                new Vector (1880, 795)          //Spawn point
+                            )
             },
               
             //Platform Colliders
@@ -357,6 +366,7 @@ public class Game
                 new Detector((new Rectangle(1120, 930, 620, 20))),
                 new Detector((new Rectangle(1670, 610, 250, 20))),
                 new Detector((new Rectangle(1280, 270, 306, 20))),
+                new Detector((new Rectangle(110, 860, 20, 222)))
                 
             },
                     
@@ -404,24 +414,33 @@ public class Game
 
             new Treasure[]
             {
-
+                new Treasure (new Vector(125,120), "/Sprites/Graded/Weapons/crossbowpickup.png", 1)
             },
 
             new ladder[]
             {
-                //new ladder(new Vector (1700, 661), "/rooms/room1/room1ladder.png")
+                new ladder(new Vector (269, 160), "/levels/level0/room4/room4ladder0.png"),
+                new ladder(new Vector (46, 0), "/levels/level0/room4/room4ladder0.png")
             },
 
             //RoomTransitions
             new Detector[]
-            { 
+            {   
                 
+                new Detector 
+                (   
+                    new Rectangle (1919, 0, 20, 1080),   /*Bounds of trigger*/ 
+                    0, 5,                               /*Level & room target*/
+                    new Vector(30, 950)                /*Player spawn point*/
+                ),
             },
               
             //Platform Colliders
             new Detector[]
             {
-                
+                new Detector(new Rectangle(805, 980, 865, 82)),
+                new Detector(new Rectangle(1860, 921, 60, 20)),
+                new Detector(new Rectangle(20, 120, 210, 23))
             },
                     
             //Wind
@@ -439,7 +458,7 @@ public class Game
             //Spikes        
             new Detector[]
             {
-                
+                new Detector(new Rectangle(0, 1080, 1080, 20))
             },
                     
             //Breakables        
@@ -472,18 +491,38 @@ public class Game
 
             new ladder[]
             {
-               //new ladder(new Vector (1780, 0), "/rooms/room1/room1ladder.png")
+               new ladder(new Vector (1798, 0), "/levels/level0/room5/room5ladder0.png")
             },
 
             //RoomTransitions
             new Detector[]
             { 
-                
+                new Detector 
+                (   
+                    new Rectangle (-19, 0, 20, 1080),   /*Bounds of trigger*/ 
+                    0, 4,                               /*Level & room target*/
+                    new Vector(1890, 900)               /*Player spawn point*/
+                ),
+                new Detector 
+                (   
+                    new Rectangle (1798,-19, 160, 20),   /*Bounds of trigger*/ 
+                    0, 2,                               /*Level & room target*/
+                    new Vector(1880, 795)                /*Player spawn point*/
+                ),
+                new Detector 
+                (   
+                    new Rectangle (1920, 775, 20, 330),   /*Bounds of trigger*/ 
+                    0, 6,                               /*Level & room target*/
+                    new Vector(0, 750)                /*Player spawn point*/
+                ),
             },
               
             //Platform Colliders
             new Detector[]
             {
+                new Detector(new Rectangle(0, 955, 795, 20)),
+                new Detector(new Rectangle(1000, 880, 920, 20)),
+                new Detector(new Rectangle(1290, 330, 162, 20)),
                 
             },
                     
@@ -502,7 +541,7 @@ public class Game
             //Spikes        
             new Detector[]
             {
-                
+                new Detector(new Rectangle(0, 1080, 800, 2000))
             },
                     
             //Breakables        
@@ -523,7 +562,7 @@ public class Game
 
             new Monster[]
             {
-
+                new Monster(new Vector(740, 870), this, Monster.eElement.earth, Monster.eMonsterType.orc),
             },
 
             new Treasure[]
@@ -539,13 +578,18 @@ public class Game
             //RoomTransitions
             new Detector[]
             { 
-                
+                new Detector 
+                (   
+                    new Rectangle (-19, 0, 20, 1080),   /*Bounds of trigger*/ 
+                    0, 5,                               /*Level & room target*/
+                    new Vector(1900, 750)                /*Player spawn point*/
+                ),
             },
               
             //Platform Colliders
             new Detector[]
             {
-                
+                new Detector (new Rectangle(0, 875, 830, 20)),
             },
                     
             //Wind
@@ -563,7 +607,7 @@ public class Game
             //Spikes        
             new Detector[]
             {
-                
+                new Detector(new Rectangle(830, 1080, 800, 20))
             },
                     
             //Breakables        
@@ -2345,16 +2389,14 @@ public class Game
         cl.next(gameWindow.getContentPane());
         
         goToLevel(0);
-        CurrentLevel.GoToRoom(1);
+        CurrentLevel.GoToRoom(0);
         levelReady = true;
     }
     
     public void endGame()
     {   
         if (levelReady)
-        {
-            System.out.println("End Game");
-
+        {   System.out.println("End Game");
             // This method will show the "Game Over" screen
             CardLayout cl = (CardLayout)gameWindow.getContentPane().getLayout();
             cl.next(gameWindow.getContentPane());
@@ -2368,10 +2410,10 @@ public class Game
     public void restartGame()
     {
         System.out.println("Got Game Restart");
-        
         CurrentLevel = null;
         startScreen.requestFocus();
         startScreen.setVisible(true);
+        
     }
     
     public static void main(String[] args) 

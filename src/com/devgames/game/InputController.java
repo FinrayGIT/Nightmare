@@ -30,9 +30,10 @@ public class InputController
         new InputController.Input(KeyEvent.VK_C, inputAction.Crouch, inputState.Down),
         new InputController.Input(KeyEvent.VK_PAGE_UP, inputAction.NextRoom, inputState.Down),
         new InputController.Input(KeyEvent.VK_PAGE_DOWN, inputAction.PrevRoom, inputState.Down),
-        new InputController.Input(KeyEvent.VK_O, inputAction.Shoot, inputState.Down),
+        new InputController.Input(KeyEvent.VK_SHIFT, inputAction.Shoot, inputState.Down),
         new InputController.Input(KeyEvent.VK_INSERT, inputAction.WeaponUp, inputState.Down),
         new InputController.Input(KeyEvent.VK_DELETE, inputAction.WeaponDown, inputState.Down),
+        new InputController.Input(KeyEvent.VK_ENTER, inputAction.RestartGame, inputState.Down)
         // </editor-fold>
     };
     
@@ -79,6 +80,7 @@ public class InputController
         Shoot,
         WeaponUp,
         WeaponDown,
+        RestartGame,
 
     }
     
@@ -156,7 +158,8 @@ public class InputController
 //                        level.player = null;
 //                        level.SpawnPlayer(level.player.scale, _reSpawnPos);
                         break;
-                        
+                    case RestartGame:
+                            //game.restartGame();
                     case WeaponDown:
                             
                           
